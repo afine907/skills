@@ -1,6 +1,5 @@
 # Skills
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skills-blue)](https://claude.ai/code)
 [![OpenAI Codex](https://img.shields.io/badge/OpenAI-Codex-green)](https://openai.com/codex)
 [![Cursor](https://img.shields.io/badge/Cursor-Agent-purple)](https://cursor.sh)
