@@ -99,12 +99,16 @@ BREAKING CHANGE: Database migration required.
 ### Step 4: Execute Commit
 
 ```bash
+# Commit with generated message (author is global git user)
+git commit -m "type(scope): subject" [-m "optional body"]
+```
+
+Or use heredoc for multi-line:
+```bash
 git commit -m "$(cat <<'EOF'
 type(scope): subject
 
 optional body
-
-Co-Authored-By: Claude <noreply@anthropic.com>
 EOF
 )"
 ```
