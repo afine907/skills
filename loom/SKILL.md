@@ -1,6 +1,6 @@
 ---
 name: loom
-description: Professional project orchestration engine for large-scale PRD (10,000+ lines) multi-document projects. Features risk-first audit, state-machine driven workflow, and verification-driven execution. Use when users need to transform complex PRDs into executable development plans, or manage task dependencies and execution state for large projects. Commands: /loom init, /loom audit, /loom plan, /loom execute, /loom status, /loom resume.
+description: "Professional project orchestration engine for large-scale PRD (10,000+ lines) multi-document projects. Features risk-first audit, state-machine driven workflow, and verification-driven execution."
 ---
 
 # Loom - Project Orchestration Engine

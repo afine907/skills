@@ -1,6 +1,6 @@
 ---
 name: commit
-description: Analyze staged changes and generate semantic commit messages automatically. Reads git diff --staged, analyzes code changes, generates conventional commit messages following best practices, and executes git commit. Use when user wants to commit staged changes or asks to "commit", "create commit", "generate commit message". Commands: /commit, /commit -m "custom message", /commit --amend.
+description: "Analyze staged changes and generate semantic commit messages automatically. Reads git diff --staged, analyzes code changes, generates conventional commit messages."
 ---
 
 # Commit - Git Commit Generator
