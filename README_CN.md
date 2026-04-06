@@ -4,7 +4,9 @@
 [![Cursor](https://img.shields.io/badge/Cursor-Agent-purple?logo=cursor)](https://cursor.sh)
 [![Windsurf](https://img.shields.io/badge/Windsurf-Agent-teal?logo=windsurf)](https://codeium.com/windsurf)
 
-**让你的 AI 编码助手进化。**
+**[English](README.md)**
+
+让你的 AI 编码助手进化。
 
 一套专业级提示词模板，覆盖从需求到上线的完整开发链路。
 
