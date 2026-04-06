@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Loom Workspace Initializer
+Task-Loom Workspace Initializer
 
 Usage:
     python init_workspace.py <project_name> <prd_paths...>
@@ -31,7 +31,7 @@ MANIFEST_SCHEMA_VERSION = "1.0.0"
 
 
 class WorkspaceInitializer:
-    """Loom Workspace Initializer"""
+    """Task-Loom Workspace Initializer"""
 
     ORCHESTRA_DIR = ".claude/orchestra"
 
@@ -193,7 +193,7 @@ All tasks must adhere to these invariants throughout the project.
 
     def initialize(self) -> None:
         """Execute initialization process"""
-        print(f"\n🚀 Initializing Loom workspace: {self.project_name}")
+        print(f"\n🚀 Initializing Task-Loom workspace: {self.project_name}")
         print(f"   PRD files: {len(self.prd_files)}")
 
         # Check if workspace already exists
@@ -213,14 +213,14 @@ All tasks must adhere to these invariants throughout the project.
 
         print(f"\n✅ Workspace initialized successfully!")
         print(f"\nNext steps:")
-        print(f"  1. Run `/loom audit` to scan for risks")
-        print(f"  2. Run `/loom plan` to create task DAG")
-        print(f"  3. Run `/loom execute` to start development")
+        print(f"  1. Run `/task-loom audit` to scan for risks")
+        print(f"  2. Run `/task-loom plan` to create task DAG")
+        print(f"  3. Run `/task-loom execute` to start development")
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Initialize a Loom workspace for project orchestration"
+        description="Initialize a Task-Loom workspace for project orchestration"
     )
     parser.add_argument(
         "project_name",

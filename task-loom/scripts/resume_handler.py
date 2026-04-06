@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Loom Resume Handler
+Task-Loom Resume Handler
 
 Usage:
     python resume_handler.py --project <name>
@@ -15,7 +15,7 @@ from typing import Dict, Any, Optional
 
 
 class ResumeHandler:
-    """Loom Resume Handler for checkpoint recovery"""
+    """Task-Loom Resume Handler for checkpoint recovery"""
 
     ORCHESTRA_DIR = Path(".claude/orchestra")
 
@@ -77,7 +77,7 @@ class ResumeHandler:
         if stage == "INIT":
             result["resume_action"] = "NEXT_STAGE"
             result["resume_target"] = "AUDIT"
-            result["message"] = "Ready to start AUDIT phase. Run `/loom audit`"
+            result["message"] = "Ready to start AUDIT phase. Run `/task-loom audit`"
 
         elif stage == "AUDIT":
             # Check if audit is complete
@@ -94,10 +94,10 @@ class ResumeHandler:
                 else:
                     result["resume_action"] = "NEXT_STAGE"
                     result["resume_target"] = "PLAN"
-                    result["message"] = "AUDIT complete. Run `/loom plan`"
+                    result["message"] = "AUDIT complete. Run `/task-loom plan`"
             else:
                 result["resume_action"] = "RUN_AUDIT"
-                result["message"] = "AUDIT not run yet. Run `/loom audit`"
+                result["message"] = "AUDIT not run yet. Run `/task-loom audit`"
 
         elif stage == "PLAN":
             # Check if DAG has tasks
@@ -105,10 +105,10 @@ class ResumeHandler:
             if nodes:
                 result["resume_action"] = "NEXT_STAGE"
                 result["resume_target"] = "EXECUTE"
-                result["message"] = f"PLAN complete with {len(nodes)} tasks. Run `/loom execute`"
+                result["message"] = f"PLAN complete with {len(nodes)} tasks. Run `/task-loom execute`"
             else:
                 result["resume_action"] = "RUN_PLAN"
-                result["message"] = "DAG is empty. Run `/loom plan`"
+                result["message"] = "DAG is empty. Run `/task-loom plan`"
 
         elif stage == "EXECUTE":
             # Find next executable task
@@ -124,14 +124,14 @@ class ResumeHandler:
                 if all_done:
                     result["resume_action"] = "NEXT_STAGE"
                     result["resume_target"] = "VERIFY"
-                    result["message"] = "All tasks completed. Run `/loom verify`"
+                    result["message"] = "All tasks completed. Run `/task-loom verify`"
                 else:
                     result["can_resume"] = False
                     result["message"] = "No executable tasks available. Check for blocked tasks."
 
         elif stage == "VERIFY":
             result["resume_action"] = "RUN_VERIFY"
-            result["message"] = "Run `/loom verify` to validate completion"
+            result["message"] = "Run `/task-loom verify` to validate completion"
 
         else:
             result["can_resume"] = False
@@ -214,7 +214,7 @@ class ResumeHandler:
 
         output = f"""
 {'='*60}
-  LOOM RESUME POINT
+  TASK-LOOM RESUME POINT
 {'='*60}
 
 Project: {project_name}
@@ -235,15 +235,15 @@ Target: {resume_point.get('resume_target', 'N/A')}
             # Provide specific command suggestions
             action = resume_point['resume_action']
             if action == "NEXT_STAGE":
-                output += f"Suggested Command: /loom {resume_point['resume_target'].lower()}\n"
+                output += f"Suggested Command: /task-loom {resume_point['resume_target'].lower()}\n"
             elif action == "CONTINUE_TASK":
-                output += f"Suggested Command: /loom execute --task {resume_point['resume_target']}\n"
+                output += f"Suggested Command: /task-loom execute --task {resume_point['resume_target']}\n"
             elif action == "EXECUTE_TASK":
-                output += f"Suggested Command: /loom execute --task {resume_point['resume_target']}\n"
+                output += f"Suggested Command: /task-loom execute --task {resume_point['resume_target']}\n"
             elif action == "CONFIRM_RISKS":
                 output += "Action: Review and confirm P0 risks in vulnerability_report.md\n"
             elif action in ["RUN_AUDIT", "RUN_PLAN", "RUN_VERIFY"]:
-                output += f"Suggested Command: /loom {action.split('_')[1].lower()}\n"
+                output += f"Suggested Command: /task-loom {action.split('_')[1].lower()}\n"
 
         if not resume_point['can_resume']:
             output += """
@@ -259,7 +259,7 @@ To reset a specific task:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Loom Resume Handler")
+    parser = argparse.ArgumentParser(description="Task-Loom Resume Handler")
     parser.add_argument("--project", "-p", required=True, help="Project name")
     parser.add_argument("--reset-task", help="Reset a specific task to PENDING")
     parser.add_argument("--clear-halt", action="store_true",

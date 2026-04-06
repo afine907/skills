@@ -1,9 +1,9 @@
 ---
-name: loom
+name: task-loom
 description: "Professional project orchestration engine for large-scale PRD (10,000+ lines) multi-document projects. Features risk-first audit, state-machine driven workflow, and verification-driven execution."
 ---
 
-# Loom - Project Orchestration Engine
+# Task-Loom - Project Orchestration Engine
 
 Project orchestration system for large-scale PRD projects with audit-first, state-machine driven workflow.
 
@@ -11,13 +11,13 @@ Project orchestration system for large-scale PRD projects with audit-first, stat
 
 | Command | Phase | Description |
 |---------|-------|-------------|
-| `/loom init <project_name> <prd_paths...>` | INIT | Initialize project workspace |
-| `/loom audit` | AUDIT | Scan PRD for risks, generate audit report |
-| `/loom plan` | PLAN | Build DAG, decompose tasks |
-| `/loom execute [--task T_XXX]` | EXECUTE | Execute tasks in dependency order |
-| `/loom verify [--task T_XXX]` | VERIFY | Run tests, verify completion |
-| `/loom status` | ANY | View current project status |
-| `/loom resume` | ANY | Resume from checkpoint |
+| `/task-loom init <project_name> <prd_paths...>` | INIT | Initialize project workspace |
+| `/task-loom audit` | AUDIT | Scan PRD for risks, generate audit report |
+| `/task-loom plan` | PLAN | Build DAG, decompose tasks |
+| `/task-loom execute [--task T_XXX]` | EXECUTE | Execute tasks in dependency order |
+| `/task-loom verify [--task T_XXX]` | VERIFY | Run tests, verify completion |
+| `/task-loom status` | ANY | View current project status |
+| `/task-loom resume` | ANY | Resume from checkpoint |
 
 ## Workspace Structure
 
@@ -35,7 +35,7 @@ Project orchestration system for large-scale PRD projects with audit-first, stat
 
 ### Phase 1: INIT
 
-**Trigger**: `/loom init <project_name> <prd_paths...>`
+**Trigger**: `/task-loom init <project_name> <prd_paths...>`
 
 **Steps**:
 1. Validate project name and PRD file existence
@@ -46,7 +46,7 @@ Project orchestration system for large-scale PRD projects with audit-first, stat
 
 ### Phase 2: AUDIT
 
-**Trigger**: `/loom audit`, workflow stage is INIT
+**Trigger**: `/task-loom audit`, workflow stage is INIT
 
 **Steps**:
 1. Sliding window scan (500 lines, 10% overlap) of all PRD documents
@@ -78,7 +78,7 @@ Project orchestration system for large-scale PRD projects with audit-first, stat
 
 ### Phase 3: PLAN
 
-**Trigger**: `/loom plan`, workflow stage is AUDIT or INIT
+**Trigger**: `/task-loom plan`, workflow stage is AUDIT or INIT
 
 **Steps**:
 1. Identify functional modules from PRD
@@ -102,7 +102,7 @@ Project orchestration system for large-scale PRD projects with audit-first, stat
 
 ### Phase 4: EXECUTE
 
-**Trigger**: `/loom execute [--task T_XXX]`, workflow stage is PLAN
+**Trigger**: `/task-loom execute [--task T_XXX]`, workflow stage is PLAN
 
 **CRITICAL**: You must ACTUALLY WRITE CODE, not just update status.
 
@@ -152,7 +152,7 @@ Project orchestration system for large-scale PRD projects with audit-first, stat
 
 ### Phase 5: VERIFY
 
-**Trigger**: `/loom verify`, or auto-triggered in execute phase
+**Trigger**: `/task-loom verify`, or auto-triggered in execute phase
 
 **Steps**:
 1. Detect test framework (Jest/Vitest/Pytest/go test)
@@ -176,7 +176,7 @@ The following rules from constitution.md are immutable constraints:
 
 ### Checkpoint Resume
 
-`/loom resume`:
+`/task-loom resume`:
 1. Read `manifest.json`
 2. Check `workflow.active_task_id`
 3. Restore task state, continue from interruption point

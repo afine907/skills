@@ -8,15 +8,15 @@ This is a collection of Claude Code skills - reusable prompt templates that exte
 
 ## Skills
 
-### Loom (`/loom`)
+### Task-Loom (`/task-loom`)
 A project orchestration engine for large-scale PRD (10,000+ lines) projects. Manages the full workflow from PRD analysis to code generation.
 
 **Workflow phases**: INIT → AUDIT → PLAN → EXECUTE → VERIFY
 
 **Key files**:
-- `loom/SKILL.md` - Skill definition and workflow documentation
-- `loom/scripts/` - Python utilities for DAG management, workspace init, risk scanning
-- `loom/references/` - JSON schemas and templates
+- `task-loom/SKILL.md` - Skill definition and workflow documentation
+- `task-loom/scripts/` - Python utilities for DAG management, workspace init, risk scanning
+- `task-loom/references/` - JSON schemas and templates
 
 ### Commit (`/commit`)
 Analyzes staged git changes and generates semantic commit messages following Conventional Commits spec.
@@ -25,30 +25,30 @@ Analyzes staged git changes and generates semantic commit messages following Con
 
 ```bash
 # Run all tests
-pytest loom/tests/ -v
+pytest task-loom/tests/ -v
 
 # Run specific test file
-pytest loom/tests/test_dag_manager.py -v
+pytest task-loom/tests/test_dag_manager.py -v
 
 # Run single test
-pytest loom/tests/test_dag_manager.py::TestDAGManager::test_add_task -v
+pytest task-loom/tests/test_dag_manager.py::TestDAGManager::test_add_task -v
 ```
 
-## Loom Script Usage
+## Task-Loom Script Usage
 
-The Python scripts in `loom/scripts/` are CLI tools used by the skill:
+The Python scripts in `task-loom/scripts/` are CLI tools used by the skill:
 
 ```bash
 # Initialize workspace
-python loom/scripts/init_workspace.py <project_name> <prd_paths...>
+python task-loom/scripts/init_workspace.py <project_name> <prd_paths...>
 
 # DAG management
-python loom/scripts/dag_manager.py --project <name> add --id T_001 --type MODULE_IMPL --title "Task"
-python loom/scripts/dag_manager.py --project <name> update --id T_001 --status COMPLETED
-python loom/scripts/dag_manager.py --project <name> next
+python task-loom/scripts/dag_manager.py --project <name> add --id T_001 --type MODULE_IMPL --title "Task"
+python task-loom/scripts/dag_manager.py --project <name> update --id T_001 --status COMPLETED
+python task-loom/scripts/dag_manager.py --project <name> next
 
 # Risk scanning
-python loom/scripts/risk_scanner.py --project <name>
+python task-loom/scripts/risk_scanner.py --project <name>
 ```
 
 ## Architecture Notes

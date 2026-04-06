@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "loom-manifest-schema",
-  "title": "Loom Manifest Schema",
-  "description": "JSON Schema for Loom project manifest.json",
+  "$id": "task-loom-manifest-schema",
+  "title": "Task-Loom Manifest Schema",
+  "description": "JSON Schema for Task-Loom project manifest.json",
   "type": "object",
   "required": ["project_metadata", "workflow", "dag"],
   "properties": {

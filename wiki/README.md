@@ -6,5 +6,5 @@
 
 | 技能 | 文档 |
 |------|------|
-| Loom | [项目编排引擎使用指南](loom.md) |
+| Task-Loom | [项目编排引擎使用指南](task-loom.md) |
 | Commit | [Git Commit 生成器使用指南](commit.md) |

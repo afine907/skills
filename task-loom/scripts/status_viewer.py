@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Loom Status Viewer
+Task-Loom Status Viewer
 
 Usage:
     python status_viewer.py --project <name>
@@ -17,7 +17,7 @@ from typing import Dict, Any, List, Optional
 
 
 class StatusViewer:
-    """Loom Project Status Viewer"""
+    """Task-Loom Project Status Viewer"""
 
     ORCHESTRA_DIR = Path(".claude/orchestra")
 
@@ -39,7 +39,7 @@ class StatusViewer:
         return json.loads(self.manifest_path.read_text(encoding='utf-8'))
 
     def list_projects(self) -> List[Dict[str, Any]]:
-        """List all Loom projects"""
+        """List all Task-Loom projects"""
         projects = []
 
         if not self.ORCHESTRA_DIR.exists():
@@ -123,7 +123,7 @@ class StatusViewer:
 
         output = f"""
 {'='*60}
-  LOOM PROJECT STATUS
+  TASK-LOOM PROJECT STATUS
 {'='*60}
 
 Project: {summary['project_name']}
@@ -221,11 +221,11 @@ P2 (Normal):   {summary['risk_counts']['P2']}
         projects = self.list_projects()
 
         if not projects:
-            return "No Loom projects found.\n\nRun `/loom init <project_name> <prd_paths>` to create one."
+            return "No Task-Loom projects found.\n\nRun `/task-loom init <project_name> <prd_paths>` to create one."
 
         output = f"""
 {'='*60}
-  LOOM PROJECTS
+  TASK-LOOM PROJECTS
 {'='*60}
 
 """

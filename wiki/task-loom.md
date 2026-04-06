@@ -1,4 +1,4 @@
-# Loom - 项目编排引擎
+# Task-Loom - 项目编排引擎
 
 专业级项目编排系统，专为大规模 PRD（10,000+ 行）多文档项目设计。
 
@@ -13,19 +13,19 @@
 
 | 命令 | 说明 |
 |------|------|
-| `/loom init <project> <prd_paths...>` | 初始化项目工作区 |
-| `/loom audit` | 扫描 PRD 风险，生成审计报告 |
-| `/loom plan` | 构建 DAG，分解任务 |
-| `/loom execute [--task T_XXX]` | 按依赖顺序执行任务 |
-| `/loom status` | 查看项目状态 |
-| `/loom resume` | 从检查点恢复 |
+| `/task-loom init <project> <prd_paths...>` | 初始化项目工作区 |
+| `/task-loom audit` | 扫描 PRD 风险，生成审计报告 |
+| `/task-loom plan` | 构建 DAG，分解任务 |
+| `/task-loom execute [--task T_XXX]` | 按依赖顺序执行任务 |
+| `/task-loom status` | 查看项目状态 |
+| `/task-loom resume` | 从检查点恢复 |
 
 ## 工作流程
 
 ### Phase 1: INIT（初始化）
 
 ```bash
-/loom init my-project docs/prd/*.md
+/task-loom init my-project docs/prd/*.md
 ```
 
 执行步骤：
@@ -38,7 +38,7 @@
 ### Phase 2: AUDIT（审计）
 
 ```bash
-/loom audit
+/task-loom audit
 ```
 
 执行步骤：
@@ -66,7 +66,7 @@
 ### Phase 3: PLAN（规划）
 
 ```bash
-/loom plan
+/task-loom plan
 ```
 
 执行步骤：
@@ -78,8 +78,8 @@
 ### Phase 4: EXECUTE（执行）
 
 ```bash
-/loom execute
-/loom execute --task T_001
+/task-loom execute
+/task-loom execute --task T_001
 ```
 
 执行步骤：
@@ -92,7 +92,7 @@
 ### Phase 5: VERIFY（验证）
 
 ```bash
-/loom verify
+/task-loom verify
 ```
 
 执行步骤：
@@ -120,25 +120,25 @@
 
 ```bash
 # 1. 初始化项目
-/loom init ecommerce docs/prd/*.md
+/task-loom init ecommerce docs/prd/*.md
 
 # 2. 审计风险
-/loom audit
+/task-loom audit
 
 # 3. 规划任务
-/loom plan
+/task-loom plan
 
 # 4. 执行开发
-/loom execute
+/task-loom execute
 
 # 5. 验证完成
-/loom verify
+/task-loom verify
 
 # 查看状态
-/loom status
+/task-loom status
 
 # 中断后恢复
-/loom resume
+/task-loom resume
 ```
 
 ## 关键机制
