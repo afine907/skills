@@ -5,28 +5,28 @@
 [![Cursor](https://img.shields.io/badge/Cursor-Agent-purple)](https://cursor.sh)
 [![Windsurf](https://img.shields.io/badge/Windsurf-Agent-teal)](https://codeium.com/windsurf)
 
-A collection of reusable prompt templates that extend AI coding agents with structured capabilities.
+可复用的提示词模板集合，为 AI 编码 Agent 提供结构化能力扩展。
 
-**[中文文档](README_CN.md)**
+**[English](README.md)**
 
-## Skills
+## 技能列表
 
-| Skill | Description | Usage |
-|-------|-------------|-------|
-| [Task-Loom](task-loom/SKILL.md) | Project orchestration engine for large-scale PRD projects | `/task-loom init`, `/task-loom audit`, `/task-loom plan`, `/task-loom execute` |
-| [Commit](commit/SKILL.md) | Smart Git commit generator with semantic messages | `/commit`, `/commit --dry-run` |
+| 技能 | 描述 | 用法 |
+|------|------|------|
+| [Task-Loom](task-loom/SKILL.md) | 项目编排引擎，专为大规模 PRD 项目设计 | `/task-loom init`, `/task-loom audit`, `/task-loom plan`, `/task-loom execute` |
+| [Commit](commit/SKILL.md) | 智能 Git Commit 生成器，自动生成语义化提交消息 | `/commit`, `/commit --dry-run` |
 
-## Installation
+## 安装
 
 ```bash
-# Install all skills
+# 安装所有技能
 npx skills add https://github.com/afine907/skills
 
-# Install specific skill
+# 安装特定技能
 npx skills add https://github.com/afine907/skills --skill task-loom
 npx skills add https://github.com/afine907/skills --skill commit
 ```
 
-## License
+## 许可证
 
 [MIT License](LICENSE)
