@@ -15,6 +15,10 @@
 |------|------|------|
 | [Task-Loom](task-loom/SKILL.md) | 项目编排引擎，专为大规模 PRD 项目设计 | `/task-loom init`, `/task-loom audit`, `/task-loom plan`, `/task-loom execute` |
 | [Commit](commit/SKILL.md) | 智能 Git Commit 生成器，自动生成语义化提交消息 | `/commit`, `/commit --dry-run` |
+| [Commit-Diff-Analyzer](commit-diff-analyzer/SKILL.md) | 分析两个 git commit 之间的代码变更 | 提供两个 commit ID |
+| [Explain-Code](explain-code/SKILL.md) | 分析代码功能、结构和设计质量 | 请求解释代码 |
+| [Requirements-Analyzer](requirements-analyzer/SKILL.md) | 将模糊需求转化为结构化需求文档 | 提供需求点和用户旅程 |
+| [Technical-Article-Writer](technical-article-writer/SKILL.md) | 使用网络搜索编写专业技术文章 | 请求编写技术文章 |
 
 ## 安装
 

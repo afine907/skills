@@ -15,6 +15,10 @@ A collection of reusable prompt templates that extend AI coding agents with stru
 |-------|-------------|-------|
 | [Task-Loom](task-loom/SKILL.md) | Project orchestration engine for large-scale PRD projects | `/task-loom init`, `/task-loom audit`, `/task-loom plan`, `/task-loom execute` |
 | [Commit](commit/SKILL.md) | Smart Git commit generator with semantic messages | `/commit`, `/commit --dry-run` |
+| [Commit-Diff-Analyzer](commit-diff-analyzer/SKILL.md) | Analyze code changes between two git commits | Provide two commit IDs |
+| [Explain-Code](explain-code/SKILL.md) | Analyze code functionality, structure, and design quality | Ask to explain code |
+| [Requirements-Analyzer](requirements-analyzer/SKILL.md) | Transform vague requirements into structured documents | Provide requirements and user journey |
+| [Technical-Article-Writer](technical-article-writer/SKILL.md) | Write professional technical articles with web search | Request technical article |
 
 ## Installation
 
