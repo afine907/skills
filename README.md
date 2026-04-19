@@ -46,6 +46,7 @@ Auto-analyzes diff and generates Conventional Commits messages.
 
 | Skill | Description |
 |-------|-------------|
+| [Yan-Pai](yan-pai/SKILL.md) | Iterative code review → report → fix workflow |
 | [Commit-Diff-Analyzer](commit-diff-analyzer/SKILL.md) | Compare two commits, see changes at a glance |
 | [Explain-Code](explain-code/SKILL.md) | Code structure + design quality analysis |
 | [Requirements-Analyzer](requirements-analyzer/SKILL.md) | Vague requirements → structured docs |
