@@ -48,6 +48,7 @@ git add .
 
 | Skill | 一句话描述 |
 |-------|----------|
+| [Yan-Pai](yan-pai/SKILL.md) | 迭代式代码审查：审查 → 报告 → 修复 |
 | [Commit-Diff-Analyzer](commit-diff-analyzer/SKILL.md) | 对比两个 commit，变更一目了然 |
 | [Explain-Code](explain-code/SKILL.md) | 代码结构 + 设计质量一键分析 |
 | [Requirements-Analyzer](requirements-analyzer/SKILL.md) | 模糊需求 → 结构化文档 |
