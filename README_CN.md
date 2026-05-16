@@ -118,6 +118,7 @@ npx skills add https://github.com/afine907/skills --skill wo-yao-yan-pai
 | 技能 | 一句话 | 适合谁 |
 |------|--------|--------|
 | 🃏 **我要验牌** | 代码审查 → 报告 → 自动修复 | 所有用 AI 写代码的人 |
+| 🖥️ **remote-exec** | SSH 远程执行命令 | 服务器运维、部署排查 |
 | 🧵 **task-loom** | 万字 PRD 秒变代码 | 项目启动、大需求拆解 |
 | ✍️ **commit** | 再也不用想 commit message | 追求整洁 Git 历史 |
 | 🔍 **commit-diff-analyzer** | 两个 commit 改了啥一眼看穿 | Code Review、Debug |
@@ -199,6 +200,7 @@ git add .
 ```
 skills/
 ├── wo-yao-yan-pai/               # 🃏 主角技：我要验牌
+├── remote-exec/                  # 🖥️ 远程 SSH 执行器
 ├── task-loom/                    # 🧵 项目编排引擎
 ├── commit/                       # ✍️ Commit 生成器
 ├── commit-diff-analyzer/         # 🔍 Commit 对比分析
