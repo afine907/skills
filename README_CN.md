@@ -17,10 +17,7 @@
 
 <br>
 
-<h1 align="center">
-  🎰 AI Skills<br>
-  <sub><i>让你的 AI 编码助理进化成赌神</i></sub>
-</h1>
+<h1 align="center">🎰 AI Skills</h1>
 
 <p align="center">
   <b>从验牌到上线，一键打通 AI 编码全流程</b><br>

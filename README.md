@@ -28,10 +28,7 @@
 
 <br>
 
-<h1 align="center">
-  🎰 AI Skills<br>
-  <sub><i>Professional-grade prompt templates for AI coding assistants</i></sub>
-</h1>
+<h1 align="center">🎰 AI Skills</h1>
 
 <p align="center">
   <b>Code Review · Project Planning · Commit Messages · Technical Writing</b><br>
