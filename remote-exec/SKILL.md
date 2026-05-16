@@ -18,6 +18,7 @@ description: |
   - 破坏性操作（rm -rf、重启、关防火墙等）必须先问用户
   - 首次连接自动信任主机（AutoAddPolicy）
   - 命令建议加超时，防止卡死
+category: operations
 ---
 
 # Remote Exec — 远程服务器命令执行 Agent

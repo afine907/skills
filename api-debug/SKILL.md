@@ -1,6 +1,8 @@
 ---
 name: api-debug
 description: API 调试速查。当需要：(1) 使用 curl/httpie 发送请求 (2) 调试 HTTP 问题 (3) 查看状态码 (4) JSON 处理时使用。
+category: reference
+type: reference
 ---
 
 # API Debug

@@ -1,6 +1,8 @@
 ---
 name: python-testing
 description: Python 测试速查。当需要：(1) 运行 pytest 测试 (2) 使用 mock/patch (3) 参数化测试 (4) fixtures (5) 异步测试 (6) 覆盖率测试时使用。
+category: reference
+type: reference
 ---
 
 # Python Testing

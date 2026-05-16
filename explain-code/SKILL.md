@@ -1,6 +1,7 @@
 ---
 name: explain-code
 description: Analyze code core functionality, directory structure, and design quality. For explaining how code works, teaching codebases, or evaluating code design.
+category: quality
 ---
 
 When analyzing code, always include:

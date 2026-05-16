@@ -1,6 +1,7 @@
 ---
 name: commit-diff-analyzer
 description: Analyzes code changes between two git commits. Use when user provides two commit IDs and wants to understand what changed between them, including file modifications, additions, deletions, and commit context.
+category: source-control
 ---
 
 # Commit Diff Analyzer
