@@ -1,5 +1,5 @@
 ---
-name: yan-pai
+name: wo-yao-yan-pai
 description: |
   【我要验牌】迭代式代码审查与修复Agent。在编码任务完成后自动触发，执行多轮"code review → report → bug fix"迭代流程。
 
