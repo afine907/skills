@@ -76,7 +76,8 @@ channel.exec_command(command)
 if 'sudo' in command:
     channel.send(password + '\n')
 
-exit_code = channel.recv_exit_status(timeout=60)
+channel.settimeout(60)
+exit_code = channel.recv_exit_status()
 out = channel.recv(65536).decode()
 client.close()
 
