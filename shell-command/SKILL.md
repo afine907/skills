@@ -1,5 +1,6 @@
 ---
 name: shell-command
+category: productivity
 description: |
   将自然语言描述转换为 shell/bash 命令。纯翻译工作，不涉及复杂逻辑。
   适用场景：

@@ -73,9 +73,9 @@ This is a test PRD document.
 
     def test_extract_invariants(self, temp_dir, sample_prd):
         """Test invariants extraction from PRD"""
-        # Create initializer with sample PRD
-        initializer = WorkspaceInitializer("test-project", [str(sample_prd)])
+        initializer = WorkspaceInitializer.__new__(WorkspaceInitializer)
         initializer.prd_files = [sample_prd]
+        initializer.project_name = "test-project"
 
         invariants = initializer._extract_invariants()
 
@@ -85,8 +85,9 @@ This is a test PRD document.
 
     def test_calculate_hash(self, temp_dir, sample_prd):
         """Test PRD hash calculation"""
-        initializer = WorkspaceInitializer("test-project", [str(sample_prd)])
+        initializer = WorkspaceInitializer.__new__(WorkspaceInitializer)
         initializer.prd_files = [sample_prd]
+        initializer.project_name = "test-project"
 
         hash1 = initializer._calculate_hash()
         hash2 = initializer._calculate_hash()

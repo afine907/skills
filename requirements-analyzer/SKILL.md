@@ -1,5 +1,5 @@
 ---
-name: 需求梳理分析
+name: requirements-analyzer
 description: 根据用户提供的核心需求点和用户旅程，输出完整的需求文档，包含结构化的需求要点、对应功能点、优先级分类（P0/P1/P2）、模块分类以及用户故事。使用场景：当用户需要将模糊的产品需求转化为结构化的需求文档时。
 category: requirements
 ---
