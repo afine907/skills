@@ -117,6 +117,7 @@ Then use it in Claude Code, Cursor, Windsurf, or any agent that supports `/comma
 | Skill | What it does | Best for |
 |-------|-------------|----------|
 | 🃏 **wo-yao-yan-pai** | Code review → report → auto-fix loop | Quality gate for AI-generated code |
+| 🖥️ **remote-exec** | Execute commands on remote servers via SSH | Server ops, debugging, deploy checks |
 | 🧵 **task-loom** | PRD → DAG plan → code generation | New projects, large features |
 | ✍️ **commit** | Conventional Commits from git diff | Clean commit history |
 | 🔍 **commit-diff-analyzer** | Compare two commits side-by-side | Code review, debugging |
@@ -195,6 +196,7 @@ git add .
 ```
 skills/
 ├── wo-yao-yan-pai/               # 🃏 Card Review Agent
+├── remote-exec/                  # 🖥️ Remote SSH executor
 ├── task-loom/                    # 🧵 Project orchestration
 ├── commit/                       # ✍️ Commit messages
 ├── commit-diff-analyzer/         # 🔍 Diff analysis
