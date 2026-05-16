@@ -143,6 +143,7 @@ npx skills add https://github.com/afine907/skills --skill wo-yao-yan-pai
 ### 🖥️ 运维阶段
 | 技能 | 一句话 | 适合谁 |
 |------|--------|--------|
+| ⚙️ **ci-workflow** | 描述 → CI 配置文件（GitHub Actions/GitLab CI） | CI/CD 配置、流水线自动化 |
 | 🖥️ **remote-exec** | SSH 远程执行命令 | 服务器运维、部署排查 |
 | 📊 **log-analyzer** | 日志结构化分析，异常自动发现 | 线上排查、故障响应 |
 
@@ -240,6 +241,17 @@ remote-exec root@api.example.com "systemctl status app"
 **痛点**：原始日志堆在一起，肉眼找异常太累。
 **解法**：自动识别日志格式（Nginx、JSON、syslog、Java 堆栈等），提取异常模式、频率统计、趋势分析，输出结构化报告。和 remote-exec 天然搭档：远程拉日志，就地分析。
 
+## ⚙️ [CI-Workflow](ci-workflow/SKILL.md) — CI/CD 配置生成器
+
+```bash
+# 描述 → CI 配置文件
+配个 GitHub Actions，Node.js 项目，npm 构建+测试
+```
+
+**痛点**：GitHub Actions 和 GitLab CI 的 YAML 语法没人能一次写对——action 版本、缩进、缓存 key 格式每次都查。更麻烦的是安全：明文 Secrets、pull_request_target 滥用、权限过大，踩坑了才知道。
+
+**解法**：自然语言 → CI 配置文件 + 逐段解释 + 内置安全审查。覆盖构建测试、Docker 推送、部署、Release、Lint、安全扫描等场景。每次输出附带安全审查报告（检测硬编码密钥、权限过大、缺少缓存等问题）。
+
 ## 📝 [Technical-Article-Writer](technical-article-writer/SKILL.md)
 
 ```bash
@@ -297,6 +309,7 @@ skills/
 ├── test-generator/               # 🧪 测试生成器
 ├── commit/                       # ✍️ Commit 生成器
 ├── commit-diff-analyzer/         # 🔍 Commit 对比分析
+├── ci-workflow/                  # ⚙️ CI/CD 配置生成器
 ├── remote-exec/                  # 🖥️ 远程 SSH 执行器
 ├── log-analyzer/                 # 📊 日志分析器
 ├── technical-article-writer/     # 📝 技术文章写手

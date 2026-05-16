@@ -142,6 +142,7 @@ Skills organized by software development lifecycle phase.
 ### 🖥️ Operations
 | Skill | What it does | Best for |
 |-------|-------------|----------|
+| ⚙️ **ci-workflow** | NL → CI config (GitHub Actions / GitLab CI) with safety review | CI/CD setup, pipeline automation |
 | 🖥️ **remote-exec** | Execute commands on remote servers via SSH | Server ops, debugging, deploy checks |
 | 📊 **log-analyzer** | Structured log analysis & anomaly detection | Error triage, incident response |
 
@@ -234,6 +235,17 @@ Analyze this Nginx error log: ...
 
 **Why**: Raw logs are hard to read in a terminal. This agent parses common log formats (Nginx, JSON, syslog, stacktraces), detects anomaly patterns, and produces a structured report with root cause inference. Pairs naturally with remote-exec: fetch logs, then analyze.
 
+### ⚙️ [CI-Workflow](ci-workflow/SKILL.md) — CI/CD Pipeline Generator
+
+```bash
+# Generate GitHub Actions from description
+配个 GitHub Actions，Node.js 项目，npm 构建+测试
+```
+
+**What it does**: Natural language → CI configuration (GitHub Actions / GitLab CI) with per-section explanation and built-in security review. Covers build/test, Docker push, deploy, release, lint, and security scanning. Each output includes a safety audit: hardcoded secrets detection, permission minimization, cache optimization, and concurrency control. See [ci-workflow/references/patterns.md](ci-workflow/references/patterns.md) for the pattern library.
+
+**Why**: CI config syntax (GitHub Actions YAML, GitLab CI) is write-once-forget-next-week — nobody remembers the exact indentation, action versions, or cache key format. This skill gets it right in one shot and flags security issues before they hit the repo.
+
 ### 📝 [Technical-Article-Writer](technical-article-writer/SKILL.md)
 
 ```bash
@@ -290,6 +302,7 @@ skills/
 ├── test-generator/               # 🧪 Auto test generation
 ├── commit/                       # ✍️ Commit messages
 ├── commit-diff-analyzer/         # 🔍 Diff analysis
+├── ci-workflow/                  # ⚙️ CI/CD pipeline generator
 ├── remote-exec/                  # 🖥️ Remote SSH executor
 ├── log-analyzer/                 # 📊 Log analysis
 ├── technical-article-writer/     # 📝 Tech articles
