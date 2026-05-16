@@ -1,4 +1,4 @@
-# Yan-Pai - 迭代式代码审查Agent
+# Wo-Yao-Yan-Pai (我要验牌) - 迭代式代码审查Agent
 
 【我要验牌】专业级迭代式代码审查与修复Agent，执行多轮"code review → report → bug fix"迭代流程。
 
@@ -134,5 +134,5 @@ review一下
 
 | 文件 | 说明 |
 |------|------|
-| `yan-pai/SKILL.md` | Skill定义和流程文档 |
-| `yan-pai/references/api_reference.md` | 代码审查清单 |
+| `wo-yao-yan-pai/SKILL.md` | Skill定义和流程文档 |
+| `wo-yao-yan-pai/references/api_reference.md` | 代码审查清单 |
