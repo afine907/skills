@@ -1,6 +1,8 @@
 ---
 name: linux-ops
 description: Linux 运维速查。当需要：(1) 进程管理 (2) 日志分析 (3) 网络诊断 (4) 性能监控 (5) 用户管理时使用。
+category: reference
+type: reference
 ---
 
 # Linux Operations

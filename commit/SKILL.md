@@ -1,6 +1,7 @@
 ---
 name: commit
 description: "Analyze staged changes and generate semantic commit messages automatically. Reads git diff --staged, analyzes code changes, generates conventional commit messages."
+category: source-control
 ---
 
 # Commit - Git Commit Generator

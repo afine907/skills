@@ -114,15 +114,40 @@ Then use it in Claude Code, Cursor, Windsurf, or any agent that supports `/comma
 
 ## 📦 The Full Deck
 
+Skills organized by software development lifecycle phase.
+
+### 📋 Requirements
+| Skill | What it does | Best for |
+|-------|-------------|----------|
+| 📋 **requirements-analyzer** | Vague specs → structured docs | Product handoffs |
+
+### 🏗️ Development
+| Skill | What it does | Best for |
+|-------|-------------|----------|
+| 🧵 **task-loom** | PRD → DAG plan → code generation | New projects, large features |
+
+### ✅ Quality
 | Skill | What it does | Best for |
 |-------|-------------|----------|
 | 🃏 **wo-yao-yan-pai** | Code review → report → auto-fix loop | Quality gate for AI-generated code |
-| 🖥️ **remote-exec** | Execute commands on remote servers via SSH | Server ops, debugging, deploy checks |
-| 🧵 **task-loom** | PRD → DAG plan → code generation | New projects, large features |
+| 🧠 **explain-code** | Structure + design quality analysis | Onboarding, documentation |
+| 🧪 **test-generator** | Auto-generate pytest tests from source | Test coverage after coding |
+
+### 🔗 Source Control
+| Skill | What it does | Best for |
+|-------|-------------|----------|
 | ✍️ **commit** | Conventional Commits from git diff | Clean commit history |
 | 🔍 **commit-diff-analyzer** | Compare two commits side-by-side | Code review, debugging |
-| 🧠 **explain-code** | Structure + design quality analysis | Onboarding, documentation |
-| 📋 **requirements-analyzer** | Vague specs → structured docs | Product handoffs |
+
+### 🖥️ Operations
+| Skill | What it does | Best for |
+|-------|-------------|----------|
+| 🖥️ **remote-exec** | Execute commands on remote servers via SSH | Server ops, debugging, deploy checks |
+| 📊 **log-analyzer** | Structured log analysis & anomaly detection | Error triage, incident response |
+
+### ✍️ Productivity
+| Skill | What it does | Best for |
+|-------|-------------|----------|
 | 📝 **technical-article-writer** | Research + write tech articles | Documentation, blogs |
 
 <br>
@@ -169,6 +194,15 @@ git add .
 
 **Why**: Understanding unfamiliar code takes time. This agent analyzes structure, dependencies, design patterns, and generates a readable explanation.
 
+### 🧪 [Test-Generator](test-generator/SKILL.md) — Auto-Generate Tests
+
+```bash
+# Generate tests for a source file
+test-generator src/services/auth.py
+```
+
+**Why**: Writing tests is tedious and often skipped. This agent analyzes your code's logic, branch paths, and edge cases, then generates comprehensive pytest test suites. Pairs naturally with wo-yao-yan-pai: review first, then cover the gaps with tests.
+
 ### 📋 [Requirements-Analyzer](requirements-analyzer/SKILL.md)
 
 ```bash
@@ -178,6 +212,24 @@ git add .
 ```
 
 **Why**: The gap between "what we need" and "what we build" is where projects fail. This bridges it.
+
+### 🖥️ [Remote-Exec](remote-exec/SKILL.md) — SSH Command Execution
+
+```bash
+# Run commands on remote servers
+remote-exec ubuntu@api.example.com "systemctl status app"
+```
+
+**Why**: Server ops don't require a separate SSH session. This agent handles connection, authentication, and execution inline — with safety checks for destructive commands.
+
+### 📊 [Log-Analyzer](log-analyzer/SKILL.md) — Structured Log Analysis
+
+```bash
+# Analyze logs from remote-exec or pasted content
+Analyze this Nginx error log: ...
+```
+
+**Why**: Raw logs are hard to read in a terminal. This agent parses common log formats (Nginx, JSON, syslog, stacktraces), detects anomaly patterns, and produces a structured report with root cause inference. Pairs naturally with remote-exec: fetch logs, then analyze.
 
 ### 📝 [Technical-Article-Writer](technical-article-writer/SKILL.md)
 
@@ -195,14 +247,22 @@ git add .
 
 ```
 skills/
-├── wo-yao-yan-pai/               # 🃏 Card Review Agent
-├── remote-exec/                  # 🖥️ Remote SSH executor
+├── requirements-analyzer/        # 📋 Requirements → specs
 ├── task-loom/                    # 🧵 Project orchestration
+├── wo-yao-yan-pai/               # 🃏 Card Review Agent
+├── explain-code/                 # 🧠 Code explanation
+├── test-generator/               # 🧪 Auto test generation
 ├── commit/                       # ✍️ Commit messages
 ├── commit-diff-analyzer/         # 🔍 Diff analysis
-├── explain-code/                 # 🧠 Code explanation
-├── requirements-analyzer/        # 📋 Requirements → specs
-└── technical-article-writer/     # 📝 Tech articles
+├── remote-exec/                  # 🖥️ Remote SSH executor
+├── log-analyzer/                 # 📊 Log analysis
+├── technical-article-writer/     # 📝 Tech articles
+│
+├── api-debug/                    # 🔧 API debugging reference
+├── docker-essentials/            # 🐳 Docker reference
+├── linux-ops/                    # 🖧 Linux ops reference
+├── performance-profiling/        # ⚡ Performance reference
+└── python-testing/               # 🐍 Python testing reference
 ```
 
 Each skill directory contains:

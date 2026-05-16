@@ -1,6 +1,7 @@
 ---
 name: task-loom
 description: "Professional project orchestration engine for large-scale PRD (10,000+ lines) multi-document projects. Features risk-first audit, state-machine driven workflow, and verification-driven execution."
+category: development
 ---
 
 # Task-Loom - Project Orchestration Engine

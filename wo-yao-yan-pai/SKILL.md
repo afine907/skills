@@ -13,6 +13,7 @@ description: |
   - 生成结构化审查报告
   - 根据报告自动修复bug
   - 迭代直到代码质量达标
+category: quality
 ---
 
 # 验牌 - 迭代式代码审查Agent

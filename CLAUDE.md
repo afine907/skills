@@ -6,9 +6,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a collection of Claude Code skills - reusable prompt templates that extend Claude's capabilities. Each skill is a self-contained module with a `SKILL.md` file that defines its behavior.
 
+Skills are categorized by SDLC phase via the `category` field in SKILL.md frontmatter:
+
+| Category | Phase | Skills |
+|----------|-------|--------|
+| `requirements` | Product & Requirements | requirements-analyzer |
+| `development` | Architecture & Coding | task-loom |
+| `quality` | Code Quality & Testing | wo-yao-yan-pai, explain-code, test-generator |
+| `source-control` | Version Control | commit, commit-diff-analyzer |
+| `operations` | Deploy & Operate | remote-exec, log-analyzer |
+| `productivity` | Writing & Docs | technical-article-writer |
+| `reference` | Reference Cards (type: reference) | api-debug, docker-essentials, linux-ops, performance-profiling, python-testing |
+
 ## Skills
 
-### Task-Loom (`/task-loom`)
+### Task-Loom (`/task-loom`, category: development)
 A project orchestration engine for large-scale PRD (10,000+ lines) projects. Manages the full workflow from PRD analysis to code generation.
 
 **Workflow phases**: INIT → AUDIT → PLAN → EXECUTE → VERIFY
@@ -18,8 +30,14 @@ A project orchestration engine for large-scale PRD (10,000+ lines) projects. Man
 - `task-loom/scripts/` - Python utilities for DAG management, workspace init, risk scanning
 - `task-loom/references/` - JSON schemas and templates
 
-### Commit (`/commit`)
+### Commit (`/commit`, category: source-control)
 Analyzes staged git changes and generates semantic commit messages following Conventional Commits spec.
+
+### Test-Generator (`/test-generator`, category: quality)
+Auto-generates pytest test suites from source code analysis. Covers normal paths, edge cases, and error scenarios. Pairs with wo-yao-yan-pai for review-then-test workflow.
+
+### Log-Analyzer (`/log-analyzer`, category: operations)
+Parses and analyzes server logs (Nginx, JSON, syslog, stacktraces). Detects anomaly patterns, error bursts, and performance degradation. Pairs with remote-exec for fetch-then-analyze workflow.
 
 ## Running Tests
 

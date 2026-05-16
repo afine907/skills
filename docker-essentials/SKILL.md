@@ -1,6 +1,8 @@
 ---
 name: docker-essentials
 description: Docker 容器管理速查。当需要：(1) 运行/管理 Docker 容器 (2) 构建镜像 (3) 网络和卷管理 (4) Docker Compose 操作 (5) 排查容器问题时使用。
+category: reference
+type: reference
 ---
 
 # Docker Essentials

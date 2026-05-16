@@ -1,6 +1,8 @@
 ---
 name: performance-profiling
 description: 性能分析速查。当需要：(1) Python 性能分析 (2) Node.js 性能分析 (3) 数据库优化 (4) 系统性能监控时使用。
+category: reference
+type: reference
 ---
 
 # Performance Profiling
