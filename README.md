@@ -138,6 +138,8 @@ Skills organized by software development lifecycle phase.
 |-------|-------------|----------|
 | ✍️ **commit** | Conventional Commits from git diff | Clean commit history |
 | 🔍 **commit-diff-analyzer** | Compare two commits side-by-side | Code review, debugging |
+| 📝 **pr-description** | Git diff → structured PR description + gh CLI | PR creation, team workflows |
+| 📜 **changelog-generator** | Git tags → Keep a Changelog format | Release prep, versioning |
 
 ### 🖥️ Operations
 | Skill | What it does | Best for |
@@ -145,6 +147,7 @@ Skills organized by software development lifecycle phase.
 | ⚙️ **ci-workflow** | NL → CI config (GitHub Actions / GitLab CI) with safety review | CI/CD setup, pipeline automation |
 | 🖥️ **remote-exec** | Execute commands on remote servers via SSH | Server ops, debugging, deploy checks |
 | 📊 **log-analyzer** | Structured log analysis & anomaly detection | Error triage, incident response |
+| ✅ **deploy-checklist** | Project type → pre-deploy checklist | Release prep, go-live |
 
 ### ✍️ Productivity
 | Skill | What it does | Best for |
@@ -153,6 +156,8 @@ Skills organized by software development lifecycle phase.
 | 🔧 **shell-command** | NL → shell command + safety guardrails | Daily terminal one-liners |
 | 🐛 **debug-helper** | Structured debugging with 5-step analysis | Error triage, CI failures |
 | 🔤 **regex-buddy** | NL → regex + explanation + test cases | Pattern matching, data extraction |
+| 🎯 **prompt-engineering** | Task → optimized LLM prompt templates | Skill creation, AI workflows |
+| 📓 **meeting-notes** | Transcript → structured meeting minutes | Team syncs, daily standups |
 
 <br>
 
@@ -188,6 +193,30 @@ git add .
 ```
 
 **Why**: "What changed between these two commits?" — the most common code review question. This gives you a structured, categorized answer.
+
+### 📝 [PR-Description](pr-description/SKILL.md) — PR Description Generator
+
+```bash
+# Generate PR description from branch diff
+/pr-description
+# → structured PR with summary, changes grouped by module, test plan
+```
+
+**What it does**: Analyzes branch-level git diff (not staged) and generates a structured PR description with summary, changes grouped by module, breaking changes, and test plan. Optionally creates the PR via `gh pr create` with pre-flight checks (auth status, remote branch).
+
+**Why**: Good PR descriptions separate great teams from mediocre ones. This eliminates "fix bug" descriptions and gives reviewers exactly what they need — what changed, why, and how to verify.
+
+### 📜 [Changelog-Generator](changelog-generator/SKILL.md)
+
+```bash
+# Generate changelog from last tag to HEAD
+/changelog-generator v1.0.0..HEAD
+# → Keep a Changelog format, grouped by type
+```
+
+**What it does**: Reads git tag/commit ranges and generates CHANGELOG.md following Keep a Changelog format. Groups commits by semantic type (feat, fix, refactor, etc.), detects breaking changes, and suggests version bumps based on commit content.
+
+**Why**: Changelogs are always an afterthought — either missing or a raw `git log` dump. This gives you a release-ready changelog in one shot.
 
 ### 🧠 [Explain-Code](explain-code/SKILL.md)
 
@@ -246,6 +275,18 @@ Analyze this Nginx error log: ...
 
 **Why**: CI config syntax (GitHub Actions YAML, GitLab CI) is write-once-forget-next-week — nobody remembers the exact indentation, action versions, or cache key format. This skill gets it right in one shot and flags security issues before they hit the repo.
 
+### ✅ [Deploy-Checklist](deploy-checklist/SKILL.md) — Pre-Deployment Checklist
+
+```bash
+# Generate pre-deploy checklist
+/deploy-checklist
+# → tailored checklist with DB migration, config, monitoring, rollback
+```
+
+**What it does**: Auto-detects project type (web backend, frontend, mobile, microservice, etc.) via codebase analysis, reads recent git changes to detect what's actually changing (DB migration? dependency update? config change?), and generates a targeted pre-deployment checklist. Covers backup, monitoring, rollback strategy, and post-deploy verification.
+
+**Why**: Most deployment incidents follow the same pattern — "forgot to update config", "forgot to backup DB", "didn't check monitoring". A structured checklist eliminates these.
+
 ### 📝 [Technical-Article-Writer](technical-article-writer/SKILL.md)
 
 ```bash
@@ -287,6 +328,30 @@ Analyze this Nginx error log: ...
 
 **Why**: Regex is write-once-read-never — you write it, test it, iterate 3-4 times, and forget it. This skill gets it right in one shot and explains the result so you know it's correct. See [regex-buddy/references/cheat-sheet.md](regex-buddy/references/cheat-sheet.md) for pattern reference.
 
+### 🎯 [Prompt-Engineering](prompt-engineering/SKILL.md) — Prompt Optimizer
+
+```bash
+# Design a prompt for your task
+/prompt-engineering "I need an agent that reviews Python code for security issues"
+# → structured prompt with persona, chain-of-thought, output format
+```
+
+**What it does**: Transforms task descriptions into optimized LLM prompts. Supports 4 structural templates (classification, generation, chain-of-thought, code generation). Includes persona design, output control, defensive prompt techniques, and token estimation. Dogfooding: useful for creating skills in this repo.
+
+**Why**: Good prompts separate mediocre LLM outputs from exceptional ones. This skill gives you a framework for prompt design instead of guessing what works.
+
+### 📓 [Meeting-Notes](meeting-notes/SKILL.md) — Meeting Minutes Generator
+
+```bash
+# Convert transcript to structured notes
+/meeting-notes "Today's sprint retro: we discussed deployment pipeline..."
+# → structured minutes with decisions, action items, owners
+```
+
+**What it does**: Converts meeting transcripts or rough notes into structured meeting minutes. Extracts discussion points, decisions, and action items with owners. Handles voice-to-text cleanup (filler words, fragmented sentences), technical deep-dives (architecture decisions, trade-off analysis), and minimal-input fallback.
+
+**Why**: Meeting notes are everyone's chore and nobody's priority. This turns raw transcripts or scratch notes into something you'd actually send to the team.
+
 <br>
 
 ---
@@ -302,13 +367,18 @@ skills/
 ├── test-generator/               # 🧪 Auto test generation
 ├── commit/                       # ✍️ Commit messages
 ├── commit-diff-analyzer/         # 🔍 Diff analysis
+├── pr-description/               # 📝 PR descriptions
+├── changelog-generator/          # 📜 Changelog generator
 ├── ci-workflow/                  # ⚙️ CI/CD pipeline generator
 ├── remote-exec/                  # 🖥️ Remote SSH executor
 ├── log-analyzer/                 # 📊 Log analysis
+├── deploy-checklist/             # ✅ Deploy checklist
 ├── technical-article-writer/     # 📝 Tech articles
 ├── shell-command/                # 🔧 NL → shell command
 ├── debug-helper/                 # 🐛 Structured debugging
 ├── regex-buddy/                  # 🔤 Regex assistant
+├── prompt-engineering/           # 🎯 Prompt optimizer
+├── meeting-notes/                # 📓 Meeting minutes
 │
 ├── api-debug/                    # 🔧 API debugging reference
 ├── docker-essentials/            # 🐳 Docker reference

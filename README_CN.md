@@ -139,6 +139,8 @@ npx skills add https://github.com/afine907/skills --skill wo-yao-yan-pai
 |------|--------|--------|
 | ✍️ **commit** | 再也不用想 commit message | 追求整洁 Git 历史 |
 | 🔍 **commit-diff-analyzer** | 两个 commit 改了啥一眼看穿 | Code Review、Debug |
+| 📝 **pr-description** | git diff → 结构化 PR 描述 + gh CLI 创建 | PR 提交流程、团队协作 |
+| 📜 **changelog-generator** | Git 标签 → Keep a Changelog 格式 | 发版准备、版本管理 |
 
 ### 🖥️ 运维阶段
 | 技能 | 一句话 | 适合谁 |
@@ -146,6 +148,7 @@ npx skills add https://github.com/afine907/skills --skill wo-yao-yan-pai
 | ⚙️ **ci-workflow** | 描述 → CI 配置文件（GitHub Actions/GitLab CI） | CI/CD 配置、流水线自动化 |
 | 🖥️ **remote-exec** | SSH 远程执行命令 | 服务器运维、部署排查 |
 | 📊 **log-analyzer** | 日志结构化分析，异常自动发现 | 线上排查、故障响应 |
+| ✅ **deploy-checklist** | 项目类型 → 预发布检查清单 | 发版准备、上线前检查 |
 
 ### ✍️ 效率工具
 | 技能 | 一句话 | 适合谁 |
@@ -154,6 +157,8 @@ npx skills add https://github.com/afine907/skills --skill wo-yao-yan-pai
 | 🔧 **shell-command** | 中文描述 → shell 命令 + 安全确认 | 日常终端操作 |
 | 🐛 **debug-helper** | 结构化 5 步调试分析 | 排查报错、CI 失败 |
 | 🔤 **regex-buddy** | 描述 → 正则 + 逐段解释 + 测试用例 | 数据提取、格式校验 |
+| 🎯 **prompt-engineering** | 任务描述 → 高质量 LLM prompt | 技能创建、AI 工作流 |
+| 📓 **meeting-notes** | 会议录音 → 结构化会议纪要 | 团队同步、每日站会 |
 
 <br>
 
@@ -191,6 +196,26 @@ git add .
 
 **痛点**：Code Review 时「这俩 commit 到底改了啥」——最常问也最烦的问题。
 **解法**：结构化对比，分类展示变更，一眼看出影响范围。
+
+## 📝 [PR-Description](pr-description/SKILL.md) — PR 描述生成器
+
+```bash
+/pr-description  # 自动分析当前分支 diff，生成 PR 描述
+```
+
+**痛点**：提 PR 时写不出好的描述，要么太短（"fix bug"），要么太长（没人看）。
+
+**解法**：分析分支级别的 git diff，按模块归组生成结构化 PR 描述（Summary + Changes + Breaking Changes + Test Plan）。可选通过 `gh pr create` 直接创建 PR，内置认证检查和推送确认。
+
+## 📜 [Changelog-Generator](changelog-generator/SKILL.md) — 更新日志生成器
+
+```bash
+/changelog-generator v1.0.0..HEAD
+```
+
+**痛点**：发版前总要手动整理 changelog，或者干脆不写。
+
+**解法**：读取 git 标签/提交范围，按 Conventional Commits 的 type（feat/fix/refactor 等）分组输出 Keep a Changelog 格式。自动检测 Breaking Change 并建议版本号增量。
 
 ## 🧠 [Explain-Code](explain-code/SKILL.md)
 
@@ -252,6 +277,16 @@ remote-exec root@api.example.com "systemctl status app"
 
 **解法**：自然语言 → CI 配置文件 + 逐段解释 + 内置安全审查。覆盖构建测试、Docker 推送、部署、Release、Lint、安全扫描等场景。每次输出附带安全审查报告（检测硬编码密钥、权限过大、缺少缓存等问题）。
 
+## ✅ [Deploy-Checklist](deploy-checklist/SKILL.md) — 部署检查清单
+
+```bash
+/deploy-checklist  # 生成预发布检查清单
+```
+
+**痛点**：线上事故最常见的原因——"忘了改配置"、"忘了备份"、"部署完才发现监控没配"。
+
+**解法**：自动识别项目类型（根据技术栈特征检测），分析 git 最近变更判断风险点（DB 迁移？依赖更新？配置变动？），生成精准的预发布检查清单，覆盖数据库、配置、监控、回滚、上线后验证。
+
 ## 📝 [Technical-Article-Writer](technical-article-writer/SKILL.md)
 
 ```bash
@@ -294,6 +329,26 @@ remote-exec root@api.example.com "systemctl status app"
 
 **解法**：描述 → 正则 + 逐段解释 + 测试用例，一次性输出。包含正则各段的含义拆解、正反测试用例、边界条件标记。纯翻译工作，不需要创意，就应该一次写对。
 
+## 🎯 [Prompt-Engineering](prompt-engineering/SKILL.md) — Prompt 优化器
+
+```bash
+/prompt-engineering "写一个审查 Python 代码安全的 Agent"
+```
+
+**痛点**：写 prompt 全靠感觉，同样的任务不同人写出来的效果天差地别。
+
+**解法**：任务描述 → 结构化高质量 prompt。支持 4 种结构模板（分类/生成/COT/代码生成），包含角色设计、输出控制、防御性提示。Dogfooding：这个仓库的技能就是用这个技能写的。
+
+## 📓 [Meeting-Notes](meeting-notes/SKILL.md) — 会议纪要生成器
+
+```bash
+/meeting-notes "今天的站会讨论了部署管道的问题..."
+```
+
+**痛点**：会议纪要大家都不想写，写了也没人看。但开会没有记录等于没开。
+
+**解法**：会议录音/文字 → 结构化会议纪要。提取讨论要点、决策记录、待办事项（含负责人和截止日期）。支持语音转文字清洗（去除填充词）、技术讨论深度记录（方案对比、架构决策）。
+
 <br>
 
 ---
@@ -309,13 +364,18 @@ skills/
 ├── test-generator/               # 🧪 测试生成器
 ├── commit/                       # ✍️ Commit 生成器
 ├── commit-diff-analyzer/         # 🔍 Commit 对比分析
+├── pr-description/               # 📝 PR 描述生成器
+├── changelog-generator/          # 📜 Changelog 生成器
 ├── ci-workflow/                  # ⚙️ CI/CD 配置生成器
 ├── remote-exec/                  # 🖥️ 远程 SSH 执行器
 ├── log-analyzer/                 # 📊 日志分析器
+├── deploy-checklist/             # ✅ 部署检查清单
 ├── technical-article-writer/     # 📝 技术文章写手
 ├── shell-command/                # 🔧 Shell 命令翻译官
 ├── debug-helper/                 # 🐛 调试助手
 ├── regex-buddy/                  # 🔤 正则助手
+├── prompt-engineering/           # 🎯 Prompt 优化器
+├── meeting-notes/                # 📓 会议纪要生成器
 │
 ├── api-debug/                    # 🔧 API 调试速查
 ├── docker-essentials/            # 🐳 Docker 速查
