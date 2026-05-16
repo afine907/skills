@@ -114,16 +114,44 @@ Then use it in Claude Code, Cursor, Windsurf, or any agent that supports `/comma
 
 ## 📦 The Full Deck
 
+Skills organized by software development lifecycle phase.
+
+### 📋 Requirements
+| Skill | What it does | Best for |
+|-------|-------------|----------|
+| 📋 **requirements-analyzer** | Vague specs → structured docs | Product handoffs |
+
+### 🏗️ Development
+| Skill | What it does | Best for |
+|-------|-------------|----------|
+| 🧵 **task-loom** | PRD → DAG plan → code generation | New projects, large features |
+
+### ✅ Quality
 | Skill | What it does | Best for |
 |-------|-------------|----------|
 | 🃏 **wo-yao-yan-pai** | Code review → report → auto-fix loop | Quality gate for AI-generated code |
-| 🖥️ **remote-exec** | Execute commands on remote servers via SSH | Server ops, debugging, deploy checks |
-| 🧵 **task-loom** | PRD → DAG plan → code generation | New projects, large features |
+| 🧠 **explain-code** | Structure + design quality analysis | Onboarding, documentation |
+| 🧪 **test-generator** | Auto-generate pytest tests from source | Test coverage after coding |
+
+### 🔗 Source Control
+| Skill | What it does | Best for |
+|-------|-------------|----------|
 | ✍️ **commit** | Conventional Commits from git diff | Clean commit history |
 | 🔍 **commit-diff-analyzer** | Compare two commits side-by-side | Code review, debugging |
-| 🧠 **explain-code** | Structure + design quality analysis | Onboarding, documentation |
-| 📋 **requirements-analyzer** | Vague specs → structured docs | Product handoffs |
+
+### 🖥️ Operations
+| Skill | What it does | Best for |
+|-------|-------------|----------|
+| 🖥️ **remote-exec** | Execute commands on remote servers via SSH | Server ops, debugging, deploy checks |
+| 📊 **log-analyzer** | Structured log analysis & anomaly detection | Error triage, incident response |
+
+### ✍️ Productivity
+| Skill | What it does | Best for |
+|-------|-------------|----------|
 | 📝 **technical-article-writer** | Research + write tech articles | Documentation, blogs |
+| 🔧 **shell-command** | NL → shell command + safety guardrails | Daily terminal one-liners |
+| 🐛 **debug-helper** | Structured debugging with 5-step analysis | Error triage, CI failures |
+| 🔤 **regex-buddy** | NL → regex + explanation + test cases | Pattern matching, data extraction |
 
 <br>
 
@@ -169,6 +197,15 @@ git add .
 
 **Why**: Understanding unfamiliar code takes time. This agent analyzes structure, dependencies, design patterns, and generates a readable explanation.
 
+### 🧪 [Test-Generator](test-generator/SKILL.md) — Auto-Generate Tests
+
+```bash
+# Generate tests for a source file
+test-generator src/services/auth.py
+```
+
+**Why**: Writing tests is tedious and often skipped. This agent analyzes your code's logic, branch paths, and edge cases, then generates comprehensive pytest test suites. Pairs naturally with wo-yao-yan-pai: review first, then cover the gaps with tests.
+
 ### 📋 [Requirements-Analyzer](requirements-analyzer/SKILL.md)
 
 ```bash
@@ -179,6 +216,24 @@ git add .
 
 **Why**: The gap between "what we need" and "what we build" is where projects fail. This bridges it.
 
+### 🖥️ [Remote-Exec](remote-exec/SKILL.md) — SSH Command Execution
+
+```bash
+# Run commands on remote servers
+remote-exec ubuntu@api.example.com "systemctl status app"
+```
+
+**Why**: Server ops don't require a separate SSH session. This agent handles connection, authentication, and execution inline — with safety checks for destructive commands.
+
+### 📊 [Log-Analyzer](log-analyzer/SKILL.md) — Structured Log Analysis
+
+```bash
+# Analyze logs from remote-exec or pasted content
+Analyze this Nginx error log: ...
+```
+
+**Why**: Raw logs are hard to read in a terminal. This agent parses common log formats (Nginx, JSON, syslog, stacktraces), detects anomaly patterns, and produces a structured report with root cause inference. Pairs naturally with remote-exec: fetch logs, then analyze.
+
 ### 📝 [Technical-Article-Writer](technical-article-writer/SKILL.md)
 
 ```bash
@@ -186,6 +241,39 @@ git add .
 ```
 
 **Why**: Writing takes time. This agent researches, outlines, writes, and formats. Great for docs, blogs, and READMEs.
+
+### 🔧 [Shell-Command](shell-command/SKILL.md) — NL to Shell Command
+
+```bash
+# Translate natural language to shell command
+"find large files over 100MB in /var"
+```
+
+**What it does**: Natural language → shell command translation with built-in safety guardrails. Covers file operations, process management, network diagnostics, Docker, Git, and more. Every command gets a safety classification (safe / confirm / reject), and destructive operations require user confirmation.
+
+**Why**: Everyone types "how do I find large files" into a search engine — daily. This eliminates the context switch. See [shell-command/references/common-patterns.md](shell-command/references/common-patterns.md) for the full command reference.
+
+### 🐛 [Debug-Helper](debug-helper/SKILL.md) — Structured Debugging
+
+```bash
+# Paste any error message for analysis
+报错了：KeyError: 'user_id' at app.py:42
+```
+
+**What it does**: Fixed 5-step debugging pipeline — locate → context → hypothesis → verify → fix. Handles Python tracebacks, Node.js exceptions, HTTP errors, system errors, and test failures. Each analysis outputs a structured report with ranked hypotheses, specific verification methods, and a concrete fix.
+
+**Why**: Debugging is the #1 AI usage scenario for developers, but generic chat has no analysis framework. This skill guarantees a consistent, thorough analysis path every time — no more "paste more context" iterations. See [debug-helper/references/patterns.md](debug-helper/references/patterns.md) for error pattern library.
+
+### 🔤 [Regex-Buddy](regex-buddy/SKILL.md) — Regex Assistant
+
+```bash
+# Write regex from description
+写个正则匹配中国大陆手机号
+```
+
+**What it does**: Natural language → regex + per-token explanation + test cases, all in one shot. Outputs structured JSON with the final regex, flags, a breakdown of each token's meaning, test cases (positive and negative), and edge case warnings.
+
+**Why**: Regex is write-once-read-never — you write it, test it, iterate 3-4 times, and forget it. This skill gets it right in one shot and explains the result so you know it's correct. See [regex-buddy/references/cheat-sheet.md](regex-buddy/references/cheat-sheet.md) for pattern reference.
 
 <br>
 
@@ -195,14 +283,25 @@ git add .
 
 ```
 skills/
-├── wo-yao-yan-pai/               # 🃏 Card Review Agent
-├── remote-exec/                  # 🖥️ Remote SSH executor
+├── requirements-analyzer/        # 📋 Requirements → specs
 ├── task-loom/                    # 🧵 Project orchestration
+├── wo-yao-yan-pai/               # 🃏 Card Review Agent
+├── explain-code/                 # 🧠 Code explanation
+├── test-generator/               # 🧪 Auto test generation
 ├── commit/                       # ✍️ Commit messages
 ├── commit-diff-analyzer/         # 🔍 Diff analysis
-├── explain-code/                 # 🧠 Code explanation
-├── requirements-analyzer/        # 📋 Requirements → specs
-└── technical-article-writer/     # 📝 Tech articles
+├── remote-exec/                  # 🖥️ Remote SSH executor
+├── log-analyzer/                 # 📊 Log analysis
+├── technical-article-writer/     # 📝 Tech articles
+├── shell-command/                # 🔧 NL → shell command
+├── debug-helper/                 # 🐛 Structured debugging
+├── regex-buddy/                  # 🔤 Regex assistant
+│
+├── api-debug/                    # 🔧 API debugging reference
+├── docker-essentials/            # 🐳 Docker reference
+├── linux-ops/                    # 🖧 Linux ops reference
+├── performance-profiling/        # ⚡ Performance reference
+└── python-testing/               # 🐍 Python testing reference
 ```
 
 Each skill directory contains:

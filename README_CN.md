@@ -115,16 +115,44 @@ npx skills add https://github.com/afine907/skills --skill wo-yao-yan-pai
 
 # 🗂️ 技能牌组一览
 
+按软件工程生命周期分类展示。
+
+### 📋 需求阶段
+| 技能 | 一句话 | 适合谁 |
+|------|--------|--------|
+| 📋 **requirements-analyzer** | 模糊需求 → 结构化文档 | 产品经理、技术方案 |
+
+### 🏗️ 开发阶段
+| 技能 | 一句话 | 适合谁 |
+|------|--------|--------|
+| 🧵 **task-loom** | 万字 PRD 秒变代码 | 项目启动、大需求拆解 |
+
+### ✅ 质量阶段
 | 技能 | 一句话 | 适合谁 |
 |------|--------|--------|
 | 🃏 **我要验牌** | 代码审查 → 报告 → 自动修复 | 所有用 AI 写代码的人 |
-| 🖥️ **remote-exec** | SSH 远程执行命令 | 服务器运维、部署排查 |
-| 🧵 **task-loom** | 万字 PRD 秒变代码 | 项目启动、大需求拆解 |
+| 🧠 **explain-code** | 代码结构 + 设计质量分析 | 接手老项目、写文档 |
+| 🧪 **test-generator** | 代码写完自动生成测试 | 追求测试覆盖率的团队 |
+
+### 🔗 版本控制
+| 技能 | 一句话 | 适合谁 |
+|------|--------|--------|
 | ✍️ **commit** | 再也不用想 commit message | 追求整洁 Git 历史 |
 | 🔍 **commit-diff-analyzer** | 两个 commit 改了啥一眼看穿 | Code Review、Debug |
-| 🧠 **explain-code** | 代码结构 + 设计质量分析 | 接手老项目、写文档 |
-| 📋 **requirements-analyzer** | 模糊需求 → 结构化文档 | 产品经理、技术方案 |
+
+### 🖥️ 运维阶段
+| 技能 | 一句话 | 适合谁 |
+|------|--------|--------|
+| 🖥️ **remote-exec** | SSH 远程执行命令 | 服务器运维、部署排查 |
+| 📊 **log-analyzer** | 日志结构化分析，异常自动发现 | 线上排查、故障响应 |
+
+### ✍️ 效率工具
+| 技能 | 一句话 | 适合谁 |
+|------|--------|--------|
 | 📝 **technical-article-writer** | 自动搜索 + 写技术文章 | 写博客、写文档 |
+| 🔧 **shell-command** | 中文描述 → shell 命令 + 安全确认 | 日常终端操作 |
+| 🐛 **debug-helper** | 结构化 5 步调试分析 | 排查报错、CI 失败 |
+| 🔤 **regex-buddy** | 描述 → 正则 + 逐段解释 + 测试用例 | 数据提取、格式校验 |
 
 <br>
 
@@ -172,6 +200,16 @@ git add .
 **痛点**：接手老项目，打开一个目录几百个文件，不知道从哪看起。
 **解法**：分析代码结构、依赖关系、设计模式，生成人能看懂的解读。
 
+## 🧪 [Test-Generator](test-generator/SKILL.md) — 自动生成测试
+
+```bash
+# 为指定文件生成测试
+test-generator src/services/auth.py
+```
+
+**痛点**：写测试太费时间，经常被跳过。
+**解法**：自动分析代码逻辑、分支路径、边界条件，生成覆盖正常路径、异常场景、边界条件的 pytest 测试用例。和 wo-yao-yan-pai 天然搭档——先审查再补测试。
+
 ## 📋 [Requirements-Analyzer](requirements-analyzer/SKILL.md)
 
 ```bash
@@ -182,6 +220,26 @@ git add .
 **痛点**：需求说得不清不楚，「先做着看看」——做着做着就偏了。
 **解法**：把模糊需求转化为可落地的结构化文档。
 
+## 🖥️ [Remote-Exec](remote-exec/SKILL.md) — SSH 远程执行
+
+```bash
+# 在远程服务器执行命令
+remote-exec root@api.example.com "systemctl status app"
+```
+
+**痛点**：排查线上问题要切窗口、敲 SSH、复制粘贴，效率低。
+**解法**：在当前会话直接 SSH 连接远程服务器执行命令，无需额外窗口。内置安全规则，破坏性操作自动确认。
+
+## 📊 [Log-Analyzer](log-analyzer/SKILL.md) — 日志分析
+
+```bash
+# 分析来自 remote-exec 或粘贴的日志
+分析这段 Nginx 错误日志：...
+```
+
+**痛点**：原始日志堆在一起，肉眼找异常太累。
+**解法**：自动识别日志格式（Nginx、JSON、syslog、Java 堆栈等），提取异常模式、频率统计、趋势分析，输出结构化报告。和 remote-exec 天然搭档：远程拉日志，就地分析。
+
 ## 📝 [Technical-Article-Writer](technical-article-writer/SKILL.md)
 
 ```bash
@@ -191,6 +249,39 @@ git add .
 **痛点**：写技术文章太费时间，查资料、组织结构、排版格式。
 **解法**：自动搜索资料 → 制定大纲 → 撰写正文 → 多平台适配。
 
+## 🔧 [Shell-Command](shell-command/SKILL.md) — 命令翻译官
+
+```bash
+# 自然语言转 shell 命令
+帮我找 /var 下超过 100MB 的大文件
+```
+
+**痛点**：每天 N 次要敲不熟悉的命令，搜了写、写了改。通用 chat 生成的命令经常漏参数或没有安全提示。
+
+**解法**：自然语言 → shell 命令 + 三级安全标签（🟢 安全/🟡 需确认/🔴 拒绝）。覆盖文件操作、进程管理、网络诊断、Docker、Git 等场景。每次输出都附带命令说明和安全建议。
+
+## 🐛 [Debug-Helper](debug-helper/SKILL.md) — 调试助手
+
+```bash
+# 贴报错信息，自动分析
+报错了：Traceback... KeyError: 'user_id'
+```
+
+**痛点**：Debug 是开发者最高频的 AI 场景，但通用 chat 没有分析框架，反复"再贴点上下文"。
+
+**解法**：固定 5 步调试流水线——定位 → 上下文 → 假设 → 验证 → 修复。支持 Python/Node.js/Go 异常、HTTP 错误、系统错误。输出结构化报告：按概率排序的根因假设、验证方法、具体修复方案。
+
+## 🔤 [Regex-Buddy](regex-buddy/SKILL.md) — 正则助手
+
+```bash
+# 描述 → 正则 + 测试用例，一次输出
+写个正则匹配中国大陆手机号
+```
+
+**痛点**：写正则每次都要 3-4 轮迭代，读别人的正则更痛苦。
+
+**解法**：描述 → 正则 + 逐段解释 + 测试用例，一次性输出。包含正则各段的含义拆解、正反测试用例、边界条件标记。纯翻译工作，不需要创意，就应该一次写对。
+
 <br>
 
 ---
@@ -199,14 +290,25 @@ git add .
 
 ```
 skills/
-├── wo-yao-yan-pai/               # 🃏 主角技：我要验牌
-├── remote-exec/                  # 🖥️ 远程 SSH 执行器
+├── requirements-analyzer/        # 📋 需求分析器
 ├── task-loom/                    # 🧵 项目编排引擎
+├── wo-yao-yan-pai/               # 🃏 我要验牌
+├── explain-code/                 # 🧠 代码解析器
+├── test-generator/               # 🧪 测试生成器
 ├── commit/                       # ✍️ Commit 生成器
 ├── commit-diff-analyzer/         # 🔍 Commit 对比分析
-├── explain-code/                 # 🧠 代码解析器
-├── requirements-analyzer/        # 📋 需求分析器
-└── technical-article-writer/     # 📝 技术文章写手
+├── remote-exec/                  # 🖥️ 远程 SSH 执行器
+├── log-analyzer/                 # 📊 日志分析器
+├── technical-article-writer/     # 📝 技术文章写手
+├── shell-command/                # 🔧 Shell 命令翻译官
+├── debug-helper/                 # 🐛 调试助手
+├── regex-buddy/                  # 🔤 正则助手
+│
+├── api-debug/                    # 🔧 API 调试速查
+├── docker-essentials/            # 🐳 Docker 速查
+├── linux-ops/                    # 🖧 Linux 运维速查
+├── performance-profiling/        # ⚡ 性能分析速查
+└── python-testing/               # 🐍 Python 测试速查
 ```
 
 每个技能目录包含：
