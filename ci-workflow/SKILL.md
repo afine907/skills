@@ -1,5 +1,6 @@
 ---
 name: ci-workflow
+category: operations
 description: |
   自然语言描述 → CI 配置文件（GitHub Actions / GitLab CI）+ 逐段解释 + 安全审查。
   适用场景：用户要求"写 CI 配置"、"配个 GitHub Actions/GitLab CI"、"自动构建/部署/发布流程"。

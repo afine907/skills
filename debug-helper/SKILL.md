@@ -1,5 +1,6 @@
 ---
 name: debug-helper
+category: productivity
 description: |
   结构化调试分析。固定 5 步分析框架：定位 → 上下文 → 假设 → 验证 → 修复。
   适用场景：

@@ -45,14 +45,18 @@ class TestDAGManager:
         manifest_path = project_dir / "manifest.json"
         manifest_path.write_text(json.dumps(manifest, indent=2))
 
+        # Point DAGManager to the temp orchestra dir
+        original_dir = DAGManager.ORCHESTRA_DIR
+        DAGManager.ORCHESTRA_DIR = Path(temp) / ".claude" / "orchestra"
+
         yield project_dir
+
+        DAGManager.ORCHESTRA_DIR = original_dir
         shutil.rmtree(temp, ignore_errors=True)
 
     def test_add_task(self, temp_project):
         """Test adding a task"""
         manager = DAGManager("test-project")
-        manager.project_dir = temp_project
-        manager.manifest_path = temp_project / "manifest.json"
 
         task = manager.add_task(
             "T_001",
@@ -67,8 +71,6 @@ class TestDAGManager:
     def test_add_task_with_dependency(self, temp_project):
         """Test adding a task with dependency"""
         manager = DAGManager("test-project")
-        manager.project_dir = temp_project
-        manager.manifest_path = temp_project / "manifest.json"
 
         # Add first task
         manager.add_task("T_001", "MODULE_IMPL", "Auth Module")
@@ -86,8 +88,6 @@ class TestDAGManager:
     def test_add_task_invalid_dependency(self, temp_project):
         """Test adding a task with non-existent dependency"""
         manager = DAGManager("test-project")
-        manager.project_dir = temp_project
-        manager.manifest_path = temp_project / "manifest.json"
 
         with pytest.raises(ValueError, match="Dependency T_999 does not exist"):
             manager.add_task(
@@ -100,8 +100,6 @@ class TestDAGManager:
     def test_cycle_detection(self, temp_project):
         """Test that cycle detection prevents circular dependencies"""
         manager = DAGManager("test-project")
-        manager.project_dir = temp_project
-        manager.manifest_path = temp_project / "manifest.json"
 
         # Add first task
         manager.add_task("T_001", "MODULE_IMPL", "Task 1")
@@ -133,8 +131,6 @@ class TestDAGManager:
     def test_update_status(self, temp_project):
         """Test updating task status"""
         manager = DAGManager("test-project")
-        manager.project_dir = temp_project
-        manager.manifest_path = temp_project / "manifest.json"
 
         manager.add_task("T_001", "MODULE_IMPL", "Test Task")
         updated = manager.update_status("T_001", "IN_PROGRESS")
@@ -145,8 +141,6 @@ class TestDAGManager:
     def test_get_next_task(self, temp_project):
         """Test getting next executable task"""
         manager = DAGManager("test-project")
-        manager.project_dir = temp_project
-        manager.manifest_path = temp_project / "manifest.json"
 
         # Add tasks with dependencies
         manager.add_task("T_001", "MODULE_IMPL", "Task 1")
@@ -168,8 +162,6 @@ class TestDAGManager:
     def test_remove_task(self, temp_project):
         """Test removing a task"""
         manager = DAGManager("test-project")
-        manager.project_dir = temp_project
-        manager.manifest_path = temp_project / "manifest.json"
 
         manager.add_task("T_001", "MODULE_IMPL", "Task 1")
         manager.add_task("T_002", "MODULE_IMPL", "Task 2", depends_on=["T_001"])

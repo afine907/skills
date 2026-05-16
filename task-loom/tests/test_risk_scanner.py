@@ -77,7 +77,13 @@ FIXME: Add proper error handling
         manifest_path = project_dir / "manifest.json"
         manifest_path.write_text(json.dumps(manifest, indent=2))
 
+        # Point RiskScanner to the temp orchestra dir
+        original_dir = RiskScanner.ORCHESTRA_DIR
+        RiskScanner.ORCHESTRA_DIR = Path(temp) / ".claude" / "orchestra"
+
         yield temp, prd_path
+
+        RiskScanner.ORCHESTRA_DIR = original_dir
         shutil.rmtree(temp, ignore_errors=True)
 
     def test_scan_finds_risks(self, temp_project):
@@ -85,9 +91,6 @@ FIXME: Add proper error handling
         temp, prd_path = temp_project
 
         scanner = RiskScanner("test-project")
-        scanner.project_dir = Path(temp) / ".claude" / "orchestra" / "test-project"
-        scanner.manifest_path = scanner.project_dir / "manifest.json"
-        scanner.manifest = json.loads(scanner.manifest_path.read_text())
 
         risks = scanner.scan()
 
@@ -98,9 +101,6 @@ FIXME: Add proper error handling
         temp, prd_path = temp_project
 
         scanner = RiskScanner("test-project")
-        scanner.project_dir = Path(temp) / ".claude" / "orchestra" / "test-project"
-        scanner.manifest_path = scanner.project_dir / "manifest.json"
-        scanner.manifest = json.loads(scanner.manifest_path.read_text())
 
         # Create multiple identical risks
         risk1 = Risk(
@@ -134,9 +134,6 @@ FIXME: Add proper error handling
         temp, prd_path = temp_project
 
         scanner = RiskScanner("test-project")
-        scanner.project_dir = Path(temp) / ".claude" / "orchestra" / "test-project"
-        scanner.manifest_path = scanner.project_dir / "manifest.json"
-        scanner.manifest = json.loads(scanner.manifest_path.read_text())
 
         # Content with false positive hint
         content = "This is an example password = 'test123' for documentation purposes"
@@ -153,9 +150,6 @@ FIXME: Add proper error handling
         temp, prd_path = temp_project
 
         scanner = RiskScanner("test-project")
-        scanner.project_dir = Path(temp) / ".claude" / "orchestra" / "test-project"
-        scanner.manifest_path = scanner.project_dir / "manifest.json"
-        scanner.manifest = json.loads(scanner.manifest_path.read_text())
 
         scanner.scan()
         report = scanner.generate_report("markdown")
@@ -168,9 +162,6 @@ FIXME: Add proper error handling
         temp, prd_path = temp_project
 
         scanner = RiskScanner("test-project")
-        scanner.project_dir = Path(temp) / ".claude" / "orchestra" / "test-project"
-        scanner.manifest_path = scanner.project_dir / "manifest.json"
-        scanner.manifest = json.loads(scanner.manifest_path.read_text())
 
         scanner.scan()
         report = scanner.generate_report("json")
@@ -186,9 +177,6 @@ FIXME: Add proper error handling
         temp, prd_path = temp_project
 
         scanner = RiskScanner("test-project")
-        scanner.project_dir = Path(temp) / ".claude" / "orchestra" / "test-project"
-        scanner.manifest_path = scanner.project_dir / "manifest.json"
-        scanner.manifest = json.loads(scanner.manifest_path.read_text())
 
         risks = scanner.scan()
 

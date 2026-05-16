@@ -1,5 +1,6 @@
 ---
 name: regex-buddy
+category: productivity
 description: |
   自然语言描述 → 正则表达式 + 逐段解释 + 测试用例。一次输出，无需多轮迭代。
   适用场景：
