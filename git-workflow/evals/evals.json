@@ -1,0 +1,23 @@
+{
+  "skill_name": "git-workflow",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我刚改完了用户登录的 bug，帮我提交并创建 PR",
+      "expected_output": "创建 fix/ 分支，暂存变更，生成 fix(auth): resolve login issue 之类的 commit，推送并创建 PR",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "帮我提个 PR，新功能是添加了用户头像上传",
+      "expected_output": "创建 feat/ 分支，暂存变更，生成 feat(user): add avatar upload 之类的 commit，推送并创建 PR",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "代码已经改好了，分支也切好了，直接提交推送然后开 PR",
+      "expected_output": "检测当前分支状态，暂存变更，生成 commit，推送并创建 PR",
+      "files": []
+    }
+  ]
+}
