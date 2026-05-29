@@ -1,0 +1,64 @@
+{
+  "eval_id": 1,
+  "eval_name": "ab-comparison-framework",
+  "with_skill": {
+    "assertions": [
+      {
+        "text": "has_ab_framework",
+        "passed": true,
+        "evidence": "Provides a structured A/B comparison framework with explicit V1 vs V2 version definitions, evaluation dimensions with weights, test case matrix (45 cases across 5 categories), parallel execution of both versions, and automated comparison report generation."
+      },
+      {
+        "text": "has_statistical_significance",
+        "passed": true,
+        "evidence": "Section 4.2 includes Welch's t-test, Mann-Whitney U test (non-parametric), Cohen's d effect size with interpretation (negligible/small/medium/large), and 95% confidence intervals. Uses scipy.stats for implementation."
+      },
+      {
+        "text": "has_scoring_dimensions",
+        "passed": true,
+        "evidence": "Defines weighted scoring dimensions: task_completion (30%), accuracy (25%), efficiency (15%), format_compliance (10%), error_recovery (10%), consistency (10%). Each dimension has detailed 0-1 scoring criteria with levels (EXCELLENT=1.0, GOOD=0.8, PARTIAL=0.5, POOR=0.2, FAIL=0.0)."
+      },
+      {
+        "text": "has_threshold_definition",
+        "passed": true,
+        "evidence": "Section 7.2 defines clear decision rules: ADOPT_V2 if improvement > 0.1 and significant_improvements >= 2; CONDITIONALLY_ADOPT if improvement > 0.05 and >= 1 significant metric; KEEP_V1 if improvement < -0.05; NEED_MORE_DATA otherwise. Decision matrix table provides 5 scenarios with specific criteria."
+      },
+      {
+        "text": "has_multiple_runs",
+        "passed": true,
+        "evidence": "Configuration specifies 'num_runs_per_case': 3, with code that loops 'for run in range(config['num_runs_per_case'])' for both V1 and V2. Total runs: 45 cases x 3 runs x 2 versions = 270 runs."
+      }
+    ],
+    "pass_rate": 1.0
+  },
+  "without_skill": {
+    "assertions": [
+      {
+        "text": "has_ab_framework",
+        "passed": true,
+        "evidence": "Provides a structured A/B comparison framework with V1 (simple system prompt) vs V2 (few-shot + tool use) definitions, evaluation dimensions, 45 test cases across 5 categories, parallel execution, and comparison report generation with automated conclusion logic."
+      },
+      {
+        "text": "has_statistical_significance",
+        "passed": true,
+        "evidence": "Section 3.3 includes Welch's t-test (with simplified implementation checking t_stat > 2.1 for p < 0.05), Cohen's d effect size, and the generate_report method checks statistical significance for each dimension. The _check_statistical_significance method implements the t-test."
+      },
+      {
+        "text": "has_scoring_dimensions",
+        "passed": true,
+        "evidence": "Defines weighted scoring dimensions: task_completion (30%), tool_accuracy (25%), coherence (20%), hallucination (15%), latency_cost (10%). Each dimension has a detailed 0-10 scoring rubric with specific criteria per level."
+      },
+      {
+        "text": "has_threshold_definition",
+        "passed": true,
+        "evidence": "Section 6.2 'generate_conclusion' defines clear rules: if significant and diff > 0 → 'V2 significantly better'; if significant and diff < 0 → 'V1 significantly better'; if not significant → 'no significant difference'. Recommendation logic: if significant and diff > 0.5 → recommend upgrade; if significant and diff < -0.5 → don't recommend; otherwise → need more data."
+      },
+      {
+        "text": "has_multiple_runs",
+        "passed": true,
+        "evidence": "Configuration specifies runs_per_case: 10, with code 'for run_num in range(self.runs_per_case)' running each test case 10 times per version. Total: 45 cases x 10 runs x 2 versions = 900 runs."
+      }
+    ],
+    "pass_rate": 1.0
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "eval_id": 0,
+  "eval_name": "github-api-defensive-tooling",
+  "prompt": "我在用 Python 构建一个能调用 GitHub API 的 Agent，用 Anthropic SDK 的 tool use 功能。现在的问题是 Agent 经常调用错误的 API endpoint，或者传错参数导致 422 错误。帮我设计一个防御性的工具调用方案。",
+  "assertions": []
+}

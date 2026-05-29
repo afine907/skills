@@ -1,0 +1,114 @@
+{
+  "metadata": {
+    "skill_name": "llm-observability",
+    "skill_path": "d:/Code/skills/llm-observability",
+    "executor_model": "claude-sonnet-4-6",
+    "analyzer_model": "claude-sonnet-4-6",
+    "timestamp": "2026-05-29T14:00:00Z",
+    "evals_run": [0, 1, 2],
+    "runs_per_configuration": 1
+  },
+  "runs": [
+    {
+      "eval_id": 0,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5},
+      "expectations": [
+        {"text": "has_context_health_metrics", "passed": true, "evidence": "7 metrics: utilization, token budget, compression frequency, reference freshness, coherence, task drift, repeated question rate"},
+        {"text": "has_degradation_detection", "passed": true, "evidence": "NLI-based repeated question detection + context drift algorithm"},
+        {"text": "has_alert_thresholds", "passed": true, "evidence": "Specific thresholds: utilization>85% critical, coherence<0.6 warn, repeat>3/hr critical"},
+        {"text": "has_dashboard_layout", "passed": true, "evidence": "5-row layout: overview cards, degradation trends, tool audit, anomaly events, session trace"},
+        {"text": "has_mttd_target", "passed": true, "evidence": "MTTD targets: loops 1min, context overflow 5min, hallucination 1hr"}
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 0,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {"pass_rate": 0.8, "passed": 4, "failed": 1, "total": 5},
+      "expectations": [
+        {"text": "has_context_health_metrics", "passed": true, "evidence": "Three-layer monitoring: L1 real-time, L2 near-real-time, L3 offline with context faithfulness tracking"},
+        {"text": "has_degradation_detection", "passed": true, "evidence": "Re-ask detection, information recall monitoring, contradiction detection"},
+        {"text": "has_alert_thresholds", "passed": true, "evidence": "Thresholds for each monitoring layer with specific numeric values"},
+        {"text": "has_dashboard_layout", "passed": true, "evidence": "Grafana dashboard design with specific panels"},
+        {"text": "has_mttd_target", "passed": false, "evidence": "Defines processing latency per layer (L1<200ms, L2<30s) but no explicit MTTD target for degradation detection"}
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5},
+      "expectations": [
+        {"text": "has_decision_trace_schema", "passed": true, "evidence": "Structured JSON trace with cumulative cost and loop score fields"},
+        {"text": "has_loop_detection", "passed": true, "evidence": "3-layer detection: exact match (3 consecutive), semantic similarity (50%+ in 10-call window), behavioral anomalies (50+ calls)"},
+        {"text": "has_cost_spike_alert", "passed": true, "evidence": "Hard $10/session ceiling, warning at $1, critical at $5, hourly rate alerts"},
+        {"text": "has_circuit_breaker_config", "passed": true, "evidence": "Auto-terminates sessions on loop detection with configurable thresholds"},
+        {"text": "has_mttd_five_minutes", "passed": true, "evidence": "Primary loop detector catches in <2min, cost warnings catch in <25min worst case"}
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5},
+      "expectations": [
+        {"text": "has_decision_trace_schema", "passed": true, "evidence": "Structured tool call event schema with hashes, costs, durations"},
+        {"text": "has_loop_detection", "passed": true, "evidence": "7 detection rules: duplicate call, budget, cost ceiling, duration, output stagnation, error spiral, token rate anomaly"},
+        {"text": "has_cost_spike_alert", "passed": true, "evidence": "Per-task cost ceiling, per-session ceiling, hourly rate alerts"},
+        {"text": "has_circuit_breaker_config", "passed": true, "evidence": "Auto-kill with graceful vs hard kill semantics, credential revocation"},
+        {"text": "has_mttd_five_minutes", "passed": true, "evidence": "Stream processing with Kafka+Flink for real-time evaluation"}
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5},
+      "expectations": [
+        {"text": "has_metric_categories", "passed": true, "evidence": "6 categories: performance, cost, quality, tools, context health, security with 28 metrics"},
+        {"text": "has_aggregation_dimensions", "passed": true, "evidence": "By agent, model, time period, task type with 3-level drill-down"},
+        {"text": "has_dashboard_panels", "passed": true, "evidence": "Level 1 global overview, Level 2 per-agent detail, Level 3 session trace"},
+        {"text": "has_alert_rules", "passed": true, "evidence": "4 Critical, 6 Warning, 2 Info alerts with YAML definitions"},
+        {"text": "has_health_score", "passed": true, "evidence": "Composite health score formula combining multiple metrics"}
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5},
+      "expectations": [
+        {"text": "has_metric_categories", "passed": true, "evidence": "Organized into availability, latency, cost, quality categories with 25+ metrics"},
+        {"text": "has_aggregation_dimensions", "passed": true, "evidence": "By agent, with per-request drill-down capability"},
+        {"text": "has_dashboard_panels", "passed": true, "evidence": "Global overview cards, trend charts, agent card grid, latency heatmap, quality radar"},
+        {"text": "has_alert_rules", "passed": true, "evidence": "P0-P3 four-level alerts with YAML rule configurations"},
+        {"text": "has_health_score", "passed": true, "evidence": "Weighted scoring formula combining multiple dimensions"}
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0}
+    },
+    "without_skill": {
+      "pass_rate": {"mean": 0.93, "stddev": 0.12, "min": 0.8, "max": 1.0}
+    },
+    "delta": {
+      "pass_rate": "+0.07"
+    }
+  },
+  "notes": [
+    "with_skill: 100% across all 3 evals (15/15 assertions)",
+    "without_skill: 93.3% (14/15) — missed MTTD target in eval-0",
+    "The skill's explicit MTTD target guidance ensures this critical operational metric is always addressed",
+    "Qualitative: with_skill solutions include OpenTelemetry integration, context-lens patterns, and structured trace schemas from the skill's references"
+  ]
+}

@@ -1,0 +1,7 @@
+{"eval_id": 0, "eval_name": "threat-model-permissions", "prompt": "我正在构建一个能读写数据库和发送邮件的企业 Agent。安全团队要求我做威胁建模和权限设计。这个 Agent 面向内部员工使用，但需要防止 Prompt Injection 和数据泄露。", "assertions": [
+    {"text": "has_threat_model", "description": "Defines Agent-specific threat categories (not generic OWASP)"},
+    {"text": "has_permission_tiers", "description": "Defines 4-tier permission model (Autonomous/Confirm/Approve/Deny) or equivalent"},
+    {"text": "has_hitl_gates", "description": "Defines Human-in-the-Loop gate patterns for high-risk operations"},
+    {"text": "has_injection_defense", "description": "Includes specific Prompt Injection defense strategy (not just 'validate input')"},
+    {"text": "has_data_protection", "description": "Addresses data leakage prevention (PII detection, output filtering)"}
+]}

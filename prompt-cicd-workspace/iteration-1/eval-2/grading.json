@@ -1,0 +1,64 @@
+{
+  "eval_id": 2,
+  "eval_name": "cicd-pipeline-setup",
+  "with_skill": {
+    "assertions": [
+      {
+        "text": "has_github_actions",
+        "passed": true,
+        "evidence": "Section 5.3 provides a complete GitHub Actions workflow (.github/workflows/prompt-regression.yml) with lint and regression jobs, matrix strategy for prompt types, Python setup, dependency installation, and artifact upload. Section 5.4 provides a separate prompt-lint.yml workflow."
+      },
+      {
+        "text": "has_path_scoped_triggers",
+        "passed": true,
+        "evidence": "The workflow uses 'on: pull_request: paths: [prompts/**]' to trigger only on prompt file changes. The regression job includes a 'Detect changed prompt versions' step that uses 'git diff --name-only origin/main...HEAD -- prompts/${{ matrix.prompt_type }}/' and only runs tests if changes are detected."
+      },
+      {
+        "text": "has_eval_gate",
+        "passed": true,
+        "evidence": "The run_prompt_evals.py script includes compare_to_baseline() that detects regressions by comparing current scores to baseline, and exits with code 1 if any regression is found. The threshold is configurable (--threshold 0.85). The GitHub Actions workflow relies on this exit code to block merge."
+      },
+      {
+        "text": "has_staging_env",
+        "passed": true,
+        "evidence": "Section 6 describes a production quality monitor (quality_monitor.py) that runs as a scheduled job to validate prompts in the production environment. The architecture overview shows a staging validation step between PR gate and canary deploy. The deployment.json tracks active_version for staged rollouts."
+      },
+      {
+        "text": "has_rollback_mechanism",
+        "passed": true,
+        "evidence": "Section 7.3 provides a rollback_prompt.sh script that updates deployment.json to switch active_version, marks previous version as rolled back, and runs validation tests. Section 7.1 defines the rollback flow, and Section 7.3 defines an emergency hotfix protocol with minimal-change validation."
+      }
+    ],
+    "pass_rate": 1.0
+  },
+  "without_skill": {
+    "assertions": [
+      {
+        "text": "has_github_actions",
+        "passed": true,
+        "evidence": "Section 6 provides a complete GitHub Actions workflow (.github/workflows/prompt-ci.yml) with 4 stages: static-checks, evaluate, report (PR comment), and deploy jobs. Includes concurrency control, environment variables, and artifact management."
+      },
+      {
+        "text": "has_path_scoped_triggers",
+        "passed": true,
+        "evidence": "The workflow uses 'on: pull_request: paths: [prompts/**, evals/test_cases.json]' and 'push: branches: [main] paths: [prompts/**]' to trigger only on prompt-related file changes."
+      },
+      {
+        "text": "has_eval_gate",
+        "passed": true,
+        "evidence": "Section 4.3 defines hard gates (safety_no_regression, no_critical_regression) with min_score thresholds. The eval harness (Section 5.1) computes overall_pass based on all gates passing and composite >= min_composite (0.85). The compare_reports.py script uses --fail-on-regression flag to block merge on regression."
+      },
+      {
+        "text": "has_staging_env",
+        "passed": true,
+        "evidence": "The architecture shows a 'Staged Deployment' stage with canary (5% traffic), 1-hour monitoring window, and auto-promote/auto-rollback. The deploy-canary job deploys to a canary environment, monitor-canary job watches quality signals for 1 hour, and promote job rolls out to 100% if signals pass."
+      },
+      {
+        "text": "has_rollback_mechanism",
+        "passed": true,
+        "evidence": "The rollback job runs 'if: failure()' after monitor-canary, using 'aws lambda update-alias' to revert to $PRODUCTION_VERSION. Section 9.2 provides automatic rollback trigger code that checks quality_drop, error_spike, and latency_spike signals. The monitor_canary.py script exits with code 1 on failure threshold, triggering the rollback job."
+      }
+    ],
+    "pass_rate": 1.0
+  }
+}

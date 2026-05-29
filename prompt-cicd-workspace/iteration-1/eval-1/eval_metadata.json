@@ -1,0 +1,7 @@
+{"eval_id": 1, "eval_name": "ab-prompt-comparison", "prompt": "我想科学地对比两个版本的 system prompt——v1 是简单的角色定义，v2 增加了 chain-of-thought 和 few-shot examples。需要一个 A/B 测试框架，能量化哪个版本更好，包括统计显著性检验。", "assertions": [
+    {"text": "has_ab_framework", "description": "Provides a structured A/B comparison framework for prompt versions"},
+    {"text": "has_scoring_dimensions", "description": "Defines weighted scoring dimensions (quality, format, safety, performance, cost)"},
+    {"text": "has_statistical_test", "description": "Includes statistical significance test (paired comparison, confidence interval)"},
+    {"text": "has_comparison_rubric", "description": "Provides a concrete scoring rubric with criteria per dimension"},
+    {"text": "has_report_template", "description": "Includes a comparison report template"}
+]}

@@ -1,0 +1,64 @@
+{
+  "eval_id": 2,
+  "eval_name": "unified-dashboard-design",
+  "with_skill": {
+    "assertions": [
+      {
+        "text": "has_metric_categories",
+        "passed": true,
+        "evidence": "Section 4 organizes metrics into 6 explicit categories: 4.1 Performance (latency metrics: first_token, total, p50, p95, p99), 4.2 Cost (per_session, per_task, input/output tokens, cache_hit_rate), 4.3 Quality (success_rate, steps_avg, hallucination.rate, coherence.score, decision.confidence), 4.4 Tools (call_count, error_rate, retry_rate, redundant_rate, circuit_breaks), 4.5 Context Health (utilization, budget_remaining, compression_count, reference_age, drift_score), 4.6 Security (injection_attempts, permission_denials, sensitive_data_exposed, scope_violations)."
+      },
+      {
+        "text": "has_aggregation_dimensions",
+        "passed": true,
+        "evidence": "Section 3 decision trace schema notes 'Aggregation dimensions: by Agent, by Model, by Session, by User, by Time.' Section 5.1 dashboard design supports per-agent filtering (5 agent cards with side-by-side comparison), time-period selection (7-day cost trends, 7-day success rate trends), and the agent matrix table enables cross-agent comparison. Section 5.2 agent detail page provides drill-down by agent. The trace schema enables aggregation by task type via metadata fields."
+      },
+      {
+        "text": "has_dashboard_panels",
+        "passed": true,
+        "evidence": "Section 5 defines specific dashboard panels across 3 levels: Level 1 global overview has 5 core status cards (overall health, 24h total cost, task success rate, P95 latency, active alerts), agent health matrix table, 2 trend charts (cost trend line chart, success rate trend line chart), and alert summary list. Level 2 agent detail has 6 metric cards, context health panel (utilization histogram, compression trend, reference freshness), tool audit table (6 columns), and quality trend charts (confidence, hallucination, coherence). Level 3 session trace has session metadata, step-by-step decision timeline, and health score breakdown."
+      },
+      {
+        "text": "has_alert_rules",
+        "passed": true,
+        "evidence": "Section 6 defines pre-built alert rules in YAML-like format across 3 severity levels: Critical (AGENT-CRIT-001: context utilization > 0.95 for 1m, AGENT-CRIT-002: tool error rate > 0.3 for 2m, AGENT-CRIT-003: redundant_rate > 0.5 and call_count > 10, AGENT-CRIT-004: sensitive_data_exposed > 0), Warning (AGENT-WARN-001: per_session > $1.00, AGENT-WARN-002: p95 > 2x baseline for 10m, AGENT-WARN-003: utilization > 0.8 for 5m, AGENT-WARN-004: output > 50K tokens, AGENT-WARN-005: retry_rate > 0.2 for 10m, AGENT-WARN-006: drift_score > 0.3 for 5m), Info (AGENT-INFO-001: cache_hit_rate < 0.3 for 30m, AGENT-INFO-002: injection_attempts > 0). Each rule has specific conditions and response actions."
+      },
+      {
+        "text": "has_health_score",
+        "passed": true,
+        "evidence": "Section 5.3 defines a composite health score formula: health_score = 0.3 * context_utilization_score + 0.2 * reference_freshness_score + 0.2 * coherence_score + 0.15 * compression_quality_score + 0.15 * decision_confidence_score. Section 8.5 repeats the same formula with a status table: > 0.8 healthy, 0.6-0.8 sub-healthy, 0.4-0.6 warning, < 0.4 dangerous. The formula explicitly combines 5 different metrics with specific weights."
+      }
+    ],
+    "pass_rate": 1.0
+  },
+  "without_skill": {
+    "assertions": [
+      {
+        "text": "has_metric_categories",
+        "passed": true,
+        "evidence": "Section 2.2 organizes metrics into 5 explicit categories: 2.2.1 Availability & Reliability (availability rate, error rate, timeout rate, retry rate, consecutive failures), 2.2.2 Latency Performance (P50/P95/P99, TTFT, token generation rate, queue wait), 2.2.3 Cost Metrics (avg cost per request, input/output tokens, cost/quality ratio, budget consumption, wasted cost), 2.2.4 Quality Metrics (task completion, CSAT, hallucination rate, tool success rate, relevance score, format compliance, human intervention rate). Section 2.3 adds request-level tracing. This covers performance, cost, quality, and implicitly tools and security."
+      },
+      {
+        "text": "has_aggregation_dimensions",
+        "passed": true,
+        "evidence": "Section 2.2 explicitly states 'Each agent independently displays the following metrics, in card form, supporting sorting and filtering.' The agent card layout in section 3.1 shows all 5 agents side by side with sortable metrics. Section 5.2 data storage strategy stores data by agent_id with time-series granularity. The Grafana JSON in section 9 uses PromQL queries with 'sum by (agent_id)' for agent-level aggregation and 'rate(...[5m])' for time-period aggregation. Section 5.2 instrumentation schema includes agent_id, model, user_id, session_id enabling aggregation by agent, model, user, and task type."
+      },
+      {
+        "text": "has_dashboard_panels",
+        "passed": true,
+        "evidence": "Section 3.1 provides an ASCII layout with specific panels: top row has 6 stat cards (health score, today's requests, today's cost, current P95, error rate, active agents), second row has request volume trend (24h stacked by agent) and cost consumption trend (7d area chart by agent), third row has agent cards (5 cards with status, requests, P95, cost, quality, error rate), fourth row has latency distribution heatmap and quality trend radar chart, fifth row has error type pie chart and cost breakdown waterfall chart, sixth row has alert timeline. Section 3.2 defines agent detail page with latency waterfall, multi-metric trend, and request list panels."
+      },
+      {
+        "text": "has_alert_rules",
+        "passed": true,
+        "evidence": "Section 4.2 defines pre-built alert rules in YAML format: agent_down (success_rate < 50% for 2m, P0), high_error_rate (error_rate > 5% for 5m, P1), elevated_error_rate (error_rate > 2% for 10m, P2), latency_critical (p95 > sla*2 for 5m, P1), latency_warning (p95 > sla*1.5 for 10m, P2), cost_spike (avg_cost > baseline*3 for 15m, P2), budget_exhaustion (daily_budget > 90%, P2), budget_exhaustion_critical (daily_budget > 95%, P1), quality_degradation (quality < 3.5 for 1h, P2), hallucination_spike (hallucination > 5% for 30m, P1), request_volume_anomaly (volume > 3sigma for 15m, P3). Section 4.3 adds alert suppression and escalation rules."
+      },
+      {
+        "text": "has_health_score",
+        "passed": true,
+        "evidence": "Section 2.1 defines a composite health score: 'Comprehensive Health Score = weighted average: availability 30% + latency 20% + success rate 25% + quality score 25%' displayed as a 0-100 score with green/yellow/red colors. Section 6.2 quality scoring formula: Agent Quality = (format_compliance * 0.1 + tool_success * 0.2 + relevance/5 * 0.3 + factual_accuracy * 0.2 + safety_pass * 0.1 + satisfaction/5 * 0.1) * 100. Both are explicit composite formulas combining multiple metrics with defined weights."
+      }
+    ],
+    "pass_rate": 1.0
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "eval_id": 0,
+  "eval_name": "prompt-inventory-versioning",
+  "with_skill": {
+    "assertions": [
+      {
+        "text": "has_extraction_strategy",
+        "passed": true,
+        "evidence": "Section 2 provides detailed extraction strategies: grep commands for scanning Python/YAML/SQL files, a Python script (export_db_prompts.py) for exporting database prompts, code examples showing how to refactor inline Python prompts to use file references, and YAML config refactoring to reference prompt versions instead of inline text."
+      },
+      {
+        "text": "has_version_structure",
+        "passed": true,
+        "evidence": "Section 3 defines a complete directory structure with prompts/system/v1/, prompts/system/v2/, prompts/templates/, prompts/evals/, metadata.json format with version/model/criticality fields, and prompt file format规范 with YAML frontmatter headers."
+      },
+      {
+        "text": "has_regression_tests",
+        "passed": true,
+        "evidence": "Section 4 defines extensive regression test cases across 4 categories (golden_tests, format_tests, safety_tests, boundary_tests) with expected_properties (contains, not_contains, format, safety), scoring_rubric definitions, pass_threshold values, and a complete PromptEvaluator Python class with LLM-as-Judge scoring."
+      },
+      {
+        "text": "has_cicd_pipeline",
+        "passed": true,
+        "evidence": "Section 6.2 provides a complete GitHub Actions workflow (.github/workflows/prompt-regression.yml) with path-scoped triggers on 'prompts/**', jobs for lint-prompts, regression-tests (matrix strategy), ab-comparison, deploy-staging, and deploy-production with canary deployment."
+      },
+      {
+        "text": "has_rollback_procedure",
+        "passed": true,
+        "evidence": "Section 7 defines a complete rollback system: rollback flow diagram, PromptRollback Python class with symlink-based version switching, backup management, rollback history logging, and a hotfix.sh script for emergency hotfix workflow with golden test validation."
+      }
+    ],
+    "pass_rate": 1.0
+  },
+  "without_skill": {
+    "assertions": [
+      {
+        "text": "has_extraction_strategy",
+        "passed": true,
+        "evidence": "Section 1.1 provides a table of prompt locations (source code, config files, env vars, database, frontend) with extraction strategies, and Section 1.2 defines criticality classification levels (Critical/Important/Low)."
+      },
+      {
+        "text": "has_version_structure",
+        "passed": true,
+        "evidence": "Section 2 defines a complete directory structure with prompts/system/v1/, prompts/system/v2/, prompts/templates/, prompts/evals/, metadata.json format with version/model/criticality fields, and scripts/ directory."
+      },
+      {
+        "text": "has_regression_tests",
+        "passed": true,
+        "evidence": "Section 3 defines test case types (Golden, Format Compliance, Safety, Performance, Edge Cases), a test case schema with expected_properties and scoring_rubric, and test execution flow. Section 5.2 provides a complete run_prompt_evals.py script with baseline comparison."
+      },
+      {
+        "text": "has_cicd_pipeline",
+        "passed": true,
+        "evidence": "Section 5.3 provides a GitHub Actions workflow (.github/workflows/prompt-regression.yml) with path-scoped triggers on 'prompts/**', lint and regression jobs, and artifact upload. Section 5.4 provides a separate lint workflow."
+      },
+      {
+        "text": "has_rollback_procedure",
+        "passed": true,
+        "evidence": "Section 7 defines rollback flow, deployment.json config with active_version/previous_version tracking, emergency hotfix protocol, and a rollback_prompt.sh bash script that updates deployment config and runs validation."
+      }
+    ],
+    "pass_rate": 1.0
+  }
+}
