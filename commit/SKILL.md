@@ -8,6 +8,14 @@ category: source-control
 
 Analyze staged changes and generate semantic commit messages.
 
+
+## Goal
+
+Analyze staged changes and generate semantic commit messages automatically. Reads git diff --staged, analyzes code changes, generates conventional commit messages.
+
+## Trigger
+
+当用户需要使用此技能时触发。
 ## Commands
 
 | Command | Description |

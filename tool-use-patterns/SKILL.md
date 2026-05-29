@@ -2,14 +2,6 @@
 name: tool-use-patterns
 description: |
   【工具调用模式】为 AI Agent 设计健壮的工具集成方案。覆盖防御性 Schema 设计、重试/降级策略、输出解析验证、工具组合编排。
-
-  触发时机：
-  - 用户说"tool use"、"工具调用"、"function calling"、"工具集成"
-  - 构建需要调用外部工具/API 的 Agent
-  - 调试 Agent 中的工具调用失败
-  - 设计 Agent 系统的工具 Schema
-
-  不适用：API 调试（用 api-debug）、Shell 命令翻译（用 shell-command）、通用提示设计（用 prompt-engineering）。
 category: development
 ---
 
@@ -19,6 +11,23 @@ category: development
 
 > **核心洞察：** 工具误用是生产中最常见的 Agent 特定失败模式——也是最阴险的：第 2 步的一个畸形参数静默地腐化了后续每一步。
 
+
+## Goal
+
+为 AI Agent 设计健壮的工具集成方案。覆盖防御性 Schema 设计、重试/降级策略、输出解析验证、工具组合编排
+
+## Trigger
+
+- 用户说"tool use"、"工具调用"、"function calling"、"工具集成"
+  - 构建需要调用外部工具/API 的 Agent
+  - 调试 Agent 中的工具调用失败
+  - 设计 Agent 系统的工具 Schema
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 工作流程
 
 ```

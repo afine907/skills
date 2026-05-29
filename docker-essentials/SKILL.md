@@ -16,6 +16,22 @@ category: reference
 
 Docker 容器管理从入门到实战的完整指南。
 
+
+## Goal
+
+Docker 容器管理实战指南，包含容器操作、镜像构建、网络配置、数据卷管理、Docker Compose、故障排查
+
+## Trigger
+
+- 用户要求"Docker命令"、"容器管理"
+  - 需要编写 Dockerfile
+  - 容器出问题需要排查
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 核心概念
 
 | 概念 | 说明 | 类比 |

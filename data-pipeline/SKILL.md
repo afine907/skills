@@ -18,6 +18,22 @@ ETL 管道设计 + Airflow DAG + dbt 转换 + 数据验证 + 监控告警，完�
 
 不适用：实时流处理（用 Flink/Kafka Streams）；BI 报表制作；数据库运维操作（用 database-ops）。
 
+
+## Goal
+
+ETL 管道设计、Airflow/dbt 模式、数据验证、监控告警
+
+## Trigger
+
+- 用户要求"设计数据管道"、"ETL流程"
+  - 需要搭建 Airflow DAG
+  - 数据转换和验证
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 工作流程
 
 ```

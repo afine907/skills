@@ -3,18 +3,28 @@ name: changelog-generator
 category: source-control
 description: |
   Analyze git tag/commit range and generate CHANGELOG.md in Keep a Changelog format.
-  Use when:
-  - User says "生成 changelog"、"更新 CHANGELOG"、"generate changelog"
-  - Before a release, needs to document changes since last tag
-  - User provides a commit range
-
-  Do NOT use: when user needs release notes for end-users oriented toward product changes rather than technical commit history.
 ---
 
 # Changelog Generator — CHANGELOG.md 生成 Agent
 
 git 标签/提交范围 → 按语义分组的 CHANGELOG.md。
 
+
+## Goal
+
+Analyze git tag/commit range and generate CHANGELOG.md in Keep a Changelog format.
+
+## Trigger
+
+- User says "生成 changelog"、"更新 CHANGELOG"、"generate changelog"
+  - Before a release, needs to document changes since last tag
+  - User provides a commit range
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 工作流程
 
 ```

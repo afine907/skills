@@ -3,18 +3,28 @@ name: deploy-checklist
 category: operations
 description: |
   Generate pre-deployment checklist based on project type and environment. Covers database, config, monitoring, backup, and rollback.
-  Use when:
-  - User says "部署前检查"、"发版检查"、"deploy checklist"、"预发布检查"
-  - Before a production deployment
-  - User is about to cut a release
-
-  Do NOT use: when user has already deployed and needs post-incident troubleshooting and runbook guidance.
 ---
 
 # Deploy Checklist — 部署检查清单 Agent
 
 项目类型 + 变更描述 → 预发布检查清单。
 
+
+## Goal
+
+Generate pre-deployment checklist based on project type and environment. Covers database, config, monitoring, backup, and rollback.
+
+## Trigger
+
+- User says "部署前检查"、"发版检查"、"deploy checklist"、"预发布检查"
+  - Before a production deployment
+  - User is about to cut a release
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 工作流程
 
 ```

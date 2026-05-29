@@ -16,6 +16,22 @@ category: development
 
 根据业务需求设计专业级 API，输出 OpenAPI 3.0 规范。
 
+
+## Goal
+
+根据业务需求设计 RESTful/GraphQL API，输出 OpenAPI 规范文档。包含路由设计、请求/响应 Schema、错误码体系、版本策略
+
+## Trigger
+
+- 用户要求"设计API"、"定义接口"、"写API文档"
+  - 需要从数据库 Schema 推导 API 端点
+  - 需要统一团队 API 规范
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 工作流程
 
 ```

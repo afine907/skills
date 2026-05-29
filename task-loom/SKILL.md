@@ -8,6 +8,14 @@ category: development
 
 Project orchestration system for large-scale PRD projects with audit-first, state-machine driven workflow.
 
+
+## Goal
+
+Professional project orchestration engine for large-scale PRD (10,000+ lines) multi-document projects. Features risk-first audit, state-machine driven workflow, and verification-driven execution.
+
+## Trigger
+
+当用户需要使用此技能时触发。
 ## Core Commands
 
 | Command | Phase | Description |

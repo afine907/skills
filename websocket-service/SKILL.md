@@ -2,13 +2,6 @@
 name: websocket-service
 description: |
   【WebSocket服务】设计和实现 WebSocket 实时通信服务，包含连接管理、消息协议、心跳检测、断线重连、房间/频道管理。
-
-  触发时机：
-  - 用户要求"实时通信"、"WebSocket"、"推送服务"
-  - 需要实现聊天、通知、实时数据更新
-  - 需要服务器主动推送
-
-  支持 Python(FastAPI/Socket.IO) 和 Node.js(Socket.IO/WS)。
 category: development
 ---
 
@@ -16,6 +9,22 @@ category: development
 
 设计和实现可靠的 WebSocket 实时通信系统。
 
+
+## Goal
+
+设计和实现 WebSocket 实时通信服务，包含连接管理、消息协议、心跳检测、断线重连、房间/频道管理
+
+## Trigger
+
+- 用户要求"实时通信"、"WebSocket"、"推送服务"
+  - 需要实现聊天、通知、实时数据更新
+  - 需要服务器主动推送
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 技术选型
 
 | 框架 | 语言 | 特点 | 适用场景 |

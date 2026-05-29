@@ -3,8 +3,6 @@ name: k8s-cluster
 category: operations
 description: |
   Kubernetes 集群管理配置生成器。自然语言描述 → 集群配置/Helm chart/RBAC/扩缩/监控配置。
-  触发场景：用户要求"搭建 K8s 集群"、"配置 Helm chart"、"设置 RBAC"、"配置自动扩缩"、"部署 Prometheus 监控"。
-  关键词：kubeadm, helm, rbac, hpa, autoscaler, prometheus, grafana, k8s cluster。
 ---
 
 # K8s Cluster — Kubernetes 集群管理配置生成
@@ -13,6 +11,20 @@ description: |
 
 不适用：单个服务的 K8s 部署配置（用 k8s-gen）；Docker 容器配置（用 docker-essentials）。
 
+
+## Goal
+
+Kubernetes 集群管理配置生成器。自然语言描述 → 集群配置/Helm chart/RBAC/扩缩/监控配置
+
+## Trigger
+
+当用户需要使用此技能时触发。
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 工作流程
 
 ```
