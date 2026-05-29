@@ -1,6 +1,7 @@
 ---
 name: technical-article-writer
-description: 编写专业的技术文章。使用 MCP web-search 检索相关资料，生成结构化的 Markdown 格式技术文章，包含教程式实践步骤、代码示例（带语法高亮和行号）、参考资料来源。适用于技术博客、开发者文档、技术教程等内容发布场景。
+description: |
+  【技术文章】编写专业技术文章，生成结构化 Markdown 内容。触发时机：用户说"写技术文章"、"技术博客"、"开发者文档"、"技术教程"时。
 category: productivity
 ---
 
