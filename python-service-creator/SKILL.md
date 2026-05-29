@@ -18,15 +18,14 @@ description: |
 
 Python 后端服务脚手架生成器。自然语言描述 → 完整 Python 项目目录
 
+
 ## Trigger
 
-当用户需要使用此技能时触发。
+- 用户说"创建 FastAPI 服务"、"搭建 Python 后端"、"初始化 Flask 项目"
+- 用户要求生成 Python API、Python 微服务脚手架
+- 用户提到 fastapi、flask、django 等 Python 框架并需要新建项目
 
-## Workflow
 
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ```

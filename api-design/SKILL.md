@@ -27,11 +27,6 @@ category: development
   - 需要从数据库 Schema 推导 API 端点
   - 需要统一团队 API 规范
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ```

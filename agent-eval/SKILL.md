@@ -23,11 +23,6 @@ category: quality
   - 调试为什么 Agent 产生错误结果
   - 对比两个 Agent 配置或提示的效果
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ```

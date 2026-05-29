@@ -6,16 +6,10 @@ category: source-control
 
 # Commit Diff Analyzer
 
-
 ## Goal
 
-Analyzes code changes between two git commits.
+Analyze code changes between two git commits, presenting commit metadata, change summaries, and detailed diffs in a structured format for easy review.
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## Usage Pattern
 
 When user provides two commit IDs (in any order or format), analyze the changes between them:

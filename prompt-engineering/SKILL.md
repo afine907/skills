@@ -20,11 +20,6 @@ Transform task descriptions into optimized prompts for LLMs. Covers persona desi
   - User needs a prompt for a specific LLM task
   - User is creating a skill for this repo (dogfooding)
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ```

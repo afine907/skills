@@ -25,11 +25,6 @@ category: development
 - 用户要求"创建Vue项目"、"Nuxt项目"
   - 需要搭建 Vue 3 前端项目
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 1. Vue 3 vs Nuxt 3 选择指南
 
 | 场景 | 推荐框架 | 理由 |

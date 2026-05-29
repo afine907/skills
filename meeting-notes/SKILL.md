@@ -20,11 +20,6 @@ Transform meeting transcripts or notes into structured meeting minutes. Generate
   - User pastes a meeting transcript or voice-to-text output
   - User has rough notes and wants them structured
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ```

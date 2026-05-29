@@ -18,15 +18,14 @@ description: |
 
 自然语言描述 → CI 配置文件（GitHub Actions / GitLab CI）+ 逐段解释 + 安全审查
 
+
 ## Trigger
 
-当用户需要使用此技能时触发。
+- 用户说"写 CI 配置"、"配个 GitHub Actions"、"配个 GitLab CI"
+- 用户提到 ci/cd、pipeline、workflow、自动构建、自动部署
+- 用户要求配置自动发布流程、PR 检查、安全扫描
 
-## Workflow
 
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ### 三条路径

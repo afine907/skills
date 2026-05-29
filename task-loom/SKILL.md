@@ -6,16 +6,16 @@ category: development
 
 # Task-Loom - Project Orchestration Engine
 
-Project orchestration system for large-scale PRD projects with audit-first, state-machine driven workflow.
-
-
 ## Goal
 
-Professional project orchestration engine for large-scale PRD (10,000+ lines) multi-document projects. Features risk-first audit, state-machine driven workflow, and verification-driven execution.
+Orchestrate large-scale PRD projects through a risk-first audit, state-machine driven workflow that decomposes requirements into a dependency graph, executes tasks in order, and verifies completion with circuit-breaker safety mechanisms.
 
 ## Trigger
 
-当用户需要使用此技能时触发。
+- User says "/task-loom init", "/task-loom audit", "/task-loom plan", "/task-loom execute"
+- User has a large PRD (10,000+ lines) that needs structured decomposition and execution
+- User wants risk-first audit, DAG-based task orchestration, and verification-driven project execution
+
 ## Core Commands
 
 | Command | Phase | Description |

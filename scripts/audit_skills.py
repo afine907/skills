@@ -23,7 +23,7 @@ from utils import parse_frontmatter, discover_skill_dirs
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
-# Section patterns to detect existing sections
+# Section patterns to detect existing sections (English + Chinese)
 SECTION_PATTERNS = {
     "Goal": [
         r"^##\s+Goal",
@@ -33,6 +33,8 @@ SECTION_PATTERNS = {
         r"^##\s+Summary",
         r"^##\s+What\s+(it|this)\s+does",
         r"^##\s+About",
+        r"^##\s+目标",
+        r"^##\s+概览",
     ],
     "Trigger": [
         r"^##\s+Trigger",
@@ -42,6 +44,7 @@ SECTION_PATTERNS = {
         r"^##\s+Activate",
         r"^##\s+Trigger\s+[Cc]ondition",
         r"^##\s+When\s+to\s+invoke",
+        r"^##\s+触发时机",
     ],
     "Workflow": [
         r"^##\s+Workflow",
@@ -55,6 +58,14 @@ SECTION_PATTERNS = {
         r"^##\s+Tutorial",
         r"^##\s+Quick\s+[Ss]tart",
         r"^##\s+Getting\s+[Ss]tarted",
+        r"^##\s+工作流程",
+        r"^##\s+工作流",
+        r"^##\s+快速使用",
+        r"^##\s+使用方式",
+        r"^##\s+使用方法",
+        r"^##\s+使用步骤",
+        r"^##\s+执行流程",
+        r"^##\s+操作步骤",
     ],
 }
 

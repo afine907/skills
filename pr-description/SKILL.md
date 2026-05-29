@@ -16,11 +16,6 @@ git diff + branch context → 结构化 PR 描述 → 可选通过 gh CLI 创建
   - User has pushed a branch and wants a PR description
   - User provides a git diff and wants it summarized
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ```

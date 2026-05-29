@@ -27,11 +27,6 @@ category: development
   - 从 REST 迁移到 GraphQL
   - 需要优化 GraphQL 性能
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## Schema 设计原则
 
 1. **类型优先** — 先设计 Schema，再实现 Resolver

@@ -6,16 +6,18 @@ category: source-control
 
 # Commit - Git Commit Generator
 
-Analyze staged changes and generate semantic commit messages.
-
-
 ## Goal
 
-Analyze staged changes and generate semantic commit messages automatically. Reads git diff --staged, analyzes code changes, generates conventional commit messages.
+Analyze staged changes and generate conventional commit messages automatically, following semantic commit conventions with proper type, scope, and subject formatting.
+
 
 ## Trigger
 
-当用户需要使用此技能时触发。
+- User says "commit", "/commit", "generate commit message"
+- User has staged changes and wants a semantic commit message
+- User wants to follow conventional commits format
+
+
 ## Commands
 
 | Command | Description |

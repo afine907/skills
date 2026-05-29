@@ -16,15 +16,14 @@ description: |
 
 Kubernetes 集群管理配置生成器。自然语言描述 → 集群配置/Helm chart/RBAC/扩缩/监控配置
 
+
 ## Trigger
 
-当用户需要使用此技能时触发。
+- 用户说"搭建 K8s 集群"、"写 Helm chart"、"配置 RBAC"
+- 用户要求设置 HPA 自动扩缩、Prometheus 监控、告警规则
+- 用户需要集群级别的配置（非单个服务部署）
 
-## Workflow
 
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ```
