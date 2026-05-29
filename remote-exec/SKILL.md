@@ -1,7 +1,7 @@
 ---
 name: remote-exec
 description: |
-  【远程执行】通过 SSH 在远程服务器上执行 bash 命令。
+  【远程执行】通过 SSH 在远程服务器执行命令。触发时机：用户提供远程服务器 IP、用户名、密码，要求在远程机器执行操作时。
 category: operations
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: tool-use-patterns
 description: |
-  【工具调用模式】为 AI Agent 设计健壮的工具集成方案。覆盖防御性 Schema 设计、重试/降级策略、输出解析验证、工具组合编排。
+  【工具调用模式】为 AI Agent 设计健壮的工具集成方案。触发时机：用户说"tool use"、"工具调用"、"function calling"、"工具集成"时。
 category: development
 ---
 

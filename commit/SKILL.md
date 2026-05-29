@@ -1,6 +1,7 @@
 ---
 name: commit
-description: "Analyze staged changes and generate semantic commit messages automatically. Reads git diff --staged, analyzes code changes, generates conventional commit messages."
+description: |
+  Analyze staged changes and generate conventional commit messages. Trigger: user says "commit"、"/commit"、"generate commit message"、"提交代码".
 category: source-control
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: agent-eval
 description: |
-  【Agent 评估】评估 AI Agent 输出质量。覆盖幻觉检测、工具调用准确率、连贯性评分、任务完成验证。支持非确定性输出的统计评估。
+  【Agent 评估】评估 AI Agent 输出质量。触发时机：用户说"评估 agent"、"测试 agent 质量"、"agent eval"、"检查 agent 输出"时。
 category: quality
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: agent-security
 description: |
-  【Agent 安全】AI Agent 安全模式。覆盖 Prompt Injection 防御、权限分层设计、HITL 门禁、数据泄露防护和 Agent 威胁建模。
+  【Agent 安全】AI Agent 安全设计与威胁建模。触发时机：用户说"agent 安全"、"prompt injection"、"agent 权限"、"HITL"时。
 category: quality
 ---
 

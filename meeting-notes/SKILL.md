@@ -2,7 +2,7 @@
 name: meeting-notes
 category: productivity
 description: |
-  Transform meeting transcripts or notes into structured meeting minutes. Generates attendees, decisions, action items, and next steps.
+  Transform meeting transcripts into structured minutes with decisions and action items. Trigger: user says "帮我整理会议纪要"、"写会议记录"、"meeting notes".
 ---
 
 # Meeting Notes — 会议纪要生成 Agent

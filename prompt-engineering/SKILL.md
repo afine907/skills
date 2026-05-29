@@ -2,7 +2,7 @@
 name: prompt-engineering
 category: productivity
 description: |
-  Transform task descriptions into optimized prompts for LLMs. Covers persona design, chain-of-thought, output formatting, constraints, and few-shot examples.
+  Transform task descriptions into optimized LLM prompts. Trigger: user says "帮我优化 prompt"、"写 prompt"、"设计提示词"、"prompt engineering".
 ---
 
 # Prompt Engineering — 提示词工程 Agent
