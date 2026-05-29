@@ -20,9 +20,9 @@ from validate_skills import (
     check_references,
     discover_skills,
     main,
-    parse_frontmatter,
     run_checks,
 )
+from utils import parse_frontmatter
 
 FIXTURES_DIR = Path(__file__).resolve().parent / "fixtures"
 
@@ -39,25 +39,25 @@ class TestParseFrontmatter:
             ---
             # Content
         """)
-        fm = parse_frontmatter(text)
+        fm, _, _ = parse_frontmatter(text)
         assert fm["name"] == "my-skill"
         assert fm["description"] == "A test skill."
         assert fm["category"] == "productivity"
 
     def test_no_frontmatter(self):
         text = "# Just a heading\n\nSome content."
-        fm = parse_frontmatter(text)
+        fm, _, _ = parse_frontmatter(text)
         assert fm == {}
 
     def test_unclosed_frontmatter(self):
         # Use a string that has opening --- but no closing ---
         text = "---\nname: broken\nsome content without closing marker"
-        fm = parse_frontmatter(text)
+        fm, _, _ = parse_frontmatter(text)
         assert fm == {}
 
     def test_empty_frontmatter(self):
         text = "---\n---\n# Content"
-        fm = parse_frontmatter(text)
+        fm, _, _ = parse_frontmatter(text)
         assert fm == {}
 
     def test_multiline_value(self):
@@ -71,7 +71,7 @@ class TestParseFrontmatter:
             category: development
             ---
         """)
-        fm = parse_frontmatter(text)
+        fm, _, _ = parse_frontmatter(text)
         assert fm["name"] == "ml-skill"
         assert "multiple lines" in fm["description"]
         assert fm["category"] == "development"
@@ -84,14 +84,14 @@ class TestParseFrontmatter:
             category: "double quoted"
             ---
         """)
-        fm = parse_frontmatter(text)
+        fm, _, _ = parse_frontmatter(text)
         assert fm["description"] == "Single quoted"
         assert fm["category"] == "double quoted"
 
     def test_frontmatter_with_trailing_whitespace(self):
         # The parser handles trailing whitespace on key lines
         text = "---\nname: spaced  \ncategory: quality  \n---\n"
-        fm = parse_frontmatter(text)
+        fm, _, _ = parse_frontmatter(text)
         assert fm["name"] == "spaced"
         assert fm["category"] == "quality"
 
