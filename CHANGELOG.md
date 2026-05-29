@@ -20,14 +20,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Preserved key triggering information
 - Improved skill triggering accuracy
 
-**Reference Files:**
+**Reference Files (7 new):**
 - Added writing-guide.md for technical-article-writer
-- Created audit_skills.py for systematic quality checks
-- Created fix_descriptions.py for description optimization
+- Added conventional-commits.md for commit
+- Added review-checklist.md for code-review
+- Added deploy-checklist-template.md for deploy-checklist
+- Added incident-playbook.md for incident-response
+- Added meeting-template.md for meeting-notes
+- Added security-checklist.md for security-scan
 
 **Infrastructure:**
+- Created audit_skills.py for systematic quality checks
+- Created fix_descriptions.py for description optimization
 - symlink-maker: Added missing __init__.py for scripts
-- 6 skills: Created references/ directories (code-review, commit, deploy-checklist, incident-response, meeting-notes, security-scan)
+- 6 skills: Created references/ directories
 
 ### Statistics
 - **Total Skills**: 67
