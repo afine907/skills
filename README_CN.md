@@ -113,7 +113,7 @@ npx skills add https://github.com/afine907/skills --skill wo-yao-yan-pai
 
 ---
 
-# 🗂️ 技能牌组一览 (61个技能)
+# 🗂️ 技能牌组一览 (67个技能)
 
 按软件工程生命周期分类展示。
 
@@ -124,7 +124,7 @@ npx skills add https://github.com/afine907/skills --skill wo-yao-yan-pai
 | 📐 **tech-spec** | 需求 → 技术方案设计（架构、API、数据模型） | 技术负责人、架构师 |
 | 📖 **user-story** | 需求 → 用户故事 + 验收标准 + 故事点估算 | 产品经理、Scrum Master |
 
-### 🏗️ 开发阶段 (19个)
+### 🏗️ 开发阶段 (25个)
 | 技能 | 一句话 | 适合谁 |
 |------|--------|--------|
 | 🧵 **task-loom** | 万字 PRD 秒变代码 | 项目启动、大需求拆解 |
@@ -141,6 +141,11 @@ npx skills add https://github.com/afine907/skills --skill wo-yao-yan-pai
 | 🔄 **microservice-patterns** | 微服务模式（Saga/服务发现/熔断降级） | 分布式系统 |
 | 📦 **monorepo-manager** | Monorepo 管理（Turborepo/pnpm workspace） | 多包项目 |
 | 🛠️ **cli-tool-creator** | CLI 工具开发（Python Typer/Node Commander） | 命令行工具 |
+| 📐 **typescript-service-creator** | TypeScript 后端脚手架（Express/Hono/Fastify） | TS 后端项目 |
+| 🍃 **vue-service-creator** | Vue 3/Nuxt 3 前端脚手架 | Vue 前端项目 |
+| 📱 **mobile-service-creator** | React Native/Flutter 移动端脚手架 | 移动应用开发 |
+| 🔄 **data-pipeline** | ETL 管道设计（Airflow/dbt） | 数据工程 |
+| 🔄 **code-migration** | 框架迁移方案（Python2→3/JS→TS） | 代码迁移 |
 | 🎭 **api-mocking** | API Mock 服务（前后端并行开发） | 前端独立开发 |
 | 🌱 **database-seeding** | 数据库种子数据生成（Faker/Factory） | 开发测试环境 |
 | 💾 **database-ops** | 数据库设计与运维（Schema/索引/迁移） | 数据库相关 |
@@ -170,7 +175,7 @@ npx skills add https://github.com/afine907/skills --skill wo-yao-yan-pai
 | 🌿 **git-branch** | Git 分支策略（Git Flow/Trunk-Based） | 团队 Git 规范 |
 | 🔀 **git-workflow** | 一键 Git 工作流（branch→stage→commit→push→PR） | 日常 Git 操作 |
 
-### 🖥️ 运维阶段 (9个)
+### 🖥️ 运维阶段 (10个)
 | 技能 | 一句话 | 适合谁 |
 |------|--------|--------|
 | ⚙️ **ci-workflow** | 描述 → CI 配置文件（GitHub Actions/GitLab CI） | CI/CD 配置 |
@@ -183,6 +188,7 @@ npx skills add https://github.com/afine907/skills --skill wo-yao-yan-pai
 | ☸️ **k8s-cluster** | Kubernetes 集群管理配置 | K8s 运维 |
 | 📦 **k8s-gen** | K8s 部署配置生成 | K8s 部署 |
 | 📈 **llm-observability** | AI Agent 可观测性（决策追踪/成本监控） | Agent 运维 |
+| 💰 **cost-optimization** | 云成本优化 + AI Token 成本追踪 | 成本管控 |
 
 ### ✍️ 效率工具 (9个)
 | 技能 | 一句话 | 适合谁 |
