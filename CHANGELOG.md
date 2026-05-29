@@ -37,10 +37,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Updated tests for shared utils refactoring
 - All 704 tests passing
 
+**Reference Files (4 new):**
+- commit-diff-analyzer: diff format examples and selection guide
+- git-workflow: branch strategies (Git Flow, Trunk-Based, GitHub Flow)
+- pr-description: PR description templates for different scenarios
+- prompt-engineering: 8 prompt patterns with selection guide
+
 ### Statistics
 - **Total Skills**: 67
 - **Validation**: 67 pass, 0 fail, 0 warnings
 - **Tests**: 704 passing
+- **Reference Files**: 90+ templates, guides, and cheat sheets
 - **Code Review**: 赌侠 (74/100)
 
 ---
