@@ -2,14 +2,6 @@
 name: prompt-cicd
 description: |
   【Prompt CI/CD】将 Prompt 作为代码管理：版本控制、回归测试、A/B 对比、部署流水线。解决"Prompt 即架构"风险。
-
-  触发时机：
-  - 用户说"prompt 版本管理"、"prompt 测试"、"prompt CI/CD"、"prompt 回归"
-  - Prompt 是关键业务逻辑，需要变更管理
-  - 团队需要协作开发 Prompt
-  - Prompt 变更需要测试后才能部署
-
-  不适用：编写单个 Prompt（用 prompt-engineering）、Agent 评估（用 agent-eval）、通用 CI/CD 配置（用 ci-workflow）。
 category: development
 ---
 
@@ -19,6 +11,23 @@ category: development
 
 > **核心洞察：** 没有自动测试套件能捕获过时的 Prompt。没有编译器告诉你业务逻辑不一致。当系统变化时，Prompt 必须由理解模型推理模式和系统新行为的人手动更新。这是最脆弱的架构模式。
 
+
+## Goal
+
+将 Prompt 作为代码管理：版本控制、回归测试、A/B 对比、部署流水线。解决"Prompt 即架构"风险
+
+## Trigger
+
+- 用户说"prompt 版本管理"、"prompt 测试"、"prompt CI/CD"、"prompt 回归"
+  - Prompt 是关键业务逻辑，需要变更管理
+  - 团队需要协作开发 Prompt
+  - Prompt 变更需要测试后才能部署
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 工作流程
 
 ```

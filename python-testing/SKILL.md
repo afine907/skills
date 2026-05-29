@@ -17,6 +17,23 @@ category: reference
 
 从单元测试到集成测试的完整 Python 测试方法论。
 
+
+## Goal
+
+Python 测试完整指南：pytest、mock/patch、参数化、fixtures、异步测试、覆盖率
+
+## Trigger
+
+- 用户要求"写测试"、"Python测试"、"pytest"
+  - 需要 mock/patch 外部依赖
+  - 需要参数化测试或 fixtures
+  - 需要测试覆盖率报告
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 测试策略
 
 ### 测试金字塔

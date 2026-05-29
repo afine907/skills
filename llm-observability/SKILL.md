@@ -2,14 +2,6 @@
 name: llm-observability
 description: |
   【LLM 可观测性】为 AI Agent 系统设计可观测性方案。覆盖决策追踪、上下文健康监控、工具调用审计、成本追踪和异常告警。
-
-  触发时机：
-  - 用户说"agent 监控"、"LLM 可观测性"、"agent tracing"、"agent 日志"
-  - 为 Agent 系统构建监控
-  - 调试为什么 Agent 在长对话中退化
-  - 需要了解生产环境中 Agent 的决策质量
-
-  不适用：传统服务器日志分析（用 log-analyzer）、非 Agent 代码性能分析（用 performance-profiling）、CI/CD 监控（用 ci-workflow）。
 category: operations
 ---
 
@@ -19,6 +11,23 @@ category: operations
 
 > **核心洞察：** 系统可以是基础设施健康的，同时完全错误。Agent 可以在幻觉的同时返回 200，在保持延迟阈值内的同时运行循环。传统监控不够。
 
+
+## Goal
+
+为 AI Agent 系统设计可观测性方案。覆盖决策追踪、上下文健康监控、工具调用审计、成本追踪和异常告警
+
+## Trigger
+
+- 用户说"agent 监控"、"LLM 可观测性"、"agent tracing"、"agent 日志"
+  - 为 Agent 系统构建监控
+  - 调试为什么 Agent 在长对话中退化
+  - 需要了解生产环境中 Agent 的决策质量
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 工作流程
 
 ```

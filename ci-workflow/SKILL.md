@@ -13,6 +13,20 @@ description: |
 
 不适用：Jenkins、CircleCI、Azure DevOps 等非 GitHub/GitLab 平台（不在当前覆盖范围）；本地构建部署（用 shell-command）；Dockerfile 编写（用 docker-essentials）；监控告警配置（用 log-analyzer）。
 
+
+## Goal
+
+自然语言描述 → CI 配置文件（GitHub Actions / GitLab CI）+ 逐段解释 + 安全审查
+
+## Trigger
+
+当用户需要使用此技能时触发。
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 工作流程
 
 ### 三条路径

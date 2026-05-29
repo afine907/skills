@@ -16,6 +16,22 @@ category: source-control
 
 提供智能分支管理策略、冲突解决和工作流选择。
 
+
+## Goal
+
+智能分支管理策略，包含分支创建、合并、冲突解决、分支保护规则、Git Flow / Trunk-Based 工作流选择
+
+## Trigger
+
+- 用户要求"创建分支"、"合并分支"、"解决冲突"
+  - 需要选择合适的分支策略
+  - 团队需要统一 Git 工作流
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 分支策略选择
 
 ### Git Flow vs Trunk-Based

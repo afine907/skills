@@ -1,9 +1,9 @@
 ---
 name: git-workflow
-description: >
-  一键完成 Git 工作流：分支创建/切换 → 暂存文件 → 生成 commit → 推送 → 创建 PR。
-  当用户说"帮我提 PR"、"提交代码"、"推一下"、"创建分支然后提交"、"git flow" 时触发。
-  智能判断当前 git 状态，自动执行需要的步骤。复用 /commit 和 /pr-description 技能。
+description: |
+  【Git工作流】一键完成 Git 工作流：分支→暂存→commit→push→PR。
+  触发时机：用户说"帮我提PR"、"提交代码"、"git flow"。
+  智能判断 git 状态，自动执行需要的步骤。
 category: source-control
 ---
 
@@ -11,6 +11,16 @@ category: source-control
 
 自动化 Git 工作流：分支 → 暂存 → commit → push → PR。
 
+
+## Trigger
+
+当用户需要使用此技能时触发。
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 触发时机
 
 用户说出以下任一关键词时触发：

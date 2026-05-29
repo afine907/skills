@@ -3,8 +3,6 @@ name: database-ops
 category: development
 description: |
   数据库设计与运维全流程技能。自然语言描述 → 数据库选型 + 表结构设计 + 索引策略 + 迁移脚本 + 性能调优。
-  触发场景：用户要求"设计数据库"、"建表"、"优化慢查询"、"数据库选型"、"写 DDL"、"schema design"、"加索引"、"数据库迁移"。
-  关键词：database, schema, DDL, index, migration, MySQL, PostgreSQL, Redis, MongoDB, ClickHouse, Elasticsearch, 慢查询, 索引优化, 分库分表。
 ---
 
 # Database Ops — 数据库设计与运维全流程
@@ -13,6 +11,20 @@ description: |
 
 不适用：已有数据库的运维操作（直连数据库执行）；纯 ORM 模型定义（非数据库设计）；数据备份恢复脚本。
 
+
+## Goal
+
+数据库设计与运维全流程技能。自然语言描述 → 数据库选型 + 表结构设计 + 索引策略 + 迁移脚本 + 性能调优
+
+## Trigger
+
+当用户需要使用此技能时触发。
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 工作流程
 
 ```

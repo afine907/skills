@@ -16,6 +16,22 @@ category: development
 
 生成标准化 React 项目，内置最佳实践和统一规范。
 
+
+## Goal
+
+生成 React 项目脚手架，支持 Next.js/Vite/CRA，包含路由、状态管理、API层、组件规范、测试配置
+
+## Trigger
+
+- 用户要求"创建React项目"、"React脚手架"
+  - 新建前端项目需要标准化模板
+  - 需要统一团队 React 项目结构
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 技术栈选择
 
 | 框架 | 构建工具 | 状态管理 | 样式方案 | 测试 |

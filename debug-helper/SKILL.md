@@ -3,19 +3,26 @@ name: debug-helper
 category: productivity
 description: |
   结构化调试分析。固定 5 步分析框架：定位 → 上下文 → 假设 → 验证 → 修复。
-  适用场景：
-  - 用户贴错误信息 / 堆栈 / traceback
-  - 用户要求"帮我看下这个报错"、"debug 一下"、"为什么会报错"
-  - remote-exec 执行后返回了错误输出
-  - CI/CD 失败日志分析
-
-  不适用：需求讨论、代码审查、性能优化（分别用 requirements-analyzer、wo-yao-yan-pai、performance-profiling）。
 ---
 
 # Debug Helper — 结构化调试 Agent
 
 报错 + 代码 → 结构化分析 → 根因 + 修复方案。
 
+
+## Goal
+
+结构化调试分析。固定 5 步分析框架：定位 → 上下文 → 假设 → 验证 → 修复
+
+## Trigger
+
+当用户需要使用此技能时触发。
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 工作流程
 
 ```

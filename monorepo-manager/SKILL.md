@@ -16,6 +16,22 @@ category: development
 
 设计和管理 Monorepo 项目，实现代码共享和高效构建。
 
+
+## Goal
+
+设计和管理 Monorepo 项目结构，包含工作空间配置、依赖管理、构建优化、版本管理
+
+## Trigger
+
+- 用户要求"Monorepo"、"多包管理"、"workspace配置"
+  - 需要将多个项目合并到一个仓库
+  - 需要优化 Monorepo 构建性能
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 工具选型
 
 | 工具 | 特点 | 适用场景 |

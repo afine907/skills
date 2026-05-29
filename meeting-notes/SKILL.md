@@ -3,18 +3,28 @@ name: meeting-notes
 category: productivity
 description: |
   Transform meeting transcripts or notes into structured meeting minutes. Generates attendees, decisions, action items, and next steps.
-  Use when:
-  - User says "帮我整理会议纪要"、"写会议记录"、"meeting notes"
-  - User pastes a meeting transcript or voice-to-text output
-  - User has rough notes and wants them structured
-
-  Do NOT use: when user needs a full article or document (use technical-article-writer).
 ---
 
 # Meeting Notes — 会议纪要生成 Agent
 
 会议文字/录音稿 → 结构化会议纪要。
 
+
+## Goal
+
+Transform meeting transcripts or notes into structured meeting minutes. Generates attendees, decisions, action items, and next steps.
+
+## Trigger
+
+- User says "帮我整理会议纪要"、"写会议记录"、"meeting notes"
+  - User pastes a meeting transcript or voice-to-text output
+  - User has rough notes and wants them structured
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 工作流程
 
 ```

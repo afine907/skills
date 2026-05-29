@@ -13,6 +13,21 @@ category: development
 
 # Mobile Service Creator
 
+
+## Goal
+
+快速创建 React Native / Flutter 移动应用项目
+
+## Trigger
+
+- 用户要求"创建移动应用"、"React Native项目"、"Flutter项目"
+  - 需要搭建移动端项目结构
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## 目标
 
 快速搭建高质量的移动应用项目脚手架，支持 React Native 和 Flutter 两大主流框架。提供完整的项目结构、导航配置、状态管理、API 集成和测试设置。
