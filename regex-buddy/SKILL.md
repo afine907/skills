@@ -2,7 +2,7 @@
 name: regex-buddy
 category: productivity
 description: |
-  自然语言描述 → 正则表达式 + 逐段解释 + 测试用例。一次输出，无需多轮迭代。
+  【正则表达式】自然语言描述生成正则 + 逐段解释 + 测试用例。触发时机：用户说"写个正则"、"正则匹配"、"regex"、"解释正则"时。
 ---
 
 # Regex Buddy — 正则表达式 Agent

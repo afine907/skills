@@ -2,7 +2,7 @@
 name: changelog-generator
 category: source-control
 description: |
-  Analyze git tag/commit range and generate CHANGELOG.md in Keep a Changelog format.
+  Analyze git tag/commit range and generate CHANGELOG.md. Trigger: user says "生成 changelog"、"更新 CHANGELOG"、"generate changelog" before a release.
 ---
 
 # Changelog Generator — CHANGELOG.md 生成 Agent

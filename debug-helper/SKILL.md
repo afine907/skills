@@ -2,7 +2,7 @@
 name: debug-helper
 category: productivity
 description: |
-  结构化调试分析。固定 5 步分析框架：定位 → 上下文 → 假设 → 验证 → 修复。
+  【调试助手】结构化调试分析，5 步框架：定位→上下文→假设→验证→修复。触发时机：用户贴出报错信息、traceback、说"报错了"、"调试一下"时。
 ---
 
 # Debug Helper — 结构化调试 Agent

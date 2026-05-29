@@ -2,7 +2,7 @@
 name: deploy-checklist
 category: operations
 description: |
-  Generate pre-deployment checklist based on project type and environment. Covers database, config, monitoring, backup, and rollback.
+  Generate pre-deployment checklist based on project type. Trigger: user says "部署前检查"、"发版检查"、"deploy checklist"、"预发布检查" before release.
 ---
 
 # Deploy Checklist — 部署检查清单 Agent

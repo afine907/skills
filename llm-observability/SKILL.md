@@ -1,7 +1,7 @@
 ---
 name: llm-observability
 description: |
-  【LLM 可观测性】为 AI Agent 系统设计可观测性方案。覆盖决策追踪、上下文健康监控、工具调用审计、成本追踪和异常告警。
+  【LLM 可观测性】为 AI Agent 系统设计可观测性方案。触发时机：用户说"agent 监控"、"LLM 可观测性"、"agent tracing"、"agent 日志"时。
 category: operations
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: prompt-cicd
 description: |
-  【Prompt CI/CD】将 Prompt 作为代码管理：版本控制、回归测试、A/B 对比、部署流水线。解决"Prompt 即架构"风险。
+  【Prompt CI/CD】Prompt 即代码：版本控制、回归测试、A/B 对比、部署流水线。触发时机：用户说"prompt 版本管理"、"prompt 测试"、"prompt CI/CD"时。
 category: development
 ---
 

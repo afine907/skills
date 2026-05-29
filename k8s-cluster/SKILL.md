@@ -2,7 +2,7 @@
 name: k8s-cluster
 category: operations
 description: |
-  Kubernetes 集群管理配置生成器。自然语言描述 → 集群配置/Helm chart/RBAC/扩缩/监控配置。
+  【K8s 集群】Kubernetes 集群管理配置生成。触发时机：用户说"搭建 K8s 集群"、"写 Helm chart"、"配置 RBAC"、"HPA 扩缩"时。
 ---
 
 # K8s Cluster — Kubernetes 集群管理配置生成

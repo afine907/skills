@@ -1,6 +1,7 @@
 ---
 name: task-loom
-description: "Professional project orchestration engine for large-scale PRD (10,000+ lines) multi-document projects. Features risk-first audit, state-machine driven workflow, and verification-driven execution."
+description: |
+  Large-scale PRD project orchestration engine with risk-first audit and DAG task execution. Trigger: user says "/task-loom init"、"大型项目编排"、"PRD 分解".
 category: development
 ---
 

@@ -2,7 +2,7 @@
 name: pr-description
 category: source-control
 description: |
-  Analyze git diff and generate structured PR description. Integrates with GitHub CLI for PR creation.
+  Analyze git diff and generate structured PR description. Trigger: user says "帮我写 PR 描述"、"提 PR"、"create PR"、"写 pull request".
 ---
 
 # PR Description — Pull Request 描述生成 Agent
