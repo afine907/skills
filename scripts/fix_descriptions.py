@@ -11,57 +11,10 @@ import re
 import sys
 from pathlib import Path
 
+from utils import parse_frontmatter, discover_skill_dirs
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 MAX_DESC_LENGTH = 200
-
-
-def parse_frontmatter(text: str) -> tuple[dict, str, str]:
-    """Parse frontmatter and return (fields, frontmatter_text, body)."""
-    if not text.startswith("---"):
-        return {}, "", text
-
-    end = text.find("---", 3)
-    if end == -1:
-        return {}, "", text
-
-    fm_text = text[3:end].strip()
-    body = text[end + 3:].lstrip("\n")
-
-    result = {}
-    current_key = None
-    current_value_lines = None
-    in_multiline = False
-
-    for line in fm_text.split("\n"):
-        stripped = line.rstrip()
-
-        if in_multiline:
-            if stripped == "" or stripped.startswith(" ") or stripped.startswith("\t"):
-                current_value_lines.append(stripped)
-                continue
-            else:
-                result[current_key] = "\n".join(current_value_lines).strip()
-                current_key = None
-                current_value_lines = None
-                in_multiline = False
-
-        match = re.match(r"^(\w[\w-]*)\s*:\s*(.*)", line)
-        if match:
-            key = match.group(1)
-            value = match.group(2).strip()
-            if value == "|":
-                in_multiline = True
-                current_key = key
-                current_value_lines = []
-            else:
-                if len(value) >= 2 and value[0] == value[-1] and value[0] in ('"', "'"):
-                    value = value[1:-1]
-                result[key] = value
-
-    if in_multiline and current_key and current_value_lines:
-        result[current_key] = "\n".join(current_value_lines).strip()
-
-    return result, fm_text, body
 
 
 def shorten_description(desc: str) -> str:
@@ -117,18 +70,15 @@ def fix_skill_description(skill_dir: Path) -> bool:
     # Shorten the description
     new_desc = shorten_description(desc)
 
-    # Rebuild the frontmatter
-    new_fm_text = fm_text.replace(
-        f"description: |",
-        f"description: |"
-    )
+    # Use string slicing to replace only within frontmatter, avoiding body matches
+    fm_start = text.find("---\n")
+    fm_end = text.find("---\n", fm_start + 4)
+    if fm_start == -1 or fm_end == -1:
+        return False
 
-    # Replace the old description with the new one
-    # Handle multiline description
-    old_desc_block = desc
-    new_desc_block = new_desc
-
-    new_text = text.replace(old_desc_block, new_desc_block)
+    old_fm = text[fm_start:fm_end + 4]
+    new_fm = old_fm.replace(desc, new_desc, 1)
+    new_text = text[:fm_start] + new_fm + text[fm_end + 4:]
 
     if new_text != text:
         skill_md.write_text(new_text, encoding="utf-8")
@@ -142,16 +92,7 @@ def main():
     """Fix all skills with long descriptions."""
     fixed_count = 0
 
-    for skill_dir in sorted(REPO_ROOT.iterdir()):
-        if not skill_dir.is_dir():
-            continue
-        if skill_dir.name in {"scripts", "tests", ".github", ".claude", "wiki"}:
-            continue
-        if skill_dir.name.endswith("-workspace"):
-            continue
-        if not (skill_dir / "SKILL.md").exists():
-            continue
-
+    for skill_dir in discover_skill_dirs(REPO_ROOT):
         if fix_skill_description(skill_dir):
             fixed_count += 1
 
