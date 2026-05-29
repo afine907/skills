@@ -9,6 +9,9 @@ description: |
 
 git diff + branch context → 结构化 PR 描述 → 可选通过 gh CLI 创建 PR。
 
+## Goal
+
+分析 git diff 和分支上下文，自动生成结构化的 Pull Request 描述。
 
 ## Trigger
 

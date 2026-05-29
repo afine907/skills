@@ -11,6 +11,11 @@ category: source-control
 
 Analyze code changes between two git commits, presenting commit metadata, change summaries, and detailed diffs in a structured format for easy review.
 
+## Trigger
+
+- User says "对比 commit"、"compare commits"、"查看两个提交的差异"
+- User provides two commit IDs and wants to see what changed
+
 ## Usage Pattern
 
 When user provides two commit IDs (in any order or format), analyze the changes between them:

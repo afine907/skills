@@ -11,7 +11,9 @@ category: source-control
 
 自动化 Git 工作流：分支 → 暂存 → commit → push → PR。
 
+## Goal
 
+一键完成 Git 工作流：智能判断状态 → 创建分支 → 暂存 → commit → push → PR。
 
 ## Trigger
 
