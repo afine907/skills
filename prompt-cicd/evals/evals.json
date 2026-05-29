@@ -1,0 +1,23 @@
+{
+  "skill_name": "prompt-cicd",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我们的客服 Agent 的 system prompt 散落在代码各处——有的在 Python 文件的字符串常量里，有的在 YAML 配置里，有的甚至在数据库里。每次修改 prompt 都担心会退化，但没有测试。帮我建立 Prompt 版本管理和回归测试体系。",
+      "expected_output": "应包含：Prompt 盘点与提取策略、版本控制目录结构、回归测试用例格式、CI/CD 流水线配置",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "我想科学地对比两个版本的 system prompt——v1 是简单的角色定义，v2 增加了 chain-of-thought 和 few-shot examples。需要一个 A/B 测试框架，能量化哪个版本更好，包括统计显著性检验。",
+      "expected_output": "应包含：A/B 对比框架、评分维度（质量/格式/安全/性能/成本）、统计显著性检验方法、对比报告模板",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "我们每次修改 prompt 都是直接改代码然后部署，没有测试环节。上周有人改了一行 prompt 导致回答质量断崖式下降，但过了 3 天才被发现。需要搭建一个 prompt 的 CI/CD 流水线，确保每次修改都经过测试。",
+      "expected_output": "应包含：GitHub Actions CI 配置（path-scoped triggers）、回归测试门禁、灰度发布策略、回滚流程、Pre-commit hook",
+      "files": []
+    }
+  ]
+}

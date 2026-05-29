@@ -1,0 +1,26 @@
+{
+  "eval_id": 0,
+  "eval_name": "github-api-defensive-tooling",
+  "with_skill": {
+    "assertions": [
+      {"text": "has_json_schema", "passed": true, "evidence": "JSON Schema with enum, pattern, additionalProperties: false"},
+      {"text": "has_retry_strategy", "passed": true, "evidence": "Exponential backoff + error classification (422 vs 5xx vs 429)"},
+      {"text": "has_circuit_breaker", "passed": true, "evidence": "Circuit breaker: 3 failures → open for 30s, code-level not prompt-level"},
+      {"text": "has_error_handling", "passed": true, "evidence": "Structured returns {success, error, error_type, retryable, suggestion}"},
+      {"text": "has_parameter_validation", "passed": true, "evidence": "Pydantic models for pre-validation + static route mapping"},
+      {"text": "has_code_examples", "passed": true, "evidence": "Complete runnable Python with test suite"}
+    ],
+    "pass_rate": 1.0
+  },
+  "without_skill": {
+    "assertions": [
+      {"text": "has_json_schema", "passed": true, "evidence": "ToolSpec dataclass with JSON Schema-like definitions"},
+      {"text": "has_retry_strategy", "passed": true, "evidence": "Retry for 422 errors (2 retries)"},
+      {"text": "has_circuit_breaker", "passed": false, "evidence": "No explicit circuit breaker pattern"},
+      {"text": "has_error_handling", "passed": true, "evidence": "Returns error body with guidance to LLM"},
+      {"text": "has_parameter_validation", "passed": true, "evidence": "ToolCallValidator for pre-call validation"},
+      {"text": "has_code_examples", "passed": true, "evidence": "Complete runnable Python code"}
+    ],
+    "pass_rate": 0.83
+  }
+}

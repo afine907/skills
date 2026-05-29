@@ -1,0 +1,64 @@
+{
+  "eval_id": 2,
+  "eval_name": "tool-accuracy-eval",
+  "with_skill": {
+    "assertions": [
+      {
+        "text": "has_tool_selection_eval",
+        "passed": true,
+        "evidence": "Section 3.1 defines tool selection as 30% sub-dimension. TC-006 (should search but uses database), TC-007 (should use database but searches), TC-008 (should not use any tool) directly test tool selection. Scoring function _score_tool_selection checks expected vs actual tool sets."
+      },
+      {
+        "text": "has_param_accuracy_eval",
+        "passed": true,
+        "evidence": "Section 3.1 defines parameter correctness as 30% sub-dimension. TC-009 (type error: number as string), TC-010 (missing required param: no recipient), TC-011 (invalid value: bad email format), TC-012 (invalid table name) test parameter accuracy. Scoring function _score_params validates parameters."
+      },
+      {
+        "text": "has_error_handling_eval",
+        "passed": true,
+        "evidence": "Section 3.1 defines error handling as 25% sub-dimension. TC-013 through TC-017 specifically test that the agent does NOT silently ignore tool errors. Each test has explicit negative_checks like 'cannot say results were found and fabricate content'. Scoring function _score_error_handling checks for silent ignoring."
+      },
+      {
+        "text": "has_failure_injection",
+        "passed": true,
+        "evidence": "TC-013 to TC-017 use 'simulated_failure' in context to inject faults: TIMEOUT, QUERY_TIMEOUT, SEND_FAILED, PERMISSION_DENIED, RATE_LIMIT. Each specifies the tool, error code, and error message. The ToolCallEvaluator._run_single method reads simulated_failure from context."
+      },
+      {
+        "text": "has_tool_call_logging",
+        "passed": true,
+        "evidence": "Section 5.3 defines a structured JSON logging format with run_id, timestamp, input, tool_calls (sequence, tool, params, response, error, latency_ms), agent_output, total_latency_ms, and total_tokens. The ToolCall dataclass and EvalResult dataclass implement this logging."
+      }
+    ],
+    "pass_rate": 1.0
+  },
+  "without_skill": {
+    "assertions": [
+      {
+        "text": "has_tool_selection_eval",
+        "passed": true,
+        "evidence": "Section 2.1 defines 'Tool Selection Accuracy' as a metric with formula (correct selections / total requests). Provides evaluate_tool_selection function that compares actual_tools vs expected_tools, checks for missing/extra tools, and validates call order for multi-tool scenarios."
+      },
+      {
+        "text": "has_param_accuracy_eval",
+        "passed": true,
+        "evidence": "Section 2.2 defines 'Parameter Correctness' metric with sub-metrics: required field coverage, type correctness, value reasonableness, missing/extra parameter errors. The evaluate_parameters function checks required fields, forbidden fields, and unknown parameters against a schema."
+      },
+      {
+        "text": "has_error_handling_eval",
+        "passed": true,
+        "evidence": "Section 2.3 defines 'Error Awareness Rate' metric with sub-metrics: error detection rate, error classification accuracy, retry reasonability, fallback execution rate. The evaluate_error_handling function checks if the agent detected errors, handled them well, and did not hallucinate results."
+      },
+      {
+        "text": "has_failure_injection",
+        "passed": true,
+        "evidence": "Section 3.1.D 'Error Injection Tests' defines 5 fault injection scenarios: search timeout, database empty result, email 550 error, database 500 error, search partial results with warning. Each specifies the simulated failure and expected agent behavior."
+      },
+      {
+        "text": "has_tool_call_logging",
+        "passed": true,
+        "evidence": "The ToolCallRecord dataclass defines structured logging with tool_name, parameters, response, and error fields. The run_evaluation function and _aggregate_results function collect and process these records for evaluation."
+      }
+    ],
+    "pass_rate": 1.0
+  }
+}

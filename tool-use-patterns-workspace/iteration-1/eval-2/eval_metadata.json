@@ -1,0 +1,6 @@
+{
+  "eval_id": 2,
+  "eval_name": "saga-rollback-pattern",
+  "prompt": "我有一个 Agent 需要依次调用 3 个工具：先从数据库查用户信息，再调用支付 API 创建订单，最后发邮件通知。任何一步失败都需要回滚前面的步骤。帮我设计这个多工具编排方案。",
+  "assertions": []
+}
