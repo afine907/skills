@@ -15,13 +15,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 from validate_skills import (
     ALLOWED_CATEGORIES,
     ERROR,
-    SKIP_DIRS,
     WARNING,
     check_body_content,
     check_frontmatter,
     check_references,
-    parse_frontmatter,
 )
+from utils import SKIP_DIRS, parse_frontmatter
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -68,19 +67,19 @@ class TestSkillFrontmatter:
     def test_has_frontmatter(self, skill_dir):
         """SKILL.md must have YAML frontmatter."""
         text = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
-        fm = parse_frontmatter(text)
+        fm, _, _ = parse_frontmatter(text)
         assert fm, f"{skill_dir.name}/SKILL.md has no valid frontmatter"
 
     def test_has_name_field(self, skill_dir):
         """Frontmatter must include a 'name' field."""
         text = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
-        fm = parse_frontmatter(text)
+        fm, _, _ = parse_frontmatter(text)
         assert "name" in fm, f"{skill_dir.name}/SKILL.md is missing 'name' in frontmatter"
 
     def test_name_matches_directory(self, skill_dir):
         """The 'name' field must match the directory name."""
         text = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
-        fm = parse_frontmatter(text)
+        fm, _, _ = parse_frontmatter(text)
         if "name" in fm:
             assert fm["name"] == skill_dir.name, (
                 f"{skill_dir.name}/SKILL.md has name='{fm['name']}' "
@@ -90,7 +89,7 @@ class TestSkillFrontmatter:
     def test_has_description_field(self, skill_dir):
         """Frontmatter must include a 'description' field."""
         text = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
-        fm = parse_frontmatter(text)
+        fm, _, _ = parse_frontmatter(text)
         assert "description" in fm, (
             f"{skill_dir.name}/SKILL.md is missing 'description' in frontmatter"
         )
@@ -98,7 +97,7 @@ class TestSkillFrontmatter:
     def test_description_not_empty(self, skill_dir):
         """The 'description' field must not be empty."""
         text = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
-        fm = parse_frontmatter(text)
+        fm, _, _ = parse_frontmatter(text)
         if "description" in fm:
             assert fm["description"].strip(), (
                 f"{skill_dir.name}/SKILL.md has empty 'description'"
@@ -107,7 +106,7 @@ class TestSkillFrontmatter:
     def test_has_category_field(self, skill_dir):
         """Frontmatter must include a 'category' field."""
         text = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
-        fm = parse_frontmatter(text)
+        fm, _, _ = parse_frontmatter(text)
         assert "category" in fm, (
             f"{skill_dir.name}/SKILL.md is missing 'category' in frontmatter"
         )
@@ -115,7 +114,7 @@ class TestSkillFrontmatter:
     def test_category_is_valid(self, skill_dir):
         """The 'category' must be one of the allowed values."""
         text = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
-        fm = parse_frontmatter(text)
+        fm, _, _ = parse_frontmatter(text)
         if "category" in fm:
             assert fm["category"] in ALLOWED_CATEGORIES, (
                 f"{skill_dir.name}/SKILL.md has category='{fm['category']}' "
