@@ -1,7 +1,7 @@
 ---
 name: websocket-service
 description: |
-  【WebSocket服务】设计和实现 WebSocket 实时通信服务，包含连接管理、消息协议、心跳检测、断线重连、房间/频道管理。
+  【WebSocket服务】设计和实现 WebSocket 实时通信服务。触发时机：用户说"WebSocket"、"实时通信"、"长连接"、"消息推送"时。
 category: development
 ---
 
