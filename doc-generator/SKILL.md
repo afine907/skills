@@ -41,7 +41,7 @@ category: productivity
 | API 文档 | 路由/控制器代码 | OpenAPI/Swagger |
 | 架构文档 | 项目结构 | ARCHITECTURE.md |
 | 变更日志 | Git 历史 | CHANGELOG.md |
-| 贡献指南 | 项目配置 | CONTRIBUTING.md |
+| 贡献指南 | 项目配置 | `CONTRIBUTING.md` |
 | 代码注释 | 函数/类代码 | 行内注释/Docstring |
 
 ## README 生成
@@ -135,7 +135,7 @@ curl http://localhost:{port}/health
 | PUT | /api/v1/{resource}/{id} | 更新资源 |
 | DELETE | /api/v1/{resource}/{id} | 删除资源 |
 
-详细 API 文档: [docs/api.md](docs/api.md)
+详细 API 文档: `docs/api.md`
 
 ## 开发指南
 
@@ -193,11 +193,11 @@ A: {答案2}
 
 ## 贡献指南
 
-请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)
+请阅读 `CONTRIBUTING.md`
 
 ## 许可证
 
-[MIT License](LICENSE)
+`MIT License`
 
 ## 联系方式
 
