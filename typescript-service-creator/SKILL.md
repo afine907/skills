@@ -25,11 +25,6 @@ category: development
 - 用户要求"创建TypeScript服务"、"TS后端项目"
   - 需要搭建 Express/Hono/Fastify 项目
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 框架选择
 
 | 框架 | 适用场景 | 性能 | 学习曲线 | 生态 |

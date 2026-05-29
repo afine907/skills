@@ -80,15 +80,19 @@ RECOMMENDED_SECTIONS = {
     "Goal": [
         "goal", "purpose", "overview", "description", "summary",
         "what it does", "what this does", "about",
+        "目标", "概览",
     ],
     "Trigger": [
         "trigger", "when to use", "usage", "invoke", "activate",
         "trigger condition", "when to invoke",
+        "触发时机",
     ],
     "Workflow": [
         "workflow", "how it works", "steps", "process", "procedure",
         "guide", "commands", "usage instructions", "tutorial",
         "quick start", "getting started",
+        "工作流程", "工作流", "快速使用", "使用方式", "使用方法",
+        "使用步骤", "执行流程", "操作步骤",
     ],
 }
 

@@ -20,11 +20,6 @@ Analyze git tag/commit range and generate CHANGELOG.md in Keep a Changelog forma
   - Before a release, needs to document changes since last tag
   - User provides a commit range
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ```

@@ -27,11 +27,6 @@ category: quality
   - 编码完成后需要补充测试覆盖
   - wo-yao-yan-pai 审查完成后需要补充测试
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ```

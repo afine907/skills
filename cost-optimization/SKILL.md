@@ -29,11 +29,6 @@ category: operations
   - 需要分析 AI API 调用成本
   - 资源配置需要优化
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ```

@@ -27,11 +27,6 @@ category: requirements
   - Sprint 规划前的需求拆分
   - 需求评审前的故事准备
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ```

@@ -23,11 +23,6 @@ category: development
   - 团队需要协作开发 Prompt
   - Prompt 变更需要测试后才能部署
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ```

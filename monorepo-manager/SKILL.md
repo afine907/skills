@@ -27,11 +27,6 @@ category: development
   - 需要将多个项目合并到一个仓库
   - 需要优化 Monorepo 构建性能
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 工具选型
 
 | 工具 | 特点 | 适用场景 |

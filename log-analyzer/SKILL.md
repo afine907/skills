@@ -27,11 +27,6 @@ category: operations
   - remote-exec 获取日志后需要解读
   - 排查线上问题时需要分析错误日志
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ```

@@ -27,11 +27,6 @@ category: source-control
   - 需要选择合适的分支策略
   - 团队需要统一 Git 工作流
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 分支策略选择
 
 ### Git Flow vs Trunk-Based

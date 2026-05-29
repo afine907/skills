@@ -16,15 +16,14 @@ description: |
 
 Kubernetes 部署配置生成器。自然语言描述 → YAML manifests（Deployment/Service/Ingress/ConfigMap）
 
+
 ## Trigger
 
-当用户需要使用此技能时触发。
+- 用户说"生成 K8s 部署配置"、"写 Deployment YAML"
+- 用户要求为某个服务生成 Kubernetes manifests
+- 用户需要 Deployment/Service/Ingress/ConfigMap 等单服务配置
 
-## Workflow
 
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ```

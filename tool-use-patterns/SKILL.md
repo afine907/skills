@@ -23,11 +23,6 @@ category: development
   - 调试 Agent 中的工具调用失败
   - 设计 Agent 系统的工具 Schema
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ```

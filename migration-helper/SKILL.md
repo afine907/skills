@@ -29,11 +29,6 @@ category: operations
   - 数据库切换（MySQL→PostgreSQL）
   - 用户要求"数据迁移"、"表结构变更"
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ```

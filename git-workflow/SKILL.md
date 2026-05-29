@@ -12,16 +12,8 @@ category: source-control
 自动化 Git 工作流：分支 → 暂存 → commit → push → PR。
 
 
+
 ## Trigger
-
-当用户需要使用此技能时触发。
-
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
-## 触发时机
 
 用户说出以下任一关键词时触发：
 - 帮我提 PR、提交代码、推一下

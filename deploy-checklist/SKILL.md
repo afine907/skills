@@ -20,11 +20,6 @@ Generate pre-deployment checklist based on project type and environment. Covers 
   - Before a production deployment
   - User is about to cut a release
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ```

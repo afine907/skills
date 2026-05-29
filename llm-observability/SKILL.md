@@ -23,11 +23,6 @@ category: operations
   - 调试为什么 Agent 在长对话中退化
   - 需要了解生产环境中 Agent 的决策质量
 
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## 工作流程
 
 ```
