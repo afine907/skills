@@ -6,6 +6,45 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added - 2026-05-30 (Phase 4: Code Review & Content Quality)
+
+#### Script Quality (wo-yao-yan-pai review: 62 → 74/100)
+
+**Shared Utilities:**
+- Created `scripts/utils.py` with `parse_frontmatter()` and `discover_skill_dirs()`
+- All 4 scripts (validate, audit, fix_descriptions, cleanup) now use shared utils
+- Eliminated duplicated YAML parsing and directory filtering logic
+
+**Bug Fixes:**
+- Fixed cleanup_placeholders.py: snapshot-based change tracking, correct substring direction
+- Fixed fix_descriptions.py: string slicing for frontmatter replacement, removed dead code
+- Fixed audit_skills.py: removed placeholder generators, added exit codes for CI
+- Fixed validate_skills.py: added Chinese heading patterns for section detection
+
+#### Content Quality (All 67 Skills)
+
+**Structure Completion:**
+- Added Goal sections to 5 skills (commit, commit-diff-analyzer, requirements-analyzer, task-loom, technical-article-writer)
+- Added Trigger sections to 15 skills
+- Added Workflow sections to 3 skills (code-migration, python-testing, remote-exec)
+- Added Chinese heading patterns: 工作流程, 快速使用, 触发时机, 目标, 概览
+
+**Description Optimization:**
+- Added trigger info to 23 skill descriptions for better invocation accuracy
+- All descriptions now include both "what it does" and "when to trigger"
+
+**Test Suite:**
+- Updated tests for shared utils refactoring
+- All 704 tests passing
+
+### Statistics
+- **Total Skills**: 67
+- **Validation**: 67 pass, 0 fail, 0 warnings
+- **Tests**: 704 passing
+- **Code Review**: 赌侠 (74/100)
+
+---
+
 ### Added - 2026-05-29 (Phase 3: Quality Audit - Zero Warnings)
 
 #### Quality Improvements (All 67 Skills)
