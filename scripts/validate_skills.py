@@ -355,6 +355,11 @@ def check_body_content(skill_dir: Path) -> list[tuple[str, str]]:
     return issues
 
 
+def strip_code_blocks(text: str) -> str:
+    """Remove fenced code blocks from text to avoid false-positive link checks."""
+    return re.sub(r"```[\s\S]*?```", "", text)
+
+
 def check_references(skill_dir: Path) -> list[tuple[str, str]]:
     """Check that file references in SKILL.md point to existing files."""
     issues: list[tuple[str, str]] = []
@@ -364,6 +369,7 @@ def check_references(skill_dir: Path) -> list[tuple[str, str]]:
         return issues
 
     text = skill_md.read_text(encoding="utf-8")
+    text = strip_code_blocks(text)
 
     for match in LINK_RE.finditer(text):
         link_text = match.group(1)
