@@ -2,6 +2,32 @@
 
 All 67 skills organized by software development lifecycle phase. Find the right skill for where you are in the workflow.
 
+## Similar Skills — How to Choose
+
+Some skills cover related areas but serve different purposes. Use this table to pick the right one.
+
+| You want to... | Use this | NOT this |
+|----------------|----------|----------|
+| Review code & get a report | **code-review** | wo-yao-yan-pai (also auto-fixes) |
+| Review code & auto-fix issues | **wo-yao-yan-pai** | code-review (report only) |
+| Plan what tests to write | **test-strategy** | test-generator (writes actual code) |
+| Generate test files from source | **test-generator** | test-strategy (planning only) |
+| Design REST APIs | **api-design** | graphql-design (GraphQL only) |
+| Design GraphQL schemas | **graphql-design** | api-design (REST only) |
+| Evaluate AI agent output quality | **agent-eval** | test-strategy (tests software) |
+| Secure an AI agent architecture | **agent-security** | security-scan (scans app code) |
+| Scan code for vulnerabilities | **security-scan** | agent-security (agent design) |
+| Debug an error actively | **debug-helper** | api-debug (reference card) |
+| Look up API debugging commands | **api-debug** | debug-helper (active diagnosis) |
+| Understand existing code | **explain-code** | doc-generator (creates new docs) |
+| Generate documentation files | **doc-generator** | explain-code (analysis only) |
+| Migrate code or frameworks | **code-migration** | migration-helper (database) |
+| Migrate database schema/data | **migration-helper** | code-migration (code) |
+| Profile a performance bottleneck | **performance-profiling** | load-testing (measures capacity) |
+| Run load/stress tests | **load-testing** | performance-profiling (diagnoses) |
+| Write a single commit message | **commit** | git-workflow (full pipeline) |
+| Automate branch → commit → PR | **git-workflow** | commit (single step) |
+
 ```
   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
   │ Requirements │───▶│ Architecture│───▶│ Development │
