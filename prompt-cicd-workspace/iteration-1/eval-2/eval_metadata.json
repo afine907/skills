@@ -1,7 +1,0 @@
-{"eval_id": 2, "eval_name": "cicd-pipeline-setup", "prompt": "我们每次修改 prompt 都是直接改代码然后部署，没有测试环节。上周有人改了一行 prompt 导致回答质量断崖式下降，但过了 3 天才被发现。需要搭建一个 prompt 的 CI/CD 流水线，确保每次修改都经过测试。", "assertions": [
-    {"text": "has_github_actions", "description": "Includes GitHub Actions (or equivalent) CI pipeline configuration"},
-    {"text": "has_path_scoped_triggers", "description": "Uses path-scoped triggers (only prompt file changes trigger eval, not all commits)"},
-    {"text": "has_eval_gate", "description": "Defines quality gate that blocks merge if eval scores drop below threshold"},
-    {"text": "has_staging_env", "description": "Includes staging environment before production deployment"},
-    {"text": "has_rollback_mechanism", "description": "Defines automated rollback mechanism for failed deployments"}
-]}

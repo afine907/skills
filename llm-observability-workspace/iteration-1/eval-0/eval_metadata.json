@@ -1,7 +1,0 @@
-{"eval_id": 0, "eval_name": "context-degradation-monitoring", "prompt": "我的客服 Agent 已经上线了，但最近发现它在长对话（20+ 轮）中越来越不靠谱，经常忘记之前的对话内容，有时候还会重复问用户已经回答过的问题。我需要一个监控方案来检测和预防这种退化。", "assertions": [
-    {"text": "has_context_health_metrics", "description": "Defines context health metrics (utilization rate, reference freshness, coherence score)"},
-    {"text": "has_degradation_detection", "description": "Includes an algorithm or heuristic for detecting context degradation (not just monitoring)"},
-    {"text": "has_alert_thresholds", "description": "Defines specific alert thresholds with numeric values (not vague 'if high')"},
-    {"text": "has_dashboard_layout", "description": "Provides a dashboard layout with specific panels/widgets"},
-    {"text": "has_mttd_target", "description": "Sets a Mean Time to Detect target (e.g., <5 minutes)"}
-]}

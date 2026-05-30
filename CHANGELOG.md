@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added - 2026-05-30 (Repository Cleanup & Documentation)
+
+**New Files:**
+- `SKILL_CATEGORIES.md` — SDLC phase map for all 67 skills with complementary skill suggestions
+
+**Updated Files:**
+- `README.md` — Updated "The Full Deck" to show all 67 skills (was ~20), updated project structure
+
+**Removed Files:**
+- `GAP_ANALYSIS.md` — One-time market research, gaps already filled
+- `skill-creator/` — Orphaned directory (no SKILL.md)
+
+---
+
 ### Added - 2026-05-30 (Phase 4: Code Review & Content Quality)
 
 #### Script Quality (wo-yao-yan-pai review: 62 → 74/100)

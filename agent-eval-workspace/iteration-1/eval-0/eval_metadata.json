@@ -1,8 +1,0 @@
-{"eval_id": 0, "eval_name": "hallucination-eval-design", "prompt": "我有一个客服 Agent，用 Claude Sonnet 做后端。上线后用户反馈说 Agent 经常编造不存在的产品功能（幻觉），而且在多轮对话中会忘记前面聊过的内容。帮我设计一个评估方案来量化这些问题。", "assertions": [
-    {"text": "has_hallucination_dimension", "description": "Defines hallucination rate as an evaluation dimension with scoring criteria"},
-    {"text": "has_coherence_dimension", "description": "Defines multi-turn coherence as an evaluation dimension"},
-    {"text": "has_statistical_sampling", "description": "Uses multiple runs per test case (3-5) with statistical aggregation, not single pass/fail"},
-    {"text": "has_behavioral_properties", "description": "Uses behavioral property verification (e.g., 'does not invent features') not exact string matching"},
-    {"text": "has_test_case_template", "description": "Provides a structured test case format with input/expected behavior/assertions"},
-    {"text": "has_report_format", "description": "Includes an evaluation report template with scores and failure analysis"}
-]}
