@@ -21,17 +21,31 @@
 
 `.claude/rules/` 下的文件命名：
 
-| 文件名 | 类别 |
-|--------|------|
-| `ci-cd.md` | CI/CD 相关 |
-| `code-review.md` | 代码审查相关 |
-| `testing.md` | 测试相关 |
-| `git.md` | Git 操作相关 |
-| `architecture.md` | 架构设计相关 |
-| `performance.md` | 性能相关 |
-| `security.md` | 安全相关 |
-| `general.md` | 通用教训 |
+| 文件名 | 类别 | 建议 globs |
+|--------|------|-----------|
+| `ci-cd.md` | CI/CD 相关 | `[".github/workflows/*.yml", "Makefile", "Dockerfile*"]` |
+| `code-review.md` | 代码审查相关 | `["**/*.py", "**/*.ts"]` |
+| `testing.md` | 测试相关 | `["tests/**/*", "**/*_test.py"]` |
+| `git.md` | Git 操作相关 | `[".gitignore", ".gitattributes"]` |
+| `architecture.md` | 架构设计相关 | `["docs/**/*"]` |
+| `performance.md` | 性能相关 | 无 globs（始终加载） |
+| `security.md` | 安全相关 | `["**/auth/**/*"]` |
+| `general.md` | 通用教训 | 无 globs（始终加载） |
+| `frontend.md` | 前端相关 | `["apps/web/**/*.tsx", "apps/web/**/*.ts"]` |
+| `backend.md` | 后端相关 | `["packages/*/src/**/*.py"]` |
+
+## 格式要求
+
+参考官方文档：https://code.claude.com/docs/zh-CN/memory#使用-clauderules-组织规则
+
+```yaml
+---
+description: "规则描述"
+globs: ["**/*.ts", "**/*.tsx"]
+alwaysApply: false
+---
+```
 
 ## 重要：写入位置优先级
 
-所有写入操作优先使用**当前项目目录**（如 `d:\Code\jojo-code\.claude\`），而非全局目录（`~/.claude/`）。
+所有写入操作优先使用**当前项目目录**（如 `d:\Code\project\.claude\`），而非全局目录（`~/.claude/`）。
