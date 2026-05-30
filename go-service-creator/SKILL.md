@@ -13,6 +13,19 @@ description: |
 
 不适用：纯 CLI 工具（用 shell-command）；Go 库/包开发（非服务）；已有项目的重构。
 
+
+## Goal
+
+Go 微服务脚手架生成器。自然语言描述 → 完整 Go 项目目录
+
+
+## Trigger
+
+- 用户说"创建 Go 服务"、"初始化 Go 项目"、"搭建 Go 后端"
+- 用户要求生成 Go 微服务脚手架、Go API 项目
+- 用户提到 gin、echo、fiber 等 Go 框架并需要新建项目
+
+
 ## 工作流程
 
 ```

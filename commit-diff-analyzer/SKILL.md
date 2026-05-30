@@ -1,10 +1,20 @@
 ---
 name: commit-diff-analyzer
-description: Analyzes code changes between two git commits. Use when user provides two commit IDs and wants to understand what changed between them, including file modifications, additions, deletions, and commit context.
+description: |
+  Analyze code changes between two git commits with structured diff output. Trigger: user says "对比 commit"、"compare commits"、"查看两个提交的差异".
 category: source-control
 ---
 
 # Commit Diff Analyzer
+
+## Goal
+
+Analyze code changes between two git commits, presenting commit metadata, change summaries, and detailed diffs in a structured format for easy review.
+
+## Trigger
+
+- User says "对比 commit"、"compare commits"、"查看两个提交的差异"
+- User provides two commit IDs and wants to see what changed
 
 ## Usage Pattern
 

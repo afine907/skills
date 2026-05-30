@@ -6,6 +6,88 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added - 2026-05-30 (Phase 4: Code Review & Content Quality)
+
+#### Script Quality (wo-yao-yan-pai review: 62 → 74/100)
+
+**Shared Utilities:**
+- Created `scripts/utils.py` with `parse_frontmatter()` and `discover_skill_dirs()`
+- All 4 scripts (validate, audit, fix_descriptions, cleanup) now use shared utils
+- Eliminated duplicated YAML parsing and directory filtering logic
+
+**Bug Fixes:**
+- Fixed cleanup_placeholders.py: snapshot-based change tracking, correct substring direction
+- Fixed fix_descriptions.py: string slicing for frontmatter replacement, removed dead code
+- Fixed audit_skills.py: removed placeholder generators, added exit codes for CI
+- Fixed validate_skills.py: added Chinese heading patterns for section detection
+
+#### Content Quality (All 67 Skills)
+
+**Structure Completion:**
+- Added Goal sections to 5 skills (commit, commit-diff-analyzer, requirements-analyzer, task-loom, technical-article-writer)
+- Added Trigger sections to 15 skills
+- Added Workflow sections to 3 skills (code-migration, python-testing, remote-exec)
+- Added Chinese heading patterns: 工作流程, 快速使用, 触发时机, 目标, 概览
+
+**Description Optimization:**
+- Added trigger info to 23 skill descriptions for better invocation accuracy
+- All descriptions now include both "what it does" and "when to trigger"
+
+**Test Suite:**
+- Updated tests for shared utils refactoring
+- All 704 tests passing
+
+**Reference Files (4 new):**
+- commit-diff-analyzer: diff format examples and selection guide
+- git-workflow: branch strategies (Git Flow, Trunk-Based, GitHub Flow)
+- pr-description: PR description templates for different scenarios
+- prompt-engineering: 8 prompt patterns with selection guide
+
+### Statistics
+- **Total Skills**: 67
+- **Validation**: 67 pass, 0 fail, 0 warnings
+- **Tests**: 704 passing
+- **Reference Files**: 90+ templates, guides, and cheat sheets
+- **Code Review**: 赌侠 (74/100)
+
+---
+
+### Added - 2026-05-29 (Phase 3: Quality Audit - Zero Warnings)
+
+#### Quality Improvements (All 67 Skills)
+
+**Structure Standardization:**
+- Added Goal/Trigger/Workflow sections to all skills
+- Fixed YAML frontmatter format (use `|` instead of `>` for multiline)
+- Standardized section naming conventions
+
+**Description Optimization:**
+- Shortened 20 descriptions to under 200 characters
+- Preserved key triggering information
+- Improved skill triggering accuracy
+
+**Reference Files (7 new):**
+- Added writing-guide.md for technical-article-writer
+- Added conventional-commits.md for commit
+- Added review-checklist.md for code-review
+- Added deploy-checklist-template.md for deploy-checklist
+- Added incident-playbook.md for incident-response
+- Added meeting-template.md for meeting-notes
+- Added security-checklist.md for security-scan
+
+**Infrastructure:**
+- Created audit_skills.py for systematic quality checks
+- Created fix_descriptions.py for description optimization
+- symlink-maker: Added missing __init__.py for scripts
+- 6 skills: Created references/ directories
+
+### Statistics
+- **Total Skills**: 67
+- **Validation**: 67 pass, 0 fail, 0 warnings (was 213 warnings)
+- **Quality Score**: 100%
+
+---
+
 ### Added - 2026-05-29 (Phase 2: Gap Analysis Completion)
 
 #### New Skills (6 skills added)

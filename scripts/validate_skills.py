@@ -28,6 +28,8 @@ import re
 import sys
 from pathlib import Path
 
+from utils import parse_frontmatter, discover_skill_dirs
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 ALLOWED_CATEGORIES = {
@@ -78,19 +80,21 @@ RECOMMENDED_SECTIONS = {
     "Goal": [
         "goal", "purpose", "overview", "description", "summary",
         "what it does", "what this does", "about",
+        "目标", "概览",
     ],
     "Trigger": [
         "trigger", "when to use", "usage", "invoke", "activate",
         "trigger condition", "when to invoke",
+        "触发时机",
     ],
     "Workflow": [
         "workflow", "how it works", "steps", "process", "procedure",
         "guide", "commands", "usage instructions", "tutorial",
         "quick start", "getting started",
+        "工作流程", "工作流", "快速使用", "使用方式", "使用方法",
+        "使用步骤", "执行流程", "操作步骤",
     ],
 }
-
-SKIP_DIRS = {"wiki", ".github", ".claude", "scripts", ".git", "__pycache__"}
 
 LINK_RE = re.compile(r"\[([^\]]*)\]\(([^)]+)\)")
 HEADING_RE = re.compile(r"^#{1,4}\s+(.+)$", re.MULTILINE)
@@ -104,73 +108,6 @@ INFO = "INFO"
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
-
-
-def parse_frontmatter(text: str) -> dict:
-    """Parse simple YAML frontmatter between --- markers."""
-    if not text.startswith("---"):
-        return {}
-
-    end = text.find("---", 3)
-    if end == -1:
-        return {}
-
-    block = text[3:end].strip()
-    if not block:
-        return {}
-
-    result: dict[str, str] = {}
-    current_key: str | None = None
-    current_value_lines: list[str] | None = None
-    in_multiline = False
-
-    for line in block.split("\n"):
-        stripped = line.rstrip()
-
-        if in_multiline:
-            if stripped == "" or stripped.startswith(" ") or stripped.startswith("\t"):
-                current_value_lines.append(stripped)
-                continue
-            else:
-                result[current_key] = "\n".join(current_value_lines).strip()
-                current_key = None
-                current_value_lines = None
-                in_multiline = False
-
-        match = re.match(r"^(\w[\w-]*)\s*:\s*(.*)", line)
-        if match:
-            key = match.group(1)
-            value = match.group(2).strip()
-            if value == "|":
-                in_multiline = True
-                current_key = key
-                current_value_lines = []
-            else:
-                if len(value) >= 2 and value[0] == value[-1] and value[0] in ('"', "'"):
-                    value = value[1:-1]
-                result[key] = value
-            continue
-
-    if in_multiline and current_key is not None and current_value_lines is not None:
-        result[current_key] = "\n".join(current_value_lines).strip()
-
-    return result
-
-
-def get_body_after_frontmatter(text: str) -> str:
-    """Return the content after the closing --- of frontmatter."""
-    if not text.startswith("---"):
-        return text
-
-    end = text.find("---", 3)
-    if end == -1:
-        return ""
-
-    # Skip past the closing --- and any immediate newline
-    body_start = end + 3
-    if body_start < len(text) and text[body_start] == "\n":
-        body_start += 1
-    return text[body_start:]
 
 
 def levenshtein_distance(s1: str, s2: str) -> int:
@@ -255,7 +192,7 @@ def check_frontmatter(
         return issues
 
     text = skill_md.read_text(encoding="utf-8")
-    fm = parse_frontmatter(text)
+    fm, _, _ = parse_frontmatter(text)
 
     if not fm:
         issues.append((ERROR, "No valid frontmatter found"))
@@ -318,7 +255,7 @@ def check_body_content(skill_dir: Path) -> list[tuple[str, str]]:
         return issues
 
     text = skill_md.read_text(encoding="utf-8")
-    body = get_body_after_frontmatter(text)
+    _, _, body = parse_frontmatter(text)
 
     # Check body is not empty
     if not body.strip():
@@ -459,7 +396,7 @@ def check_duplicate_names(
         if not skill_md.exists():
             continue
         text = skill_md.read_text(encoding="utf-8")
-        fm = parse_frontmatter(text)
+        fm, _, _ = parse_frontmatter(text)
         declared_name = fm.get("name", "")
         if declared_name:
             name_to_dirs.setdefault(declared_name, []).append(skill_name)
@@ -511,20 +448,7 @@ def apply_fixes(skill_dir: Path, verbose: bool = False) -> list[str]:
 
 def discover_skills() -> dict[str, Path]:
     """Discover all skill directories in the repo."""
-    skills: dict[str, Path] = {}
-    for entry in sorted(REPO_ROOT.iterdir()):
-        if not entry.is_dir():
-            continue
-        if entry.name.startswith(".") or entry.name.startswith("_"):
-            continue
-        if entry.name in SKIP_DIRS:
-            continue
-        if entry.name.endswith("-workspace"):
-            continue
-        skill_md = entry / "SKILL.md"
-        if skill_md.exists():
-            skills[entry.name] = entry
-    return skills
+    return {d.name: d for d in discover_skill_dirs(REPO_ROOT)}
 
 
 def run_checks(

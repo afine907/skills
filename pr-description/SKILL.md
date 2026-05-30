@@ -2,18 +2,22 @@
 name: pr-description
 category: source-control
 description: |
-  Analyze git diff and generate structured PR description. Integrates with GitHub CLI for PR creation.
-  Use when:
-  - User says "帮我写 PR 描述"、"提 PR"、"create PR"
-  - User has pushed a branch and wants a PR description
-  - User provides a git diff and wants it summarized
-
-  Do NOT use: when user wants code review (use wo-yao-yan-pai) or commit messages (use commit).
+  Analyze git diff and generate structured PR description. Trigger: user says "帮我写 PR 描述"、"提 PR"、"create PR"、"写 pull request".
 ---
 
 # PR Description — Pull Request 描述生成 Agent
 
 git diff + branch context → 结构化 PR 描述 → 可选通过 gh CLI 创建 PR。
+
+## Goal
+
+分析 git diff 和分支上下文，自动生成结构化的 Pull Request 描述。
+
+## Trigger
+
+- User says "帮我写 PR 描述"、"提 PR"、"create PR"
+  - User has pushed a branch and wants a PR description
+  - User provides a git diff and wants it summarized
 
 ## 工作流程
 

@@ -15,6 +15,16 @@ category: development
 
 快速创建生产级 TypeScript 后端服务，支持 Express、Hono、Fastify 三大框架。
 
+
+## Goal
+
+快速创建 TypeScript 后端服务项目，支持 Express/Hono/Fastify 框架
+
+## Trigger
+
+- 用户要求"创建TypeScript服务"、"TS后端项目"
+  - 需要搭建 Express/Hono/Fastify 项目
+
 ## 框架选择
 
 | 框架 | 适用场景 | 性能 | 学习曲线 | 生态 |

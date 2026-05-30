@@ -1,22 +1,22 @@
 ---
 name: wo-yao-yan-pai
 description: |
-  【我要验牌】迭代式代码审查与修复Agent。在编码任务完成后自动触发，执行多轮"code review → report → bug fix"迭代流程。
-
-  触发时机：
-  - 用户明确要求"验牌"、"我要验牌"、"审查代码"、"code review"
-  - 编码任务完成后用户说"检查一下"、"review一下"
-  - 用户提及"小瘪三"、"赌侠"、"擦皮鞋"等关键词
-
-  核心功能：
-  - 启动code review subAgent进行多维度代码审查
-  - 生成结构化审查报告
-  - 根据报告自动修复bug
-  - 迭代直到代码质量达标
+  【我要验牌】迭代式代码审查与修复 Agent。触发时机：用户说"验牌"、"我要验牌"、"审查代码"、"code review"、"检查一下"时。
 category: quality
 ---
 
 # 验牌 - 迭代式代码审查Agent
+
+
+## Goal
+
+迭代式代码审查与修复Agent。在编码任务完成后自动触发，执行多轮"code review → report → bug fix"迭代流程
+
+## Trigger
+
+- 用户明确要求"验牌"、"我要验牌"、"审查代码"、"code review"
+  - 编码任务完成后用户说"检查一下"、"review一下"
+  - 用户提及"小瘪三"、"赌侠"、"擦皮鞋"等关键词
 
 ## 流程概述
 

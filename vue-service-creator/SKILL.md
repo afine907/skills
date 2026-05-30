@@ -15,6 +15,16 @@ category: development
 
 生成标准化 Vue 3 / Nuxt 3 项目，内置 Composition API、Pinia、TypeScript 最佳实践。
 
+
+## Goal
+
+快速创建 Vue 3 / Nuxt 3 前端项目，支持 Composition API、Pinia、Vue Router
+
+## Trigger
+
+- 用户要求"创建Vue项目"、"Nuxt项目"
+  - 需要搭建 Vue 3 前端项目
+
 ## 1. Vue 3 vs Nuxt 3 选择指南
 
 | 场景 | 推荐框架 | 理由 |

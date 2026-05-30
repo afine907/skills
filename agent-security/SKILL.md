@@ -1,15 +1,7 @@
 ---
 name: agent-security
 description: |
-  【Agent 安全】AI Agent 安全模式。覆盖 Prompt Injection 防御、权限分层设计、HITL 门禁、数据泄露防护和 Agent 威胁建模。
-
-  触发时机：
-  - 用户说"agent 安全"、"prompt injection"、"agent 权限"、"HITL"、"agent threat model"
-  - 为 Agent 系统设计安全控制
-  - 审查 Agent 代码中的安全漏洞
-  - 实现权限分层和人机协作门禁
-
-  不适用：通用代码安全审查（用 wo-yao-yan-pai）、Shell 命令安全（用 shell-command）、CI/CD 安全（用 ci-workflow）。
+  【Agent 安全】AI Agent 安全设计与威胁建模。触发时机：用户说"agent 安全"、"prompt injection"、"agent 权限"、"HITL"时。
 category: quality
 ---
 
@@ -18,6 +10,18 @@ category: quality
 AI Agent 专用的安全设计模式，应对 Agent 系统特有的威胁面。
 
 > **核心洞察：** 拥有生产级权限的 AI Agent，从安全角度看是一个高权限进程。它可以被 Prompt Injection 操纵，执行非预期操作。这不是模型问题，是系统设计问题。
+
+
+## Goal
+
+AI Agent 安全模式。覆盖 Prompt Injection 防御、权限分层设计、HITL 门禁、数据泄露防护和 Agent 威胁建模
+
+## Trigger
+
+- 用户说"agent 安全"、"prompt injection"、"agent 权限"、"HITL"、"agent threat model"
+  - 为 Agent 系统设计安全控制
+  - 审查 Agent 代码中的安全漏洞
+  - 实现权限分层和人机协作门禁
 
 ## 工作流程
 

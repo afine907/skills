@@ -1,15 +1,7 @@
 ---
 name: agent-eval
 description: |
-  【Agent 评估】评估 AI Agent 输出质量。覆盖幻觉检测、工具调用准确率、连贯性评分、任务完成验证。支持非确定性输出的统计评估。
-
-  触发时机：
-  - 用户说"评估 agent"、"测试 agent 质量"、"agent eval"、"检查 agent 输出"
-  - 构建完 Agent 后需要验证其是否正常工作
-  - 调试为什么 Agent 产生错误结果
-  - 对比两个 Agent 配置或提示的效果
-
-  不适用：传统代码单元测试（用 test-generator）、代码审查（用 wo-yao-yan-pai）、运行时错误调试（用 debug-helper）。
+  【Agent 评估】评估 AI Agent 输出质量。触发时机：用户说"评估 agent"、"测试 agent 质量"、"agent eval"、"检查 agent 输出"时。
 category: quality
 ---
 
@@ -18,6 +10,18 @@ category: quality
 评估 AI Agent 输出质量，适配 LLM 非确定性输出的统计评估方法。
 
 > **核心洞察：** AI Agent 是非确定性的——同一输入可以产生不同但都正确的输出。传统 QA 的"精确匹配"范式不适用，需要转向"行为属性验证 + 统计采样"。
+
+
+## Goal
+
+评估 AI Agent 输出质量。覆盖幻觉检测、工具调用准确率、连贯性评分、任务完成验证。支持非确定性输出的统计评估
+
+## Trigger
+
+- 用户说"评估 agent"、"测试 agent 质量"、"agent eval"、"检查 agent 输出"
+  - 构建完 Agent 后需要验证其是否正常工作
+  - 调试为什么 Agent 产生错误结果
+  - 对比两个 Agent 配置或提示的效果
 
 ## 工作流程
 

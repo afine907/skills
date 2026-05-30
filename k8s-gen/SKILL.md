@@ -2,9 +2,7 @@
 name: k8s-gen
 category: operations
 description: |
-  Kubernetes 部署配置生成器。自然语言描述 → YAML manifests（Deployment/Service/Ingress/ConfigMap）。
-  触发场景：用户要求"写 K8s 配置"、"生成 deployment yaml"、"部署到 Kubernetes"、"写 k8s manifest"。
-  关键词：kubernetes, k8s, deployment, service, ingress, manifest, helm。
+  【K8s 部署】自然语言描述生成 K8s YAML manifests。触发时机：用户说"生成 K8s 部署配置"、"写 Deployment YAML"、"生成 Service/Ingress"时。
 ---
 
 # K8s Gen — Kubernetes 部署配置生成
@@ -12,6 +10,19 @@ description: |
 自然语言描述 → 完整 K8s YAML manifests，一次输出。
 
 不适用：集群搭建（用 k8s-cluster）；Helm chart 开发（用 k8s-cluster）。
+
+
+## Goal
+
+Kubernetes 部署配置生成器。自然语言描述 → YAML manifests（Deployment/Service/Ingress/ConfigMap）
+
+
+## Trigger
+
+- 用户说"生成 K8s 部署配置"、"写 Deployment YAML"
+- 用户要求为某个服务生成 Kubernetes manifests
+- 用户需要 Deployment/Service/Ingress/ConfigMap 等单服务配置
+
 
 ## 工作流程
 

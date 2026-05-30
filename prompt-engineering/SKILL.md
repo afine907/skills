@@ -2,18 +2,23 @@
 name: prompt-engineering
 category: productivity
 description: |
-  Transform task descriptions into optimized prompts for LLMs. Covers persona design, chain-of-thought, output formatting, constraints, and few-shot examples.
-  Use when:
-  - User says "帮我优化 prompt"、"写 prompt"、"设计提示词"
-  - User needs a prompt for a specific LLM task
-  - User is creating a skill for this repo (dogfooding)
-
-  Do NOT use: when user just wants a simple one-shot question answered (just answer directly).
+  Transform task descriptions into optimized LLM prompts. Trigger: user says "帮我优化 prompt"、"写 prompt"、"设计提示词"、"prompt engineering".
 ---
 
 # Prompt Engineering — 提示词工程 Agent
 
 任务描述 → 结构化高质量 prompt。
+
+
+## Goal
+
+Transform task descriptions into optimized prompts for LLMs. Covers persona design, chain-of-thought, output formatting, constraints, and few-shot examples.
+
+## Trigger
+
+- User says "帮我优化 prompt"、"写 prompt"、"设计提示词"
+  - User needs a prompt for a specific LLM task
+  - User is creating a skill for this repo (dogfooding)
 
 ## 工作流程
 

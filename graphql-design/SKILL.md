@@ -16,6 +16,17 @@ category: development
 
 设计专业的 GraphQL Schema，包含最佳实践和性能优化。
 
+
+## Goal
+
+设计 GraphQL Schema，包含类型定义、查询/变更设计、分页方案、错误处理、性能优化（N+1防护）
+
+## Trigger
+
+- 用户要求"设计GraphQL API"、"GraphQL Schema"
+  - 从 REST 迁移到 GraphQL
+  - 需要优化 GraphQL 性能
+
 ## Schema 设计原则
 
 1. **类型优先** — 先设计 Schema，再实现 Resolver

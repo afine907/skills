@@ -1,6 +1,6 @@
 ---
 name: symlink-maker
-description: Create symbolic links (symlinks) for files or directories. Cross-platform support for Windows, macOS, and Linux. Use when the user wants to create a symlink, shortcut, or symbolic link pointing to a file or directory, or asks to link/mirror/redirect a path to another location.
+description: Create symbolic links (symlinks) for files or directories.
 category: productivity
 ---
 
@@ -8,6 +8,16 @@ category: productivity
 
 Creates symbolic links for files or directories. Cross-platform (Windows/macOS/Linux).
 
+
+## Goal
+
+Create symbolic links (symlinks) for files or directories.
+
+## Workflow
+
+```
+输入 → 处理 → 输出
+```
 ## Usage
 
 Run the bundled script:

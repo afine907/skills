@@ -16,6 +16,17 @@ category: productivity
 
 从代码和项目结构自动生成专业级技术文档。
 
+
+## Goal
+
+从代码自动生成各类技术文档：API 文档、README、架构文档、变更日志、代码注释
+
+## Trigger
+
+- 用户要求"生成文档"、"写README"、"生成API文档"
+  - 项目缺少文档需要补充
+  - 代码变更需要更新文档
+
 ## 工作流程
 
 ```
@@ -30,7 +41,7 @@ category: productivity
 | API 文档 | 路由/控制器代码 | OpenAPI/Swagger |
 | 架构文档 | 项目结构 | ARCHITECTURE.md |
 | 变更日志 | Git 历史 | CHANGELOG.md |
-| 贡献指南 | 项目配置 | CONTRIBUTING.md |
+| 贡献指南 | 项目配置 | `CONTRIBUTING.md` |
 | 代码注释 | 函数/类代码 | 行内注释/Docstring |
 
 ## README 生成
@@ -124,7 +135,7 @@ curl http://localhost:{port}/health
 | PUT | /api/v1/{resource}/{id} | 更新资源 |
 | DELETE | /api/v1/{resource}/{id} | 删除资源 |
 
-详细 API 文档: [docs/api.md](docs/api.md)
+详细 API 文档: `docs/api.md`
 
 ## 开发指南
 
@@ -182,11 +193,11 @@ A: {答案2}
 
 ## 贡献指南
 
-请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)
+请阅读 `CONTRIBUTING.md`
 
 ## 许可证
 
-[MIT License](LICENSE)
+`MIT License`
 
 ## 联系方式
 
