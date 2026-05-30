@@ -1,12 +1,31 @@
-# Wiki
+# 开发者指南
 
-技能详细使用文档。
+本项目的工作原理 — 技能如何创建、验证和评估。
 
-## 文档列表
+## 指南
 
-| 技能 | 文档 |
+| 指南 | 内容 |
 |------|------|
-| Task-Loom | [项目编排引擎使用指南](task-loom.md) |
-| Commit | [Git Commit 生成器使用指南](commit.md) |
-| Wo-Yao-Yan-Pai | [迭代式代码审查Agent使用指南](wo-yao-yan-pai.md) |
-| Remote-Exec | [远程服务器SSH命令执行](remote-exec.md) |
+| [如何创建技能](how-to-write-a-skill.md) | 使用 /skill-creator 创建，目录结构，SKILL.md 规范 |
+| [验证机制](how-validation-works.md) | validate_skills.py 检查项，CI 流水线，常见错误修复 |
+| [技能效果评估](how-to-evaluate-skill-changes.md) | with-skill vs without-skill 对比，断言设计，LLM-as-Judge，基准聚合 |
+
+## 快速参考
+
+```bash
+# 验证所有技能
+python scripts/validate_skills.py
+
+# 运行测试
+pytest tests/ -v
+
+# 创建新技能
+/skill-creator
+
+# 评估技能效果
+# 1. 创建 evals/evals.json
+# 2. 运行 with-skill 和 without-skill 代理
+# 3. 用断言评分
+# 4. 聚合基准数据
+# 5. 用 eval viewer 审查结果
+```
