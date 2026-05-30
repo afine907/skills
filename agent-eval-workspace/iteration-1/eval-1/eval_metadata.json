@@ -1,7 +1,0 @@
-{"eval_id": 1, "eval_name": "ab-comparison-framework", "prompt": "我想对比两个版本的 Agent——v1 用的是简单的 system prompt，v2 增加了 few-shot examples 和 tool use。需要一个科学的评估方法来判断 v2 是否真的比 v1 好，不能只靠感觉。", "assertions": [
-    {"text": "has_ab_framework", "description": "Provides a structured A/B comparison framework for two agent versions"},
-    {"text": "has_statistical_significance", "description": "Includes statistical significance testing (confidence intervals, p-values, or paired comparison)"},
-    {"text": "has_scoring_dimensions", "description": "Defines weighted scoring dimensions (not just pass/fail)"},
-    {"text": "has_threshold_definition", "description": "Defines clear pass/fail thresholds for deciding if v2 is better than v1"},
-    {"text": "has_multiple_runs", "description": "Runs each test case multiple times to account for LLM non-determinism"}
-]}

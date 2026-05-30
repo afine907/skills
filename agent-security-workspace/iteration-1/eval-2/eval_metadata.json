@@ -1,7 +1,0 @@
-{"eval_id": 2, "eval_name": "security-audit-checklist", "prompt": "我们的 Agent 有执行代码的能力（类似 Code Interpreter），安全团队很担心。需要设计一个安全审计清单，确保在部署前所有安全风险都被覆盖。", "assertions": [
-    {"text": "has_audit_sections", "description": "Organizes audit into clear sections (permissions, injection defense, data protection, etc.)"},
-    {"text": "has_permission_verification", "description": "Includes permission configuration verification steps"},
-    {"text": "has_injection_testing", "description": "Includes injection defense testing (red team prompts or test cases)"},
-    {"text": "has_hitl_verification", "description": "Verifies HITL gate configuration for code execution"},
-    {"text": "has_deployment_checklist", "description": "Provides a deploy-gate checklist (not just a general security doc)"}
-]}

@@ -1,7 +1,0 @@
-{"eval_id": 1, "eval_name": "cost-loop-detection", "prompt": "上周我们的 Agent 出了一个事故——一个工具调用进入了无限循环，连续运行了 11 天花了 4 万美金才被发现。我需要建立一套可观测性系统，确保类似问题能在 5 分钟内被检测到。", "assertions": [
-    {"text": "has_decision_trace_schema", "description": "Defines a structured decision trace schema (JSON Schema or equivalent)"},
-    {"text": "has_loop_detection", "description": "Includes a specific mechanism for detecting agent loops (not just step counting)"},
-    {"text": "has_cost_spike_alert", "description": "Defines cost spike detection with specific thresholds and time windows"},
-    {"text": "has_circuit_breaker_config", "description": "Includes circuit breaker configuration (failure count, timeout, half-open behavior)"},
-    {"text": "has_mttd_five_minutes", "description": "Design achieves MTTD < 5 minutes for the loop/cost scenario"}
-]}

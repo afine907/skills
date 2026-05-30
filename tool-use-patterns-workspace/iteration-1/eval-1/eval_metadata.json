@@ -1,6 +1,0 @@
-{
-  "eval_id": 1,
-  "eval_name": "destructive-tool-safety",
-  "prompt": "我的 Agent 有 8 个工具，其中一个是有副作用的 'delete_record' 工具。最近发现 Agent 在用户只是想查询的时候也会误触发删除操作。另外工具超时重试的时候会出现重复删除的问题。帮我修复这两个安全问题。",
-  "assertions": []
-}
