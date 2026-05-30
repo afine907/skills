@@ -1,0 +1,23 @@
+{
+  "skill_name": "tool-use-patterns",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我在用 Python 构建一个能调用 GitHub API 的 Agent，用 Anthropic SDK 的 tool use 功能。现在的问题是 Agent 经常调用错误的 API endpoint，或者传错参数导致 422 错误。帮我设计一个防御性的工具调用方案。",
+      "expected_output": "应包含：工具 Schema 设计（JSON Schema 格式）、参数验证逻辑、错误分类与重试策略、断路器模式实现",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "我的 Agent 有 8 个工具，其中一个是有副作用的 'delete_record' 工具。最近发现 Agent 在用户只是想查询的时候也会误触发删除操作。另外工具超时重试的时候会出现重复删除的问题。帮我修复这两个安全问题。",
+      "expected_output": "应包含：工具风险分级（read-only vs destructive）、参数校验强化、幂等性键设计、确认门禁模式",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "我有一个 Agent 需要依次调用 3 个工具：先从数据库查用户信息，再调用支付 API 创建订单，最后发邮件通知。任何一步失败都需要回滚前面的步骤。帮我设计这个多工具编排方案。",
+      "expected_output": "应包含：Saga 补偿回滚模式、步骤状态记录（Ledger）、失败处理策略、幂等性保护",
+      "files": []
+    }
+  ]
+}

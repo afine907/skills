@@ -1,0 +1,7 @@
+{"eval_id": 2, "eval_name": "unified-dashboard-design", "prompt": "我们团队有 5 个不同的 Agent 在生产环境运行，老板想看一个统一的监控仪表盘，了解整体的健康状况、成本消耗和质量趋势。帮我设计 Agent 监控的指标体系和仪表盘。", "assertions": [
+    {"text": "has_metric_categories", "description": "Organizes metrics into categories (performance, cost, quality, tools, security)"},
+    {"text": "has_aggregation_dimensions", "description": "Supports aggregation by agent, model, time period, and task type"},
+    {"text": "has_dashboard_panels", "description": "Defines specific dashboard panels with what each shows"},
+    {"text": "has_alert_rules", "description": "Includes pre-built alert rules (not just 'set up alerts')"},
+    {"text": "has_health_score", "description": "Defines a composite health score formula combining multiple metrics"}
+]}

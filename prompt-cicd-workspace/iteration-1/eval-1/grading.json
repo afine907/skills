@@ -1,0 +1,64 @@
+{
+  "eval_id": 1,
+  "eval_name": "ab-prompt-comparison",
+  "with_skill": {
+    "assertions": [
+      {
+        "text": "has_ab_framework",
+        "passed": true,
+        "evidence": "Provides a structured A/B framework with version control (v1 vs v2 metadata.json), ab-test-config.json with control/treatment definitions, sample_config with runs_per_case and randomization_seed, a complete PromptABTest Python class that runs both versions against the same test cases, and a pipeline execution script (run_pipeline.sh)."
+      },
+      {
+        "text": "has_scoring_dimensions",
+        "passed": true,
+        "evidence": "Section 3.1 defines 5 weighted scoring dimensions: output_quality (40%), format_compliance (20%), safety (20%), latency (10%), cost (10%). Each dimension has sub-dimensions with weights (e.g., output_quality has relevance 30%, accuracy 30%, completeness 20%, clarity 20%)."
+      },
+      {
+        "text": "has_statistical_test",
+        "passed": true,
+        "evidence": "Section 5.1 provides ABTestAnalyzer class with paired t-test (scipy.stats.ttest_rel), 95% confidence interval calculation using t-distribution, Cohen's d effect size, and significance determination at alpha=0.05. Also includes an appendix explaining the statistical methods."
+      },
+      {
+        "text": "has_comparison_rubric",
+        "passed": true,
+        "evidence": "Section 3.2 provides a complete LLM-as-Judge scoring prompt with 1-10 scale criteria for relevance, accuracy, completeness, and clarity, each with detailed descriptions for score ranges (1-3, 4-6, 7-9, 10)."
+      },
+      {
+        "text": "has_report_template",
+        "passed": true,
+        "evidence": "Section 5.1 includes generate_report() method that produces a markdown report with version comparison table, statistical analysis results (dimension/v1_mean/v2_mean/difference/CI/p-value/effect_size/conclusion), overall scoring, effect size interpretation table, and deployment recommendations."
+      }
+    ],
+    "pass_rate": 1.0
+  },
+  "without_skill": {
+    "assertions": [
+      {
+        "text": "has_ab_framework",
+        "passed": true,
+        "evidence": "Section 2 defines experiment design with hypothesis (H0/H1), sample size calculation (n=50 per group), deterministic variant assignment using hash, and a complete evaluation pipeline with test runner architecture diagram. Section 10 provides an end-to-end orchestration script."
+      },
+      {
+        "text": "has_scoring_dimensions",
+        "passed": true,
+        "evidence": "Section 2.2 defines 5 weighted scoring dimensions: Correctness (30%), Completeness (25%), Instruction Following (20%), Coherence (15%), Efficiency (10%), with a composite score formula S = 0.30*C + 0.25*Co + 0.20*IF + 0.15*Ch + 0.10*E."
+      },
+      {
+        "text": "has_statistical_test",
+        "passed": true,
+        "evidence": "Section 6.1 provides welch_t_test() with Welch's t-test (scipy.stats.ttest_ind with equal_var=False), Cohen's d effect size, 95% confidence interval, Mann-Whitney U non-parametric test, bootstrap confidence interval (10000 resamples), per-dimension analysis, and Benjamini-Hochberg multiple comparison correction."
+      },
+      {
+        "text": "has_comparison_rubric",
+        "passed": true,
+        "evidence": "Section 5.2 includes JUDGE_PROMPT_TEMPLATE with a 1-5 Likert scale rubric: 1=Very poor, 2=Poor, 3=Adequate, 4=Good, 5=Excellent, each with detailed descriptions. The rubric covers correctness, completeness, instruction_following, coherence, and efficiency."
+      },
+      {
+        "text": "has_report_template",
+        "passed": true,
+        "evidence": "Section 7.1 provides generate_report() that produces a markdown report with summary table (N, mean, std, latency, tokens), statistical tests (Welch's t, Mann-Whitney U, Bootstrap CI), per-dimension breakdown, per-category analysis, interpretation, and recommendation with decision criteria."
+      }
+    ],
+    "pass_rate": 1.0
+  }
+}

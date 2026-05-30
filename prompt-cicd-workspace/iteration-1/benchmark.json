@@ -1,0 +1,114 @@
+{
+  "metadata": {
+    "skill_name": "prompt-cicd",
+    "skill_path": "d:/Code/skills/prompt-cicd",
+    "executor_model": "claude-sonnet-4-6",
+    "analyzer_model": "claude-sonnet-4-6",
+    "timestamp": "2026-05-29T14:00:00Z",
+    "evals_run": [0, 1, 2],
+    "runs_per_configuration": 1
+  },
+  "runs": [
+    {
+      "eval_id": 0,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5},
+      "expectations": [
+        {"text": "has_extraction_strategy", "passed": true, "evidence": "Scripts for Python/YAML/DB extraction with criticality classification (Critical/Important/Low)"},
+        {"text": "has_version_structure", "passed": true, "evidence": "Standardized prompts/ directory with system/v{N}/, templates/, evals/, scripts/"},
+        {"text": "has_regression_tests", "passed": true, "evidence": "4 test categories (golden, format, safety, boundary) with run_prompt_evals.py executor"},
+        {"text": "has_cicd_pipeline", "passed": true, "evidence": "GitHub Actions workflow with lint-gate, regression tests, A/B comparison, staging, canary"},
+        {"text": "has_rollback_procedure", "passed": true, "evidence": "PromptRollback class with symlink management and hotfix.sh script"}
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 0,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5},
+      "expectations": [
+        {"text": "has_extraction_strategy", "passed": true, "evidence": "Extraction patterns for each source type with criticality classification"},
+        {"text": "has_version_structure", "passed": true, "evidence": "Versioned directory structure with metadata tracking"},
+        {"text": "has_regression_tests", "passed": true, "evidence": "5 test types with JSON test case schema and pass thresholds"},
+        {"text": "has_cicd_pipeline", "passed": true, "evidence": "CI/CD pipeline with path-scoped triggers and quality gates"},
+        {"text": "has_rollback_procedure", "passed": true, "evidence": "Bash rollback script with version revert capability"}
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5},
+      "expectations": [
+        {"text": "has_ab_framework", "passed": true, "evidence": "Structured A/B framework with 5-dimension weighted scoring"},
+        {"text": "has_scoring_dimensions", "passed": true, "evidence": "Quality 40%, format 20%, safety 20%, latency 10%, cost 10%"},
+        {"text": "has_statistical_test", "passed": true, "evidence": "Paired t-test, 95% confidence intervals, Cohen's d effect sizes"},
+        {"text": "has_comparison_rubric", "passed": true, "evidence": "Concrete scoring rubric with criteria per dimension"},
+        {"text": "has_report_template", "passed": true, "evidence": "Automated report generator with deployment recommendations"}
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5},
+      "expectations": [
+        {"text": "has_ab_framework", "passed": true, "evidence": "Structured comparison framework with deterministic variant assignment"},
+        {"text": "has_scoring_dimensions", "passed": true, "evidence": "5 weighted dimensions: correctness, completeness, instruction following, coherence, efficiency"},
+        {"text": "has_statistical_test", "passed": true, "evidence": "Welch's t-test, Mann-Whitney U, bootstrap CI, Benjamini-Hochberg correction"},
+        {"text": "has_comparison_rubric", "passed": true, "evidence": "Rubric template with per-dimension and per-category breakdowns"},
+        {"text": "has_report_template", "passed": true, "evidence": "Markdown report with decision matrix mapping significance to deploy/keep/iterate"}
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5},
+      "expectations": [
+        {"text": "has_github_actions", "passed": true, "evidence": "Complete GitHub Actions workflow with lint, eval, staging, canary, rollback stages"},
+        {"text": "has_path_scoped_triggers", "passed": true, "evidence": "Path-scoped triggers so only prompt file changes trigger tests"},
+        {"text": "has_eval_gate", "passed": true, "evidence": "Quality gate blocks merge if scores drop below threshold (absolute 0.7 or 15% relative)"},
+        {"text": "has_staging_env", "passed": true, "evidence": "Staging deploy before canary rollout (5% traffic)"},
+        {"text": "has_rollback_mechanism", "passed": true, "evidence": "Automated rollback on canary failure with shell script"}
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5},
+      "expectations": [
+        {"text": "has_github_actions", "passed": true, "evidence": "GitHub Actions CI pipeline with baseline vs candidate comparison"},
+        {"text": "has_path_scoped_triggers", "passed": true, "evidence": "Triggers on changes to prompt files in Git repository"},
+        {"text": "has_eval_gate", "passed": true, "evidence": "Hard gates blocking merge on safety regression, critical regression, latency spikes"},
+        {"text": "has_staging_env", "passed": true, "evidence": "Staged deployment with canary (5% traffic, 1-hour monitoring)"},
+        {"text": "has_rollback_mechanism", "passed": true, "evidence": "Auto-rollback on canary failure with monitoring anomaly detection"}
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0}
+    },
+    "without_skill": {
+      "pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0}
+    },
+    "delta": {
+      "pass_rate": "+0.00"
+    }
+  },
+  "notes": [
+    "All assertions non-discriminating — both configurations pass 100%",
+    "Qualitative: with_skill includes PromptRollback class, quality_monitor.py with hourly scheduled checks, and explicit PromptLoader module",
+    "without_skill uses simpler bash scripts but meets all assertion bars",
+    "Suggestion: add discriminating assertions like 'has_hourly_quality_monitoring' or 'has_prompt_linter_with_secret_detection'"
+  ]
+}

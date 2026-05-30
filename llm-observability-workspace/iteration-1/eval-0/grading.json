@@ -1,0 +1,64 @@
+{
+  "eval_id": 0,
+  "eval_name": "context-degradation-monitoring",
+  "with_skill": {
+    "assertions": [
+      {
+        "text": "has_context_health_metrics",
+        "passed": true,
+        "evidence": "Section 3 defines a full context health metrics table with 7 metrics: context utilization rate (already used tokens / window size), reference freshness (age of cited context in steps), coherence score (cross-turn reply consistency via LLM-as-Judge), token budget, compression event frequency, task drift, and repeated question rate. Each metric has defined normal/warning/danger ranges."
+      },
+      {
+        "text": "has_degradation_detection",
+        "passed": true,
+        "evidence": "Section 3 includes a complete Python function `detect_context_degradation(session)` that implements 5 detection heuristics: (1) window utilization check with compression trigger, (2) reference freshness check for stale context, (3) decision confidence decline detection via monotonic decrease over 3 steps, (4) repeated question detection via semantic similarity with threshold 0.85, (5) task drift detection via cosine similarity to initial goal embedding. This goes beyond monitoring to active detection with automated responses."
+      },
+      {
+        "text": "has_alert_thresholds",
+        "passed": true,
+        "evidence": "Section 5 defines specific numeric alert thresholds in YAML format: ContextWindowOverflow at utilization > 0.95 for 1m, RepeatedQuestionDetected at rate > 0.15 for 0s, AgentLoopDetected at redundant_rate > 0.5 and call_count > 10 for 1m, ContextUtilizationHigh at > 0.8 for 5m, StaleContextReference at oldest_age > 20 steps for 5m, ConfidenceDecline over 3 consecutive steps, TaskDriftDetected at drift_score > 0.3, and AgentCostSpike at per_session > $1.00."
+      },
+      {
+        "text": "has_dashboard_layout",
+        "passed": true,
+        "evidence": "Section 6 provides a detailed 5-row dashboard layout: Row 1 has 4 overview metric cards (active sessions, task completion rate, avg cost per session, avg response latency with P50/P95/P99). Row 2 has 3 degradation trend charts (context utilization histogram, repeated question rate trend, decision confidence trend). Row 3 has a tool audit table with 6 columns. Row 4 has an anomaly event list with 5 columns. Row 5 has a single-session trace view showing step-by-step decision chain with context and confidence metrics."
+      },
+      {
+        "text": "has_mttd_target",
+        "passed": true,
+        "evidence": "Section 10 explicitly defines MTTD targets: repeated question detection < 2 minutes (NLI semantic similarity real-time), context degradation < 5 minutes (utilization trend + reference freshness), loop execution < 1 minute (consecutive call detection + circuit breaker), task drift < 5 minutes, tool call failure < 1 minute, cost spike < 5 minutes. The overall design achieves MTTD < 5 minutes for the primary degradation scenarios."
+      }
+    ],
+    "pass_rate": 1.0
+  },
+  "without_skill": {
+    "assertions": [
+      {
+        "text": "has_context_health_metrics",
+        "passed": true,
+        "evidence": "The solution defines multiple context health metrics across sections 1.1-1.4: context faithfulness score (1 - repetition penalty), information recall rate (successful recalls / expected recalls), conversation coherence score (1 - contradiction penalty - dropped commitment penalty), and conversation efficiency score (based on turns, repeated questions, user frustration). These cover utilization, freshness, and coherence aspects in different but equivalent ways."
+      },
+      {
+        "text": "has_degradation_detection",
+        "passed": true,
+        "evidence": "The solution includes multiple detection algorithms: (1) `detect_repetition()` in ContextFaithfulnessTracker uses semantic similarity or keyword matching to detect repeated questions, (2) `check_recall()` in InformationRecallMonitor detects when Agent fails to recall previously provided information, (3) `check_contradiction()` in CoherenceMonitor uses LLM to detect logical contradictions, (4) `detect_degradation()` function in section 8.4 checks for decreasing quality scores, sudden changes, and quality drops. These are active detection heuristics, not just monitoring."
+      },
+      {
+        "text": "has_alert_thresholds",
+        "passed": true,
+        "evidence": "Section 9 defines specific numeric thresholds in AlertManager: repeated question count >= 2 triggers high severity, session quality CRITICAL triggers critical severity, session quality DEGRADED triggers medium severity, degraded_session_ratio > 0.3 triggers critical severity. Section 5.2 RealTimeGuard config specifies min_faithfulness_score: 0.7, min_recall_rate: 0.6, min_coherence_score: 0.7. Section 9 metric summary table lists thresholds: faithfulness < 0.5, recall < 0.6, coherence < 0.5, efficiency < 0.5, user frustration >= 2, degraded ratio >= 30%."
+      },
+      {
+        "text": "has_dashboard_layout",
+        "passed": true,
+        "evidence": "Section 5.2 provides an ASCII dashboard layout with 4 panels: (1) Real-time metrics showing active sessions, avg turns, degraded sessions, and health percentage bar, (2) Turn vs Quality trend chart with X-axis as conversation turns and Y-axis as quality score with intervention threshold line, (3) Root cause distribution bar chart showing 5 categories (CONTEXT_OVERFLOW, MEMORY_DECAY, STATE_LOSS, RECALL_FAILURE, UX_DEGRADATION), (4) Alert history timeline with severity levels and timestamps."
+      },
+      {
+        "text": "has_mttd_target",
+        "passed": false,
+        "evidence": "The solution defines processing latency requirements per layer (L1: < 200ms, L2: < 30s, L3: hourly) but does NOT explicitly set a Mean Time to Detect target for the degradation scenario. There is no statement like 'degradation should be detected within X minutes.' The layer latencies describe system processing time, not the end-to-end detection time objective for when degradation starts to when it is identified."
+      }
+    ],
+    "pass_rate": 0.8
+  }
+}

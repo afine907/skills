@@ -1,0 +1,7 @@
+{"eval_id": 2, "eval_name": "tool-accuracy-eval", "prompt": "我的 Agent 使用了 3 个外部工具（搜索、数据库查询、发邮件）。工具调用经常出问题——有时候选错工具，有时候参数传错，有时候工具报错但 Agent 假装没事继续回答。帮我评估工具调用的质量。", "assertions": [
+    {"text": "has_tool_selection_eval", "description": "Evaluates whether the agent selects the correct tool for each task"},
+    {"text": "has_param_accuracy_eval", "description": "Evaluates whether tool parameters are correct and well-formed"},
+    {"text": "has_error_handling_eval", "description": "Evaluates whether the agent handles tool errors gracefully (not silently ignoring)"},
+    {"text": "has_failure_injection", "description": "Includes fault injection tests (simulate tool failures to test agent behavior)"},
+    {"text": "has_tool_call_logging", "description": "Proposes structured logging of tool calls for evaluation"}
+]}

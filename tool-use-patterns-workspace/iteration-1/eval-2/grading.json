@@ -1,0 +1,24 @@
+{
+  "eval_id": 2,
+  "eval_name": "saga-rollback-pattern",
+  "with_skill": {
+    "assertions": [
+      {"text": "has_saga_pattern", "passed": true, "evidence": "SagaOrchestrator class with compensation/rollback in reverse order"},
+      {"text": "has_compensation_registration", "passed": true, "evidence": "Each step registers compensating action before execution"},
+      {"text": "has_step_logging", "passed": true, "evidence": "Execution Ledger with status (PENDING/RUNNING/SUCCEEDED/FAILED/COMPENSATED)"},
+      {"text": "has_idempotency_protection", "passed": true, "evidence": "Idempotency keys on all write operations"},
+      {"text": "has_failure_handling", "passed": true, "evidence": "Any step failure triggers reverse compensation + circuit breaker"}
+    ],
+    "pass_rate": 1.0
+  },
+  "without_skill": {
+    "assertions": [
+      {"text": "has_saga_pattern", "passed": true, "evidence": "SagaRunner class with rollback on failure"},
+      {"text": "has_compensation_registration", "passed": true, "evidence": "Steps declare rollback handlers up front"},
+      {"text": "has_step_logging", "passed": false, "evidence": "No execution ledger or structured step recording"},
+      {"text": "has_idempotency_protection", "passed": false, "evidence": "Mentioned in summary table but not implemented"},
+      {"text": "has_failure_handling", "passed": true, "evidence": "Exception triggers reverse rollback, logs compensation failures"}
+    ],
+    "pass_rate": 0.6
+  }
+}

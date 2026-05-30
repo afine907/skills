@@ -1,0 +1,7 @@
+{"eval_id": 0, "eval_name": "prompt-inventory-versioning", "prompt": "我们的客服 Agent 的 system prompt 散落在代码各处——有的在 Python 文件的字符串常量里，有的在 YAML 配置里，有的甚至在数据库里。每次修改 prompt 都担心会退化，但没有测试。帮我建立 Prompt 版本管理和回归测试体系。", "assertions": [
+    {"text": "has_extraction_strategy", "description": "Provides a strategy for finding and extracting prompts from scattered code locations"},
+    {"text": "has_version_structure", "description": "Defines a directory structure for prompt version control"},
+    {"text": "has_regression_tests", "description": "Defines regression test cases with expected outputs or behavioral properties"},
+    {"text": "has_cicd_pipeline", "description": "Includes CI/CD pipeline configuration (GitHub Actions or equivalent)"},
+    {"text": "has_rollback_procedure", "description": "Defines rollback procedure for bad prompt deployments"}
+]}

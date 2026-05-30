@@ -113,44 +113,84 @@ npx skills add https://github.com/afine907/skills --skill wo-yao-yan-pai
 
 ---
 
-# 🗂️ 技能牌组一览
+# 🗂️ 技能牌组一览 (67个技能)
 
 按软件工程生命周期分类展示。
 
-### 📋 需求阶段
+### 📋 需求阶段 (3个)
 | 技能 | 一句话 | 适合谁 |
 |------|--------|--------|
 | 📋 **requirements-analyzer** | 模糊需求 → 结构化文档 | 产品经理、技术方案 |
+| 📐 **tech-spec** | 需求 → 技术方案设计（架构、API、数据模型） | 技术负责人、架构师 |
+| 📖 **user-story** | 需求 → 用户故事 + 验收标准 + 故事点估算 | 产品经理、Scrum Master |
 
-### 🏗️ 开发阶段
+### 🏗️ 开发阶段 (25个)
 | 技能 | 一句话 | 适合谁 |
 |------|--------|--------|
 | 🧵 **task-loom** | 万字 PRD 秒变代码 | 项目启动、大需求拆解 |
+| 🔌 **api-design** | 业务需求 → RESTful API + OpenAPI 规范 | 后端开发、API 设计 |
+| 🕸️ **graphql-design** | 需求 → GraphQL Schema + DataLoader 优化 | GraphQL 项目 |
+| 🔐 **auth-patterns** | JWT/OAuth2/RBAC/MFA 认证授权实现 | 需要登录系统的项目 |
+| ⚡ **caching-strategy** | 缓存方案设计（Redis/穿透/击穿/雪崩防护） | 高并发系统 |
+| 🚩 **feature-flag** | 功能开关 + 灰度发布 + A/B 测试 | 需要精细发布的团队 |
+| 🌍 **i18n-helper** | 多语言国际化方案（React/Vue/Python） | 国际化项目 |
+| 📱 **react-service-creator** | React 项目脚手架（Next.js/Vite/Zustand） | 前端项目启动 |
+| 🐹 **go-service-creator** | Go 微服务脚手架（Gin/Echo/Fiber） | Go 后端项目 |
+| 🐍 **python-service-creator** | Python 后端脚手架（FastAPI/Flask） | Python 后端项目 |
+| 📡 **websocket-service** | WebSocket 实时通信（聊天/推送/通知） | 实时应用 |
+| 🔄 **microservice-patterns** | 微服务模式（Saga/服务发现/熔断降级） | 分布式系统 |
+| 📦 **monorepo-manager** | Monorepo 管理（Turborepo/pnpm workspace） | 多包项目 |
+| 🛠️ **cli-tool-creator** | CLI 工具开发（Python Typer/Node Commander） | 命令行工具 |
+| 📐 **typescript-service-creator** | TypeScript 后端脚手架（Express/Hono/Fastify） | TS 后端项目 |
+| 🍃 **vue-service-creator** | Vue 3/Nuxt 3 前端脚手架 | Vue 前端项目 |
+| 📱 **mobile-service-creator** | React Native/Flutter 移动端脚手架 | 移动应用开发 |
+| 🔄 **data-pipeline** | ETL 管道设计（Airflow/dbt） | 数据工程 |
+| 🔄 **code-migration** | 框架迁移方案（Python2→3/JS→TS） | 代码迁移 |
+| 🎭 **api-mocking** | API Mock 服务（前后端并行开发） | 前端独立开发 |
+| 🌱 **database-seeding** | 数据库种子数据生成（Faker/Factory） | 开发测试环境 |
+| 💾 **database-ops** | 数据库设计与运维（Schema/索引/迁移） | 数据库相关 |
+| 🎯 **prompt-cicd** | Prompt 版本管理 + 回归测试 + A/B 对比 | Prompt 工程师 |
+| 🔧 **tool-use-patterns** | AI Agent 工具集成模式 | Agent 开发者 |
 
-### ✅ 质量阶段
+### ✅ 质量阶段 (8个)
 | 技能 | 一句话 | 适合谁 |
 |------|--------|--------|
-| 🃏 **我要验牌** | 代码审查 → 报告 → 自动修复 | 所有用 AI 写代码的人 |
+| 🃏 **wo-yao-yan-pai** | 代码审查 → 报告 → 自动修复 | 所有用 AI 写代码的人 |
+| 🔍 **code-review** | 多维度代码审查（正确性/安全/性能/可维护性） | Code Review |
+| 🔒 **security-scan** | 安全漏洞扫描（OWASP Top 10/硬编码密钥） | 安全审计 |
+| ♿ **accessibility-audit** | 无障碍审计（WCAG 2.1/ARIA/键盘导航） | 前端无障碍 |
 | 🧠 **explain-code** | 代码结构 + 设计质量分析 | 接手老项目、写文档 |
 | 🧪 **test-generator** | 代码写完自动生成测试 | 追求测试覆盖率的团队 |
+| 📊 **test-strategy** | 测试策略设计（测试金字塔/覆盖率目标） | 测试负责人 |
+| 🤖 **agent-eval** | AI Agent 输出质量评估 | Agent 开发者 |
+| 🛡️ **agent-security** | AI Agent 安全模式 | Agent 开发者 |
 
-### 🔗 版本控制
+### 🔗 版本控制 (6个)
 | 技能 | 一句话 | 适合谁 |
 |------|--------|--------|
 | ✍️ **commit** | 再也不用想 commit message | 追求整洁 Git 历史 |
 | 🔍 **commit-diff-analyzer** | 两个 commit 改了啥一眼看穿 | Code Review、Debug |
 | 📝 **pr-description** | git diff → 结构化 PR 描述 + gh CLI 创建 | PR 提交流程、团队协作 |
 | 📜 **changelog-generator** | Git 标签 → Keep a Changelog 格式 | 发版准备、版本管理 |
+| 🌿 **git-branch** | Git 分支策略（Git Flow/Trunk-Based） | 团队 Git 规范 |
+| 🔀 **git-workflow** | 一键 Git 工作流（branch→stage→commit→push→PR） | 日常 Git 操作 |
 
-### 🖥️ 运维阶段
+### 🖥️ 运维阶段 (10个)
 | 技能 | 一句话 | 适合谁 |
 |------|--------|--------|
-| ⚙️ **ci-workflow** | 描述 → CI 配置文件（GitHub Actions/GitLab CI） | CI/CD 配置、流水线自动化 |
-| 🖥️ **remote-exec** | SSH 远程执行命令 | 服务器运维、部署排查 |
-| 📊 **log-analyzer** | 日志结构化分析，异常自动发现 | 线上排查、故障响应 |
-| ✅ **deploy-checklist** | 项目类型 → 预发布检查清单 | 发版准备、上线前检查 |
+| ⚙️ **ci-workflow** | 描述 → CI 配置文件（GitHub Actions/GitLab CI） | CI/CD 配置 |
+| 🖥️ **remote-exec** | SSH 远程执行命令 | 服务器运维 |
+| 📊 **log-analyzer** | 日志结构化分析，异常自动发现 | 线上排查 |
+| ✅ **deploy-checklist** | 项目类型 → 预发布检查清单 | 发版准备 |
+| 🚨 **incident-response** | 事故分级 → 应急处置 → RCA 复盘报告 | On-call、SRE |
+| 🔥 **load-testing** | 压力测试设计 + K6/Locust 脚本生成 | 性能测试 |
+| 🚚 **migration-helper** | 数据迁移方案 + 校验脚本 + 回滚策略 | 数据库迁移 |
+| ☸️ **k8s-cluster** | Kubernetes 集群管理配置 | K8s 运维 |
+| 📦 **k8s-gen** | K8s 部署配置生成 | K8s 部署 |
+| 📈 **llm-observability** | AI Agent 可观测性（决策追踪/成本监控） | Agent 运维 |
+| 💰 **cost-optimization** | 云成本优化 + AI Token 成本追踪 | 成本管控 |
 
-### ✍️ 效率工具
+### ✍️ 效率工具 (9个)
 | 技能 | 一句话 | 适合谁 |
 |------|--------|--------|
 | 📝 **technical-article-writer** | 自动搜索 + 写技术文章 | 写博客、写文档 |
@@ -159,6 +199,18 @@ npx skills add https://github.com/afine907/skills --skill wo-yao-yan-pai
 | 🔤 **regex-buddy** | 描述 → 正则 + 逐段解释 + 测试用例 | 数据提取、格式校验 |
 | 🎯 **prompt-engineering** | 任务描述 → 高质量 LLM prompt | 技能创建、AI 工作流 |
 | 📓 **meeting-notes** | 会议录音 → 结构化会议纪要 | 团队同步、每日站会 |
+| 📄 **doc-generator** | 代码 → 文档（README/API/架构/注释） | 文档补充 |
+| 🔗 **symlink-maker** | 跨平台符号链接创建 | 文件管理 |
+| 🧠 **self-improve** | AI 纠错经验固化 | 持续改进 |
+
+### 📚 参考速查 (5个)
+| 技能 | 一句话 | 适合谁 |
+|------|--------|--------|
+| 🌐 **api-debug** | API 调试实战（curl/httpie/状态码/jq） | 接口调试 |
+| 🐳 **docker-essentials** | Docker 容器管理速查 | 容器操作 |
+| 🐧 **linux-ops** | Linux 运维速查（进程/网络/日志） | 服务器运维 |
+| ⚡ **performance-profiling** | 性能分析（Python/Node/DB/系统） | 性能优化 |
+| 🧪 **python-testing** | Python 测试速查（pytest/mock/fixtures） | Python 测试 |
 
 <br>
 
