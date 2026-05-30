@@ -1,25 +1,18 @@
 ---
 name: self-improve
-description: |
-  【经验固化】用户纠正AI时的经验固化，确保错误不贰过。
-  触发时机：用户说"记住这个"、"这个不对"、"以后别这样"。
-  将结构化教训写入正确位置，适用于复盘和记录教训。
-category: productivity
+description: >
+  用户纠正AI时的经验固化。当用户说"记住这个"、"这个不对"、"以后别这样"、"写到规则里"、"记一下"时触发。
+  诊断"为什么会执行不对"（CLAUDE.md缺规则/rules写得不好/没有记忆），将结构化教训写入正确位置，
+  确保错误不贰过。也适用于复盘、总结经验、记录教训等场景。
 ---
 
 # Self-Improve — 经验固化
-
-
-## Goal
-
->
-
 
 ## 目标
 
 当用户纠正AI时，记录这次纠正过程，确保未来会话不再犯同样的错误。
 
-## Trigger
+## 触发时机
 
 用户说出以下任一关键词时触发：
 - 记住这个、记一下、以后注意、别再犯
@@ -54,14 +47,15 @@ category: productivity
 
 ### Step 3: 提取结构化教训
 
+使用以下格式提取教训（每条控制在 5 行以内）：
+
 ```markdown
 ### [简短标题]
-
-**错误/现象**: 发生了什么
-**原因**: 为什么会这样（用户给出 + 诊断结果）
-**正确做法**: 用户期望怎么做
-**适用场景**: 什么时候用这条经验
-**诊断结论**: 根因 + 写入位置
+- **错误**: 描述发生了什么
+- **原因**: 根本原因分析
+- **正确做法**: 标准操作流程
+- **场景**: 适用条件
+- **来源**: 日期
 ```
 
 ### Step 3.5: 去重检查
@@ -77,6 +71,11 @@ category: productivity
 根据诊断结论选择写入位置。详见 [references/write-locations.md](references/write-locations.md)。
 
 写入时使用对应格式模板，详见 [references/rules-templates.md](references/rules-templates.md)。
+
+**格式要求**：
+- 始终加载规则：无 frontmatter
+- 懒加载规则：使用 `globs` + `alwaysApply: false`
+- 参考官方文档：https://code.claude.com/docs/zh-CN/memory#使用-clauderules-组织规则
 
 ### Step 5: 记录本次复盘会话
 
@@ -95,6 +94,8 @@ category: productivity
 
 ## 输出示例
 
+### 示例 1：通用规则（始终加载）
+
 ```markdown
 ## 诊断结果
 
@@ -102,11 +103,7 @@ category: productivity
 
 **根因**: CLAUDE.md 中没有关于异步执行的规则
 
-**写入位置**: `.claude/rules/general.md`
-
-## 去重检查
-
-已检查 CLAUDE.md 和 .claude/rules/，未发现相似条目。
+**写入位置**: `.claude/rules/general.md`（无 globs，始终加载）
 
 ## 写入内容
 
@@ -115,11 +112,39 @@ category: productivity
 - **原因**: 这是旧写法，Python 3.12+ 已废弃
 - **正确做法**: 使用 `asyncio.to_thread()` 执行同步代码
 - **场景**: 在 async handler 中需要调用同步函数时
-- **来源**: 会话 2026-05-23
+- **来源**: 2026-05-23
 
-## 复盘记录
+---
+```
 
-已写入 `.claude/retrospectives/2026-05-25-asyncio-rules.md`
+### 示例 2：专项规则（懒加载）
+
+```markdown
+## 诊断结果
+
+用户说："记住：CI 中 Node.js 要用 22 版本"
+
+**根因**: `.claude/rules/` 缺少 CI/CD 相关规则
+
+**写入位置**: `.claude/rules/ci-cd.md`（使用 globs 懒加载）
+
+## 写入内容
+
+文件内容：
+---
+description: "CI/CD 相关规则"
+globs: [".github/workflows/*.yml", "Makefile"]
+alwaysApply: false
+---
+
+### Node.js 版本
+- **错误**: pnpm install 失败
+- **原因**: pnpm 11+ 需要 Node.js >= 22.13
+- **正确做法**: 使用 `node-version: '22'`
+- **场景**: CI 中使用 pnpm 时
+- **来源**: 2026-05-30
+
+---
 ```
 
 ## 与其他 Skill 的协作
@@ -133,4 +158,8 @@ category: productivity
 2. **精简**: 每条教训控制在 5 行以内，太长没人看
 3. **可操作**: "正确做法"必须是具体的命令或步骤，不是抽象建议
 4. **溯源**: 标注来源（日期），方便追溯
-5. **格式正确**: `.claude/rules/` 中的 `paths` 必须使用 YAML 数组语法
+5. **格式正确**: 使用 `globs` 字段（不是 `paths`），格式为 JSON 数组：
+   ```yaml
+   globs: ["**/*.ts", "**/*.tsx"]
+   alwaysApply: false
+   ```
