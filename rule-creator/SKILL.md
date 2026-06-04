@@ -1,6 +1,7 @@
 ---
 name: rule-creator
-description: Create Claude Code rules for .claude/rules/ directory. Use this skill when the user wants to create, add, or set up rules for Claude Code, including testing rules, code style rules, API design rules, or any project-specific conventions. Trigger on phrases like "create a rule", "add a rule", "set up rules", "Claude Code rules", ".claude/rules", or when discussing project conventions that should be enforced.
+category: development
+description: Create Claude Code rules for .claude/rules/ directory. Trigger on "create a rule", "add a rule", "set up rules", or ".claude/rules".
 ---
 
 # Rule Creator
