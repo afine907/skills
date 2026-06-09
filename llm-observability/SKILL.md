@@ -3,6 +3,7 @@ name: llm-observability
 description: |
   【LLM 可观测性】为 AI Agent 系统设计可观测性方案。触发时机：用户说"agent 监控"、"LLM 可观测性"、"agent tracing"、"agent 日志"时。
 category: operations
+user-invocable: false
 ---
 
 # LLM Observability — AI Agent 可观测性设计
@@ -227,3 +228,10 @@ category: operations
 - `log-analyzer` — 扩展服务器日志模式到 Agent 决策日志
 - `tool-use-patterns` — 工具调用指标是可观测性的核心维度
 - `task-loom` — 复用 Ledger 模式存储决策追踪
+
+## 参考资料
+
+- 追踪 Schema: [references/trace-schema.json](references/trace-schema.json)
+- 上下文健康检查清单: [references/context-health-checklist.md](references/context-health-checklist.md)
+- 告警规则模板: [references/alert-rules.md](references/alert-rules.md)
+- 指标目录: [references/metrics-catalog.md](references/metrics-catalog.md)

@@ -45,6 +45,7 @@ htmlcov/
 
 # Skill development workspace (generated files)
 *-workspace/
+knowledge-base-eval/
 
 # OS
 .DS_Store

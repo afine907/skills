@@ -10,6 +10,7 @@ description: |
 
   提供完整命令和最佳实践。
 category: reference
+user-invocable: false
 ---
 
 # Docker Essentials — Docker 实战指南
@@ -293,6 +294,95 @@ docker cp web:/app/logs ./logs                # 复制文件
 docker export web > web.tar
 ```
 
+## 多平台构建（BuildKit/buildx）
+
+### 设置 buildx
+
+```bash
+# 创建构建器
+docker buildx create --name mybuilder --use
+docker buildx inspect --bootstrap
+
+# 列出构建器
+docker buildx ls
+```
+
+### 多平台构建
+
+```bash
+# 构建多平台镜像
+docker buildx build --platform linux/amd64,linux/arm64 -t myapp:1.0 .
+
+# 推送到仓库
+docker buildx build --platform linux/amd64,linux/arm64 \
+  -t registry.example.com/myapp:1.0 \
+  --push .
+
+# 构建并加载到本地
+docker buildx build --platform linux/amd64 -t myapp:1.0 --load .
+```
+
+### Dockerfile 多平台兼容
+
+```dockerfile
+# 使用 TARGETARCH 变量
+FROM --platform=$BUILDPLATFORM node:20-alpine AS builder
+ARG TARGETARCH
+WORKDIR /app
+COPY . .
+RUN npm ci && npm run build
+
+FROM node:20-alpine
+COPY --from=builder /app/dist ./dist
+CMD ["node", "dist/index.js"]
+```
+
+## Docker 系统配置（daemon.json）
+
+```json
+{
+  "data-root": "/data/docker",
+  "storage-driver": "overlay2",
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "3"
+  },
+  "registry-mirrors": [
+    "https://mirror.example.com"
+  ],
+  "insecure-registries": [],
+  "default-address-pools": [
+    {"base": "172.17.0.0/12", "size": 24}
+  ],
+  "max-concurrent-downloads": 10,
+  "max-concurrent-uploads": 5
+}
+```
+
+```bash
+# 重启 Docker 使配置生效
+systemctl restart docker
+
+# 查看配置
+docker info | grep -A 5 "Docker Root Dir"
+```
+
+## 镜像扫描与安全
+
+```bash
+# Docker Scout（推荐）
+docker scout cves myapp:latest             # 扫描漏洞
+docker scout recommendations myapp:latest  # 安全建议
+
+# Trivy（开源工具）
+trivy image myapp:latest                   # 扫描镜像
+trivy image --severity HIGH,CRITICAL myapp:latest  # 仅高危
+
+# Grype（开源工具）
+grype myapp:latest                         # 扫描镜像
+```
+
 ## 安全最佳实践
 
 1. **非 root 运行**: `USER node`
@@ -301,6 +391,8 @@ docker export web > web.tar
 4. **扫描漏洞**: `docker scout cves myapp`
 5. **使用签名镜像**: Docker Content Trust
 6. **最小权限**: 只暴露必要端口
+7. **多阶段构建**: 减少攻击面
+8. **固定基础镜像版本**: 避免使用 `latest` 标签
 
 ## 快速使用
 

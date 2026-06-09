@@ -11,6 +11,7 @@ description: |
 
   提供完整的测试策略和代码示例。
 category: reference
+user-invocable: false
 ---
 
 # Python Testing — Python 测试完整指南
@@ -385,6 +386,192 @@ async def async_db():
 async def test_async_query(async_db):
     result = await async_db.query("SELECT 1")
     assert result is not None
+```
+
+## 属性测试（Hypothesis）
+
+### 基础用法
+
+```python
+from hypothesis import given, strategies as st
+
+# 自动生成测试数据
+@given(st.text())
+def test_encode_decode_roundtrip(s):
+    encoded = encode(s)
+    decoded = decode(encoded)
+    assert decoded == s
+
+@given(st.lists(st.integers()))
+def test_sort_is_idempotent(lst):
+    # 排序两次结果相同
+    assert sorted(sorted(lst)) == sorted(lst)
+
+@given(st.integers(min_value=0, max_value=1000))
+def test_addition_commutative(a, b):
+    # 加法交换律
+    assert a + b == b + a
+```
+
+### 复杂策略
+
+```python
+from hypothesis import given, strategies as st, settings
+from hypothesis.stateful import RuleBasedStateMachine, rule, initialize
+
+# 自定义策略
+user_strategy = st.fixed_dictionaries({
+    "email": st.emails(),
+    "name": st.text(min_size=1, max_size=50),
+    "age": st.integers(min_value=0, max_value=150),
+    "role": st.sampled_from(["admin", "user", "guest"]),
+})
+
+@given(user_strategy)
+def test_create_user(user):
+    db_user = create_user(user)
+    assert db_user.email == user["email"]
+
+# 状态机测试
+class ShoppingCart(RuleBasedStateMachine):
+    @initialize()
+    def setup(self):
+        self.cart = ShoppingCart()
+
+    @rule(item=st.sampled_from(["apple", "banana", "orange"]))
+    def add_item(self, item):
+        self.cart.add(item)
+
+    @rule()
+    def checkout(self):
+        if self.cart.items:
+            order = self.cart.checkout()
+            assert order.total > 0
+
+TestShoppingCart = ShoppingCart.TestCase
+```
+
+### 配置和标记
+
+```python
+from hypothesis import given, settings, HealthCheck
+
+# 设置最大示例数
+@given(st.integers())
+@settings(max_examples=100)
+def test_with_limited_examples(n):
+    pass
+
+# 忽略特定警告
+@given(st.data())
+@settings(suppress_health_check=[HealthCheck.too_slow])
+def test_slow_operation(data):
+    pass
+
+# 标记为慢测试
+@pytest.mark.slow
+@given(st.lists(st.integers(), min_size=1))
+def test_sort_performance(lst):
+    result = sort_list(lst)
+    assert result == sorted(lst)
+```
+
+## 集成测试（testcontainers）
+
+### 基础用法
+
+```python
+import pytest
+from testcontainers.postgres import PostgresContainer
+from testcontainers.redis import RedisContainer
+from testcontainers.mysql import MySqlContainer
+
+@pytest.fixture(scope="session")
+def postgres():
+    with PostgresContainer("postgres:15-alpine") as pg:
+        yield pg
+
+@pytest.fixture(scope="session")
+def redis():
+    with RedisContainer("redis:7-alpine") as redis:
+        yield redis
+
+def test_database_operations(postgres):
+    # postgres.get_connection_url() 获取连接
+    conn = postgres.get_connection_url()
+    db = create_database(conn)
+    
+    # 测试数据库操作
+    user = db.create_user({"email": "test@example.com"})
+    assert user.id is not None
+
+def test_with_redis(redis):
+    client = redis.get_client()
+    client.set("key", "value")
+    assert client.get("key") == b"value"
+```
+
+### Docker Compose 测试
+
+```python
+import pytest
+from testcontainers.compose import DockerCompose
+
+@pytest.fixture(scope="session")
+def services():
+    with DockerCompose(
+        ".",
+        compose_file_name="docker-compose.test.yml",
+        build=True
+    ) as compose:
+        yield compose
+
+def test_api_with_services(services):
+    # 等待服务就绪
+    services.wait_for("http://localhost:3000/health")
+    
+    # 测试 API
+    response = requests.get("http://localhost:3000/api/users")
+    assert response.status_code == 200
+```
+
+### 测试数据工厂
+
+```python
+from faker import Faker
+import factory
+
+fake = Faker()
+
+class UserFactory(factory.Factory):
+    class Meta:
+        model = User
+
+    email = factory.LazyFunction(fake.email)
+    name = factory.LazyFunction(fake.name)
+    password = factory.LazyFunction(fake.password)
+    
+    @factory.lazy_attribute
+    def password_hash(self):
+        return hash_password(self.password)
+
+class OrderFactory(factory.Factory):
+    class Meta:
+        model = Order
+
+    user = factory.SubFactory(UserFactory)
+    items = factory.LazyFunction(
+        lambda: [
+            {"product_id": fake.random_int(), "quantity": fake.random_int(min=1, max=10)}
+            for _ in range(fake.random_int(min=1, max=5))
+        ]
+    )
+
+# 使用
+def test_order_creation():
+    order = OrderFactory()
+    assert order.user is not None
+    assert len(order.items) > 0
 ```
 
 ## 测试模式

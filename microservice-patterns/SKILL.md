@@ -10,6 +10,7 @@ description: |
 
   提供模式选择建议和代码实现。
 category: development
+user-invocable: false
 ---
 
 # Microservice Patterns — 微服务设计模式
@@ -45,6 +46,24 @@ category: development
 | 过早拆分 | 复杂度爆炸 | 先单体，后拆分 |
 | 粒度过细 | 分布式单体 | 合并紧密耦合的服务 |
 | 共享数据库 | 服务间强耦合 | 每个服务独立数据库 |
+
+## API Gateway
+
+微服务架构的统一入口，提供路由、认证、限流、协议转换等功能。
+
+| 方案 | 特点 | 适用场景 |
+|------|------|----------|
+| Kong | 基于 Nginx、插件丰富 | 通用 API 网关 |
+| APISIX | 高性能、动态配置 | 高并发场景 |
+| Spring Cloud Gateway | 响应式、Spring 生态 | Spring Cloud 项目 |
+
+### 核心功能
+
+- **路由转发**: 根据路径/Header 转发到后端服务
+- **认证授权**: 集中处理 JWT/OAuth2 认证
+- **限流熔断**: 保护后端服务
+- **协议转换**: HTTP ↔ gRPC 转换
+- **请求聚合**: 合并多个后端服务的响应
 
 ## 通信模式
 
@@ -120,6 +139,25 @@ class UserClient:
 商品服务 ──▶ 商品数据库 (MongoDB)
 ```
 
+### CQRS（命令查询职责分离）
+
+将读写操作分离到不同的模型和数据库，适用于读写比例差异大的场景。
+
+```
+写操作 (Command):
+  用户请求 → 命令服务 → 写数据库 → 发布事件
+
+读操作 (Query):
+  用户请求 → 查询服务 → 读数据库（反规范化）
+                  ↑
+            事件消费 → 更新读库
+```
+
+**适用场景**:
+- 读写比例 > 10:1
+- 查询复杂度远高于写入
+- 需要不同的读写优化策略
+
 ### Saga 模式 (分布式事务)
 
 ```
@@ -177,7 +215,7 @@ class OrderSaga:
 | Consul | 健康检查、KV 存储 | 通用 |
 | etcd | 强一致性、K8s 使用 | Kubernetes |
 | Nacos | 配置管理、阿里开源 | Spring Cloud |
-| Eureka | Netflix、简单 | Spring Cloud |
+| Eureka | Netflix、简单（已停止维护） | Spring Cloud |
 
 ### 客户端发现
 
@@ -258,12 +296,12 @@ class CircuitBreaker:
 from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
-from opentelemetry.exporter.jaeger.thrift import JaegerExporter
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
 
-# 初始化
+# 初始化（推荐使用 OTLP 导出器，兼容 Jaeger/Zipkin/任何 OTLP 后端）
 provider = TracerProvider()
-jaeger_exporter = JaegerExporter(agent_host_name="localhost", agent_port=6831)
-provider.add_span_processor(BatchSpanProcessor(jaeger_exporter))
+otlp_exporter = OTLPSpanExporter(endpoint="localhost:4317", insecure=True)
+provider.add_span_processor(BatchSpanProcessor(otlp_exporter))
 trace.set_tracer_provider(provider)
 
 tracer = trace.get_tracer(__name__)

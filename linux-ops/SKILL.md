@@ -10,6 +10,7 @@ description: |
 
   提供完整命令和排查流程。
 category: reference
+user-invocable: false
 ---
 
 # Linux Ops — Linux 运维实战指南
@@ -289,6 +290,144 @@ chmod +t dir                                  # Sticky bit
 setfacl -m u:user:rw file                     # 用户 ACL
 setfacl -m g:group:rx file                    # 组 ACL
 getfacl file                                  # 查看 ACL
+```
+
+## 定时任务管理
+
+### cron 定时任务
+
+```bash
+# 编辑定时任务
+crontab -e                                # 编辑当前用户的 cron
+
+# 查看定时任务
+crontab -l                                # 列出当前用户的 cron
+crontab -l -u username                    # 列出指定用户的 cron
+
+# cron 表达式格式
+# 分 时 日 月 周 命令
+# 0 2 * * * /path/to/script.sh           # 每天凌晨 2 点
+# 0 */4 * * * /path/to/script.sh         # 每 4 小时
+# 0 9 * * 1-5 /path/to/script.sh         # 工作日 9 点
+# 0 0 1 * * /path/to/script.sh           # 每月 1 号
+
+# 常用示例
+0 * * * * /path/to/hourly.sh             # 每小时
+30 2 * * * /path/to/daily.sh             # 每天 2:30
+0 0 * * 0 /path/to/weekly.sh             # 每周日
+0 0 1 * * /path/to/monthly.sh            # 每月
+```
+
+### at 一次性任务
+
+```bash
+# 创建任务
+echo "/path/to/script.sh" | at now + 1 hour    # 1 小时后执行
+echo "/path/to/script.sh" | at 23:00           # 今晚 23 点
+at now + 30 minutes                            # 交互式输入
+
+# 查看任务
+atq                                           # 列出队列中的任务
+at -c 123                                     # 查看任务详情
+
+# 删除任务
+atrm 123                                      # 删除指定任务
+```
+
+### systemd timer（推荐）
+
+```ini
+# /etc/systemd/system/mytask.timer
+[Unit]
+Description=Run mytask daily
+
+[Timer]
+OnCalendar=*-*-* 02:00:00
+Persistent=true
+Unit=mytask.service
+
+[Install]
+WantedBy=timers.target
+```
+
+```ini
+# /etc/systemd/system/mytask.service
+[Unit]
+Description=My scheduled task
+
+[Service]
+Type=oneshot
+ExecStart=/path/to/script.sh
+```
+
+```bash
+systemctl enable --now mytask.timer          # 启用定时器
+systemctl list-timers                       # 查看所有定时器
+```
+
+## 防火墙管理
+
+### iptables
+
+```bash
+# 查看规则
+iptables -L -n -v                           # 列出所有规则
+iptables -L -n -v --line-numbers            # 带行号
+
+# 基本规则
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT    # 允许 80 端口
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT   # 允许 443 端口
+iptables -A INPUT -s 192.168.1.0/24 -j ACCEPT    # 允许特定网段
+iptables -A INPUT -j DROP                         # 拒绝其他
+
+# 删除规则
+iptables -D INPUT 3                          # 删除第 3 条规则
+iptables -F                                  # 清空所有规则
+
+# 保存规则
+iptables-save > /etc/iptables/rules.v4       # 保存
+iptables-restore < /etc/iptables/rules.v4    # 恢复
+```
+
+### firewalld（CentOS/RHEL）
+
+```bash
+# 查看状态
+firewall-cmd --state
+firewall-cmd --list-all
+
+# 管理端口
+firewall-cmd --add-port=80/tcp --permanent   # 添加端口
+firewall-cmd --remove-port=80/tcp --permanent # 移除端口
+firewall-cmd --reload                         # 重载配置
+
+# 管理服务
+firewall-cmd --add-service=http --permanent   # 允许 HTTP 服务
+firewall-cmd --remove-service=http --permanent
+
+# 管理区域
+firewall-cmd --get-active-zones              # 查看活跃区域
+firewall-cmd --zone=public --add-interface=eth0  # 添加接口到区域
+```
+
+### ufw（Ubuntu/Debian）
+
+```bash
+# 基本操作
+ufw status verbose                         # 查看状态
+ufw enable                                 # 启用防火墙
+ufw disable                                # 禁用防火墙
+
+# 规则管理
+ufw allow 22/tcp                           # 允许 SSH
+ufw allow 80,443/tcp                       # 允许 HTTP/HTTPS
+ufw allow from 192.168.1.0/24              # 允许特定网段
+ufw deny 3306                              # 拒绝 MySQL
+
+# 删除规则
+ufw delete allow 80/tcp                    # 删除规则
+ufw status numbered                        # 带编号查看
+ufw delete 3                               # 按编号删除
 ```
 
 ## 故障排查流程

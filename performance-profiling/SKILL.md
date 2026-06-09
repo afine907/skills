@@ -10,6 +10,7 @@ description: |
 
   支持 Python/Node.js/数据库/系统级分析。
 category: reference
+user-invocable: false
 ---
 
 # Performance Profiling — 性能分析技能
@@ -307,6 +308,118 @@ git clone https://github.com/brendangregg/FlameGraph
 cd FlameGraph
 ./stackcollapse-perf.pl ../out.perf > out.folded
 ./flamegraph.pl out.folded > flamegraph.svg
+```
+
+### 火焰图解读指南
+
+**火焰图结构**：
+- **X 轴**: 采样次数（宽度表示占用 CPU 时间的比例）
+- **Y 轴**: 调用栈深度（底部是入口，顶部是当前执行函数）
+- **颜色**: 随机分配，无特殊含义
+
+**如何定位瓶颈**：
+
+1. **找最宽的"平顶山"** — 这是 CPU 时间消耗最多的函数
+2. **查看调用路径** — 从底部到顶部，看是什么调用链导致了这个函数
+3. **区分应用代码和库代码** — 应用代码是优化重点
+4. **关注 Self Time** — 函数自身消耗的时间（非子调用）
+
+**常见模式**：
+
+| 模式 | 现象 | 优化方向 |
+|------|------|----------|
+| 单一宽峰 | 某个函数占大部分 CPU | 优化该函数算法 |
+| 锯齿状 | 多个函数交替执行 | 检查锁竞争或上下文切换 |
+| 深调用栈 | 调用层级很深 | 考虑扁平化或缓存 |
+| 浅而宽 | 循环密集 | 向量化或并行化 |
+
+**Python 火焰图**：
+
+```bash
+# 使用 py-spy
+py-spy record -o flamegraph.svg --pid 12345
+
+# 或使用 Austin + flameprof
+pip install austin
+austin -o profile.austin python script.py
+
+# 转换为火焰图
+pip install flameprof
+flameprof profile.austin > flamegraph.svg
+```
+
+## 压测工具
+
+### k6（推荐）
+
+```bash
+# 安装
+# macOS: brew install k6
+# Linux: sudo snap install k6
+
+# 基本压测
+k6 run script.js
+
+# 脚本示例
+```
+
+```javascript
+import http from 'k6/http';
+import { check, sleep } from 'k6';
+
+export const options = {
+  stages: [
+    { duration: '30s', target: 20 },  // 30 秒内升到 20 用户
+    { duration: '1m', target: 20 },   // 保持 20 用户 1 分钟
+    { duration: '30s', target: 0 },   // 30 秒内降到 0
+  ],
+  thresholds: {
+    http_req_duration: ['p(95)<500'],  // 95% 请求 < 500ms
+    http_req_failed: ['rate<0.01'],    // 错误率 < 1%
+  },
+};
+
+export default function () {
+  const res = http.get('http://localhost:3000/api/users');
+  check(res, {
+    'status is 200': (r) => r.status === 200,
+    'response time < 500ms': (r) => r.timings.duration < 500,
+  });
+  sleep(1);
+}
+```
+
+### Locust（Python）
+
+```python
+from locust import HttpUser, task, between
+
+class WebsiteUser(HttpUser):
+    wait_time = between(1, 3)
+
+    @task(3)  # 权重 3
+    def index(self):
+        self.client.get("/")
+
+    @task(1)  # 权重 1
+    def about(self):
+        self.client.get("/about")
+
+    def on_start(self):
+        """用户启动时执行"""
+        self.client.post("/login", json={
+            "username": "test",
+            "password": "pass"
+        })
+```
+
+```bash
+# 运行压测
+locust -f locustfile.py --host=http://localhost:3000
+
+# 无界面模式
+locust -f locustfile.py --host=http://localhost:3000 \
+  --headless -u 100 -r 10 --run-time 1m
 ```
 
 ## 优化检查清单

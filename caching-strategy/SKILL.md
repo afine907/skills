@@ -10,6 +10,7 @@ description: |
 
   支持 Redis/Memcached/本地缓存方案设计。
 category: development
+user-invocable: false
 ---
 
 # Caching Strategy — 缓存策略技能
@@ -61,7 +62,7 @@ async def get_user(user_id: str) -> User:
     cache_key = f"user:{user_id}"
     cached = await redis.get(cache_key)
     if cached:
-        return User.parse_raw(cached)
+        return User.model_validate_json(cached)
     
     # 2. 查数据库
     user = await db.get_user(user_id)
@@ -71,7 +72,7 @@ async def get_user(user_id: str) -> User:
         return None
     
     # 3. 写入缓存
-    await redis.setex(cache_key, 3600, user.json())
+    await redis.setex(cache_key, 3600, user.model_dump_json())
     return user
 
 async def update_user(user_id: str, data: UserUpdate):

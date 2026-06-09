@@ -10,6 +10,7 @@ description: |
 
   提供完整的认证授权实现方案。
 category: development
+user-invocable: false
 ---
 
 # Auth Patterns — 认证授权模式
@@ -65,7 +66,7 @@ category: development
 ### Python 实现
 
 ```python
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from fastapi import Depends, HTTPException, status
@@ -82,13 +83,13 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 
 def create_access_token(data: dict, expires_delta: timedelta = None) -> str:
     to_encode = data.copy()
-    expire = datetime.utcnow() + (expires_delta or timedelta(minutes=15))
+    expire = datetime.now(timezone.utc) + (expires_delta or timedelta(minutes=15))
     to_encode.update({"exp": expire, "type": "access"})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 def create_refresh_token(data: dict) -> str:
     to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(days=7)
+    expire = datetime.now(timezone.utc) + timedelta(days=7)
     to_encode.update({"exp": expire, "type": "refresh"})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
@@ -135,6 +136,77 @@ async def refresh_token(refresh_token: str):
     new_access_token = create_access_token({"sub": payload["sub"]})
     return {"access_token": new_access_token, "token_type": "bearer"}
 ```
+
+## ABAC 权限模型
+
+基于属性的访问控制，通过用户属性、资源属性、环境属性动态计算权限。
+
+### 核心概念
+
+| 维度 | 属性示例 | 说明 |
+|------|----------|------|
+| 用户属性 | role, department, clearance_level | 用户的身份和资质 |
+| 资源属性 | owner, classification, type | 资源的元数据 |
+| 环境属性 | time, ip, device_type | 访问时的上下文 |
+
+### Python 实现
+
+```python
+from dataclasses import dataclass
+from typing import Callable
+
+@dataclass
+class ABACPolicy:
+    name: str
+    condition: Callable[[dict], bool]  # 返回 True 表示允许
+
+class ABACEngine:
+    def __init__(self):
+        self.policies: list[ABACPolicy] = []
+    
+    def add_policy(self, policy: ABACPolicy):
+        self.policies.append(policy)
+    
+    def evaluate(self, user: dict, resource: dict, environment: dict) -> bool:
+        context = {
+            "user": user,
+            "resource": resource,
+            "env": environment
+        }
+        # 所有策略都必须通过（AND 逻辑）
+        return all(p.condition(context) for p in self.policies)
+
+# 定义策略
+def only_owner(context: dict) -> bool:
+    return context["user"]["id"] == context["resource"]["owner"]
+
+def business_hours(context: dict) -> bool:
+    hour = context["env"]["hour"]
+    return 9 <= hour <= 18
+
+def high_clearance(context: dict) -> bool:
+    return context["user"]["clearance_level"] >= context["resource"]["classification"]
+
+# 使用
+engine = ABACEngine()
+engine.add_policy(ABACPolicy("only_owner", only_owner))
+engine.add_policy(ABACPolicy("business_hours", business_hours))
+
+allowed = engine.evaluate(
+    user={"id": "u123", "clearance_level": 3},
+    resource={"owner": "u123", "classification": 2},
+    environment={"hour": 14}
+)
+```
+
+### RBAC vs ABAC
+
+| 维度 | RBAC | ABAC |
+|------|------|------|
+| 权限粒度 | 粗（角色级） | 细（属性级） |
+| 实现复杂度 | 低 | 高 |
+| 动态性 | 静态角色 | 动态计算 |
+| 适用场景 | 通用权限控制 | 复杂业务规则 |
 
 ## RBAC 权限模型
 
@@ -229,6 +301,49 @@ async def delete_user(user_id: str, current_user = Depends(get_current_user)):
 ```
 
 ## OAuth2 实现
+
+### PKCE Flow（推荐用于 SPA/Mobile）
+
+PKCE（Proof Key for Code Exchange）是 OAuth2 的安全增强，适用于无后端的客户端。
+
+```
+流程:
+1. 客户端生成 code_verifier（随机字符串）和 code_challenge（SHA256 哈希）
+2. 授权请求带 code_challenge
+3. 回调时带 code_verifier
+4. 服务端验证 code_verifier 匹配 code_challenge
+```
+
+```python
+import hashlib
+import secrets
+from fastapi import Request
+
+def generate_pkce_pair() -> tuple[str, str]:
+    """生成 PKCE code_verifier 和 code_challenge"""
+    code_verifier = secrets.token_urlsafe(32)
+    code_challenge = hashlib.sha256(code_verifier.encode()).digest()
+    import base64
+    code_challenge = base64.urlsafe_b64encode(code_challenge).rstrip(b'=').decode()
+    return code_verifier, code_challenge
+
+# 存储 code_verifier（到 session 或临时存储）
+session["pkce_verifier"] = code_verifier
+
+# 授权请求
+authorize_url = (
+    f"https://github.com/login/oauth/authorize"
+    f"?client_id={CLIENT_ID}"
+    f"&code_challenge={code_challenge}"
+    f"&code_challenge_method=S256"
+)
+
+# 回调时验证
+async def oauth_callback(code: str, request: Request):
+    code_verifier = session["pkce_verifier"]
+    # 交换 token 时带上 code_verifier
+    token = await exchange_code(code, code_verifier=code_verifier)
+```
 
 ### GitHub 登录
 
