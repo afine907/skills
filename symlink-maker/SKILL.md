@@ -6,41 +6,35 @@ category: productivity
 
 # Symlink Maker
 
-Creates symbolic links for files or directories. Cross-platform (Windows/macOS/Linux).
+Cross-platform symlink creator (Windows/macOS/Linux).
 
-
-## Goal
-
-Create symbolic links (symlinks) for files or directories.
-
-## Workflow
-
-```
-输入 → 处理 → 输出
-```
 ## Usage
 
-Run the bundled script:
-
 ```bash
-python <skill-dir>/scripts/create_link.py "<source>" "<link_path>"
+python <skill-dir>/scripts/create_link.py <source> <link_path>
+python <skill-dir>/scripts/create_link.py --remove <link_path>
 ```
 
-- **source**: what the link points TO
-- **link_path**: where the link is created
+## Features
+
+- **Relative paths**: Links use relative targets, survive directory moves
+- **Windows auto-fallback**: Tries symlink first, auto-fallback to junction (no admin needed)
+- **Idempotent**: Re-running skips if link is already correct
 
 ## Examples
 
 ```bash
-# File symlink
-python <skill-dir>/scripts/create_link.py "D:/project/config.json" "C:/Users/me/Desktop/config.json"
+# Link .opencode/rules to .claude/rules (shares same content)
+python <skill-dir>/scripts/create_link.py ".claude/rules" ".opencode/rules"
 
-# Directory symlink
-python <skill-dir>/scripts/create_link.py "D:/shared/assets" "D:/my-project/assets"
+# Remove the link
+python <skill-dir>/scripts/create_link.py --remove ".opencode/rules"
 ```
 
-## Notes
+## Platform Behavior
 
-- If source doesn't exist, warns about broken symlink before creating
-- On Windows directories, uses junction (no admin needed)
-- Always verify the result after creation
+| Platform | Directory Link | File Link |
+|----------|---------------|-----------|
+| Windows (Developer Mode) | Symlink (relative) | Symlink (relative) |
+| Windows (no Developer Mode) | Junction (absolute) | Symlink (fallback) |
+| macOS/Linux | Symlink (relative) | Symlink (relative) |
