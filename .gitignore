@@ -47,6 +47,10 @@ htmlcov/
 *-workspace/
 knowledge-base-eval/
 
+# LLM-as-Judge process files
+skill-diagnostics/
+skill-quality-report.md
+
 # OS
 .DS_Store
 Thumbs.db
