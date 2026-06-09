@@ -43,6 +43,9 @@ htmlcov/
 # Loom workspace (generated files)
 .claude/orchestra/
 
+# Skill development workspace (generated files)
+*-workspace/
+
 # OS
 .DS_Store
 Thumbs.db
