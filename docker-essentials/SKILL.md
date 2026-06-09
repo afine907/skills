@@ -28,6 +28,16 @@ Docker 容器管理实战指南，包含容器操作、镜像构建、网络配�
   - 需要编写 Dockerfile
   - 容器出问题需要排查
 
+## 工作流程
+
+1. **确定部署模式** -- 评估项目需求：单个容器（简单 Web 服务 / CLI 工具）还是多服务（Web + DB + Cache）？if 单容器 -> 使用 `docker run` + 手写 Dockerfile 流程（步骤 2）；if 多服务 -> 使用 Docker Compose 流程（步骤 2'）。
+2. **编写 Dockerfile** -- 选择精简基础镜像（`alpine` / `distroless`）。if 构建阶段包含开发依赖 -> 使用多阶段构建分离构建和运行环境。先复制依赖文件（`package*.json`、`requirements.txt`），再 `RUN install`，最后复制源码以利用缓存。添加 `HEALTHCHECK` 指令。
+2'. **编写 docker-compose.yml** -- 定义所有服务及其依赖关系。使用 `depends_on` + `condition: service_healthy` 确保启动顺序。为需要持久化的数据声明 named volumes。为服务间通信创建自定义 bridge network。添加 healthcheck 确保服务就绪。
+3. **构建和本地测试** -- `docker build -t myapp:1.0 .` 构建镜像。`docker run -d -p 8080:80 myapp:1.0` 启动容器。验证服务响应正常（`curl http://localhost:8080`）。
+4. **镜像优化** -- if 镜像体积过大 -> 检查 `docker history myapp:1.0` 查看各层大小。使用 `.dockerignore` 排除不需要的文件（`node_modules`、`.git`、`__pycache__`）。合并 RUN 层减少层数。删除构建时依赖（`--only=production`）。
+5. **部署** -- if 单机部署 -> `docker compose up -d`；if 需要集群编排 -> 使用 Kubernetes 或 Docker Swarm。配置容器自动重启（`restart: unless-stopped`）。确认所有容器的 healthcheck 通过。
+6. **监控和故障排查** -- `docker stats` 监控资源使用。`docker logs -f <container>` 查看日志。if 容器反复重启 -> `docker inspect <container>` 检查退出码。定期执行 `docker system prune` 清理无用资源。
+
 ## 核心概念
 
 | 概念 | 说明 | 类比 |
@@ -409,6 +419,33 @@ grype myapp:latest                         # 扫描镜像
 # 优化镜像
 优化这个 Dockerfile 减小镜像体积
 ```
+
+## Edge Cases / 常见陷阱
+
+| 场景 | 现象 | 诊断方法 | 解决方案 |
+|------|------|----------|----------|
+| 容器反复重启 | `docker ps` 显示重启计数递增 | `docker inspect <container>` 查看 `ExitCode`；`docker logs <container>` 查看退出原因 | exit code 1 = 应用错误，检查日志；exit code 137 = OOM killed，增加 `--memory`；exit code 1 = 配置错误，检查环境变量 |
+| 端口冲突 | `Bind for 0.0.0.0:80 failed: port is already allocated` | `docker port <container>` 查看端口映射；`lsof -i :80` 找到占用进程 | 更换宿主机端口（`-p 8080:80`）；停掉冲突容器；修改 host 绑定地址 |
+| 卷挂载权限被拒绝 | 容器内无法写入挂载的目录 | `ls -la` 检查宿主机目录权限；`docker exec` 检查容器内 UID/GID | 使用 `--user $(id -u):$(id -g)` 指定 UID/GID；或在 Dockerfile 中 `chown` 目标目录 |
+| 构建缓存失效 | 每次构建都要重新安装依赖 | 检查 Dockerfile 中 COPY 指令顺序和 .dockerignore 配置 | 确保依赖文件（package.json、requirements.txt）在源码之前 COPY；检查 .dockerignore 是否排除了不该排除的文件 |
+| Compose 服务间无法通信 | `docker compose exec web ping api` 失败 | `docker network inspect <network>` 检查容器是否在同一网络；确认使用**服务名**而非 localhost | 所有需要互通的服务必须加入同一自定义网络；使用服务名作为主机名 |
+| 磁盘被 Docker 耗尽 | `No space left on device` | `docker system df` 查看 Docker 磁盘占用 | `docker system prune -a --volumes` 清理；配置 daemon.json 限制日志大小（`max-size`、`max-file`） |
+| Windows Docker Desktop 路径问题 | 挂载的卷内容为空或路径错误 | 确认 Docker Desktop 设置中共享了对应磁盘 | 在 Docker Desktop Settings > Resources > File Sharing 中添加共享路径；使用 `//c/` 格式而非 `C:\` |
+| 多阶段构建产物未复制 | 运行时镜像缺少必要的文件 | `docker run --rm <image> ls /app` 检查文件是否存在 | 确认 `COPY --from=builder` 指令的源路径和目标路径正确；确认构建阶段确实生成了所需文件 |
+| 容器内 DNS 解析失败 | 容器无法解析外部域名 | `docker exec <container> cat /etc/resolv.conf` 检查 DNS 配置 | 检查宿主机 DNS；在 daemon.json 中配置 `dns` 字段；检查是否有自定义网络 DNS 限制 |
+| Docker Desktop 在 WSL2 中性能差 | 文件操作（如 `npm install`）极慢 | 确认项目目录是否在 Linux 文件系统内 | 将项目放在 WSL2 的 ext4 文件系统中（`~/projects/`）而非 `/mnt/c/`；使用 Docker Desktop 的 WSL2 后端集成 |
+
+## 不适用场景
+
+| 场景 | 原因 | 建议使用 |
+|------|------|----------|
+| Kubernetes 集群编排 | 本技能覆盖单机 Docker，非集群编排 | 使用 k8s-cluster 技能 |
+| CI/CD 流水线构建 | 本技能不覆盖 CI/CD 集成配置 | 使用 ci-workflow 技能 |
+| Podman 容器管理 | Podman CLI 虽类似但有差异（无 daemon、rootless 默认） | 参考 Podman 官方文档 |
+| Docker Swarm 集群 | 本技能仅覆盖基本 Swarm 命令，不深入 | 考虑迁移到 Kubernetes 或参考 Swarm 文档 |
+| 容器安全扫描 | 本技能不覆盖漏洞扫描和安全审计 | 使用 security-scanning 技能 |
+| 微服务架构设计 | 本技能关注 Docker 操作，非架构设计 | 使用 architecture-decision 技能 |
+| 服务器运维（宿主机） | 本技能聚焦容器内操作，非宿主机管理 | 使用 linux-essentials 技能 |
 
 ## 参考资料
 

@@ -25,6 +25,48 @@ category: development
 - 用户要求"创建TypeScript服务"、"TS后端项目"
   - 需要搭建 Express/Hono/Fastify 项目
 
+## 工作流程
+
+```
+框架选择 → 项目生成 → 核心代码 → 验证构建
+```
+
+### Step 1: 框架选择
+- 根据需求选择 Express / Hono / Fastify
+- 确定技术栈（ORM、验证库、日志库）
+
+### Step 2: 项目生成
+- 创建项目目录结构
+- 生成配置文件（tsconfig.json, .eslintrc 等）
+- 生成 package.json（依赖版本锁定）
+
+### Step 3: 核心代码
+- 生成路由定义和中间件
+- 生成错误处理中间件
+- 生成数据模型和验证 schema
+- 生成数据库连接配置
+
+### Step 4: 验证构建
+- 安装依赖（npm install）
+- 运行构建（npx tsc --noEmit）
+- 运行测试（npm test）
+
+## 框架选择决策流程
+
+```
+用户需求分析
+  │
+  ├─ 部署到边缘 / Cloudflare Workers？──是──→ Hono
+  │
+  ├─ 需要最大中间件生态 / 兼容性？──是──→ Express
+  │
+  ├─ 需要高性能 / 微服务架构？──是──→ Fastify
+  │
+  ├─ 团队无特殊偏好？→ Fastify（类型安全 + 性能）
+  │
+  └─ 快速原型 / 简单 API？→ Express（学习曲线最低）
+```
+
 ## 框架选择
 
 | 框架 | 适用场景 | 性能 | 学习曲线 | 生态 |
@@ -472,6 +514,44 @@ EXPOSE 3000
 CMD ["node", "dist/server.js"]
 ```
 
+## 输出模板
+
+Claude 创建 TypeScript 服务时，按以下格式输出：
+
+```
+## 服务脚手架报告
+
+### 框架选择
+- 框架：{Express / Hono / Fastify}
+- 理由：{选择原因}
+
+### 生成文件清单
+| 文件路径 | 说明 | 状态 |
+|---------|------|------|
+| src/app.ts | 应用配置 | 新建 |
+| src/server.ts | 服务器启动 | 新建 |
+| src/routes/users.ts | 用户路由 | 新建 |
+| src/middleware/errorHandler.ts | 错误处理 | 新建 |
+| src/middleware/validate.ts | Zod 验证中间件 | 新建 |
+| tsconfig.json | TypeScript 配置 | 新建 |
+| package.json | 依赖配置 | 新建 |
+| ... | ... | ... |
+
+### 关键代码
+（展示应用配置、路由、验证、错误处理的完整代码）
+
+### 后续步骤
+1. cd {project-name} && npm install
+2. npm run dev 启动开发服务器
+3. 配置数据库连接（如已选 ORM）
+```
+
+**端到端示例：**
+
+用户输入：`创建一个 Hono 服务，部署到 Cloudflare Workers`
+
+Claude 输出以上模板，文件清单中包含 Hono 应用结构、wrangler.toml、路由定义、中间件配置等，并附上 app.ts 和 index.ts 的完整代码。
+
 ## 快速使用
 
 ```
@@ -490,6 +570,20 @@ CMD ["node", "dist/server.js"]
 # 添加测试
 为用户 API 编写 Vitest 测试
 ```
+
+## Edge Cases
+
+- 已有 JS 项目迁移到 TS：不使用脚手架，手动添加 tsconfig.json 并渐进式迁移
+- 需要 ORM：推荐 Drizzle ORM（类型安全）或 Prisma（功能丰富）
+- 需要 GraphQL：推荐 Apollo Server 或 Mercurius
+- 微服务架构：每个服务独立脚手架，使用 shared 包共享类型
+- 旧版 Node.js（<18）：部分框架不支持，需检查兼容性
+
+## 不适用
+
+- Python 后端 → 使用 [python-service-creator](../python-service-creator/SKILL.md)
+- Go 微服务 → 使用 [go-service-creator](../go-service-creator/SKILL.md)
+- React 前端 → 使用 [react-service-creator](../react-service-creator/SKILL.md)
 
 ## 参考资料
 

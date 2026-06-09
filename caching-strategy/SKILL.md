@@ -28,6 +28,70 @@ user-invocable: false
   - 系统性能瓶颈在数据库查询
   - 需要实现分布式缓存
 
+## 工作流程
+
+### Step 1: 性能分析 (Profile)
+
+识别慢查询和读写比例：
+- 分析数据库慢查询日志，找出高频读取的资源
+- 统计各接口的读写比例（读多写少的接口适合缓存）
+- 确认性能瓶颈确实在数据库查询层
+
+**诊断命令**：
+```bash
+# 查看 Redis 当前状态
+redis-cli info stats | grep -E "keyspace_hits|keyspace_misses"
+
+# 分析慢查询
+redis-cli slowlog get 10
+```
+
+**成功标准**：明确缓存目标资源，读写比例 > 3:1 的接口优先。
+
+### Step 2: 数据分类 (Classify)
+
+| 数据类型 | 特征 | 缓存策略 |
+|----------|------|----------|
+| 静态数据 | 很少变化（配置、字典） | 长 TTL + 主动失效 |
+| 半静态数据 | 偶尔变化（用户信息、商品详情） | 中等 TTL + 写时删除 |
+| 动态数据 | 频繁变化（库存、余额） | 短 TTL 或不缓存 |
+
+### Step 3: 选择缓存类型 (Choose Cache Type)
+
+根据分布式需求选择：
+- 单实例：本地缓存（Guava/Caffeine）
+- 分布式：Redis 或 Memcached
+- 静态资源：CDN
+
+### Step 4: 选择缓存模式 (Select Pattern)
+
+| 一致性需求 | 读写比 | 推荐模式 | 原因 |
+|------------|--------|----------|------|
+| 强一致 | 读多写少 | Cache-Aside | 应用层控制，最灵活 |
+| 强一致 | 均衡 | Read-Through | 缓存层代理，减少重复代码 |
+| 最终一致 | 写多 | Write-Behind | 异步批量写入 DB，减少 DB 压力 |
+
+### Step 5: 设计 Key 策略 (Design Keys)
+
+定义 Key 格式、TTL、失效规则：
+- Key 格式：`{resource}:{id}`（如 `user:123`、`product:SKU001`）
+- TTL：基础 TTL + 随机偏移（防止雪崩）
+- 失效：写操作时删除缓存（Cache-Aside）
+
+### Step 6: 防护设计 (Defend)
+
+针对三大缓存问题添加防护：
+- **缓存穿透**：空值缓存 + 布隆过滤器
+- **缓存击穿**：互斥锁 / 逻辑过期
+- **缓存雪崩**：随机 TTL + 多级缓存 + 预热
+
+### Step 7: 监控验证 (Monitor)
+
+设置监控指标并验证效果：
+- 命中率 > 90%
+- 缓存延迟 < 5ms
+- 缓存与 DB 数据一致性检查
+
 ## 缓存选型
 
 | 类型 | 适用场景 | 优势 | 劣势 |
@@ -219,7 +283,7 @@ async def warm_up_cache():
     缓存层: Redis
     Key 格式: "{resource}:{id}"
     数据格式: JSON
-    过期策略: 
+    过期策略:
       TTL: 3600s
       随机偏移: 300s
     失效策略:
@@ -232,6 +296,68 @@ async def warm_up_cache():
       命中率: > 90%
       命中延迟: < 5ms
 ```
+
+### 填写示例（电商商品详情缓存）
+
+```yaml
+缓存方案:
+  - 资源: 商品详情
+    缓存模式: Cache-Aside
+    缓存层: Redis
+    Key 格式: "product:{sku}"
+    数据格式: JSON
+    过期策略:
+      TTL: 1800s
+      随机偏移: 300s
+    失效策略:
+      写操作: 删除缓存（商品更新时）
+      批量操作: 延迟双删（批量导入时）
+    特殊处理:
+      空值: 缓存 60s（防穿透，商品不存在时缓存 "null"）
+      热点: 互斥锁（前 100 个 SKU 设置逻辑过期）
+    监控:
+      命中率: > 95%
+      命中延迟: < 2ms
+```
+
+**缓存前**：
+```python
+# 每次请求都查数据库
+async def get_product(sku: str):
+    return await db.query("SELECT * FROM products WHERE sku = %s", sku)
+```
+
+**缓存后**：
+```python
+async def get_product(sku: str):
+    cache_key = f"product:{sku}"
+    cached = await redis.get(cache_key)
+    if cached:
+        if cached == "null":
+            return None
+        return Product.model_validate_json(cached)
+
+    product = await db.query("SELECT * FROM products WHERE sku = %s", sku)
+    if product is None:
+        await redis.setex(cache_key, 60, "null")  # 空值缓存
+    else:
+        ttl = 1800 + random.randint(0, 300)
+        await redis.setex(cache_key, ttl, product.model_dump_json())
+    return product
+```
+
+## 不适用
+
+| 场景 | 原因 | 替代方案 |
+|------|------|----------|
+| 写密集型工作负载（> 50% 写操作） | 缓存增加复杂度但无法减少 DB 压力 | 优化数据库写入（批量写入、分库分表） |
+| 强一致性要求（金融交易） | 缓存与 DB 之间的延迟可能导致数据不一致 | 使用 DB 事务 + 同步复制，不使用缓存 |
+| 数据每次请求都不同（随机值） | 缓存命中率为零，无意义 | 不使用缓存，优化查询本身 |
+| 低流量系统（< 100 req/s） | 数据库完全能承受，缓存是过度设计 | 直接查询数据库 |
+
+**重定向**：
+- 数据库查询优化（不涉及缓存）：考虑索引优化、查询重构、分库分表等数据库层面的优化。
+- 高并发写入：使用消息队列削峰，或分库分表分散写入压力。
 
 ## 快速使用
 

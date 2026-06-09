@@ -28,6 +28,63 @@ user-invocable: false
   - 需要设计权限系统
   - 需要实现多因素认证
 
+## 工作流程
+
+### Step 1: 评估需求 (Assess)
+
+分析系统安全需求：
+- 用户类型（内部员工 / 外部用户 / 第三方服务）
+- 合规要求（GDPR、等保、SOC2）
+- 架构类型（单体 / 前后端分离 / 微服务）
+- 是否需要第三方登录
+
+### Step 2: 选择认证方式 (Choose Method)
+
+根据需求应用决策表：
+
+| 场景 | 推荐方式 | 原因 |
+|------|----------|------|
+| 前后端分离 + 微服务 | JWT | 无状态、可跨服务验证 |
+| 传统 Web 应用 | Session | 可控、可即时撤销 |
+| 需要第三方登录 | OAuth2 | 标准化协议 |
+| 服务间调用 | API Key | 简单、可审计 |
+| 内部管理后台（< 10 人） | Session | 简单够用，无需 OAuth2 复杂度 |
+
+### Step 3: 设计 Token 结构 (Design Tokens)
+
+- Access Token：短期（15 分钟），包含用户身份和权限
+- Refresh Token：长期（7 天），仅用于刷新 Access Token
+- 定义 Claims（用户 ID、角色、权限列表、过期时间）
+
+### Step 4: 实现端点 (Implement Endpoints)
+
+实现核心认证端点：
+- `POST /auth/login` - 登录，返回 access_token + refresh_token
+- `POST /auth/refresh` - 刷新 token
+- `POST /auth/logout` - 登出，使 token 失效
+- `POST /auth/mfa/verify` - MFA 验证（如需要）
+
+### Step 5: 添加中间件 (Add Middleware)
+
+- Token 验证中间件（解析 JWT / 查询 Session）
+- 权限检查中间件（RBAC 角色校验 / ABAC 属性校验）
+- 限流中间件（登录接口防暴力破解）
+
+### Step 6: 安全加固 (Harden)
+
+- 安全 Headers（CSP、HSTS、X-Content-Type-Options）
+- CORS 配置（限制允许的源）
+- 密码存储（bcrypt/argon2，不使用 MD5/SHA）
+- 审计日志（记录所有认证事件）
+
+### Step 7: 测试验证 (Test)
+
+测试以下场景：
+- 无效 token、过期 token、篡改 token
+- 权限提升尝试（普通用户访问管理员接口）
+- 并发登录、并发 token 刷新
+- MFA 设备丢失的恢复流程
+
 ## 认证方式对比
 
 | 方式 | 适用场景 | 优势 | 劣势 |
@@ -434,6 +491,99 @@ async def login(email: str, password: str, mfa_code: str = None):
 4. **CORS**: 限制允许的源
 5. **Rate Limiting**: 登录接口限流，防止暴力破解
 6. **日志审计**: 记录所有认证事件
+
+## Edge Cases
+
+1. **Token 吊销（登出场景）**：JWT 无法即时撤销，需要维护一个 token 黑名单。在 Redis 中存储被吊销的 token ID（`jti`），TTL 与 token 过期时间一致。验证 token 时先检查黑名单。
+2. **Refresh Token 轮换**：每次使用 refresh token 时，签发新的 refresh token 并使旧的失效。在 Redis 中记录有效的 refresh token jti，新 token 签发时删除旧记录。
+3. **并发会话管理**：如果允许同一用户多设备登录，每个设备签发独立的 token 对。如果只允许单设备登录，新登录时使该用户所有旧 token 失效。
+4. **时钟偏差（Clock Skew）**：多台服务器之间可能存在几秒的时钟偏差。在验证 token 过期时间时，增加 30 秒的缓冲：`if exp + 30 < now: reject`。
+5. **MFA 设备丢失**：用户丢失 TOTP 设备时，需要提供恢复方案：(1) 预生成 10 个一次性恢复码，用户安全保存；(2) 通过邮件/短信验证身份后重置 MFA。
+6. **OAuth2 提供方宕机**：第三方登录（GitHub/Google）不可用时，实现降级策略：(1) 显示"第三方登录暂时不可用"；(2) 保留邮箱密码登录作为备选；(3) 缓存用户基本信息避免频繁调用 OAuth2 API。
+7. **CSRF 攻击防护**：使用 Session 认证时，所有状态变更请求需要 CSRF token。JWT 无状态认证天然免疫 CSRF（但需注意 XSS 防护）。在 cookie 中设置 `SameSite=Strict` 或 `Lax`。
+
+## 输出模板
+
+```markdown
+# 认证授权设计文档
+
+## 项目概览
+- **系统类型**: {单体 / 前后端分离 / 微服务}
+- **用户类型**: {内部员工 / 外部用户 / 混合}
+- **合规要求**: {GDPR / 等保 / 无}
+
+## 认证方案选择
+- **认证方式**: {JWT / Session / OAuth2 / 混合}
+- **选择理由**: {基于需求分析的理由}
+- **是否需要 MFA**: {是 / 否}
+
+## Token 设计
+- **Access Token 有效期**: {15min / 30min / 自定义}
+- **Refresh Token 有效期**: {7d / 30d / 自定义}
+- **Token 存储位置**: {Cookie / LocalStorage / 内存}
+- **Claims**: {user_id, role, permissions, ...}
+
+## 权限模型
+- **模型**: {RBAC / ABAC}
+- **角色清单**: {admin, editor, viewer, ...}
+- **权限粒度**: {模块级 / 接口级 / 字段级}
+
+## 安全措施
+- [ ] 密码使用 bcrypt/argon2 存储
+- [ ] HTTPS 强制
+- [ ] CORS 限制
+- [ ] 登录限流（{n} 次/分钟）
+- [ ] 审计日志记录
+- [ ] CSRF 防护（如使用 Session）
+```
+
+**填写示例**（前后端分离 SaaS）：
+
+```markdown
+# 认证授权设计文档
+
+## 项目概览
+- **系统类型**: 前后端分离（React + FastAPI）
+- **用户类型**: 外部用户（SaaS 客户）
+- **合规要求**: GDPR
+
+## 认证方案选择
+- **认证方式**: JWT（Access + Refresh Token）
+- **选择理由**: 前后端分离，需无状态认证，支持多实例部署
+- **是否需要 MFA**: 是（可选，用户自行开启）
+
+## Token 设计
+- **Access Token 有效期**: 15 分钟
+- **Refresh Token 有效期**: 7 天
+- **Token 存储位置**: HttpOnly Cookie（防 XSS）
+- **Claims**: sub, email, role, permissions, jti, exp, iat
+
+## 权限模型
+- **模型**: RBAC
+- **角色清单**: super_admin, admin, editor, viewer
+- **权限粒度**: 接口级（read:users, write:users, ...）
+
+## 安全措施
+- [x] 密码使用 bcrypt 存储
+- [x] HTTPS 强制
+- [x] CORS 限制（仅允许 *.example.com）
+- [x] 登录限流（5 次/分钟）
+- [x] 审计日志记录
+- [x] CSRF 防护（SameSite=Lax）
+```
+
+## 不适用
+
+| 场景 | 原因 | 替代方案 |
+|------|------|----------|
+| 需要即时 Token 撤销 | JWT 无法即时撤销 | 使用 Session 认证 |
+| 内部管理后台 < 10 人 | OAuth2 带来不必要的复杂度 | Session + 简单角色 |
+| 低风险只读公开应用 | MFA 增加用户摩擦，收益低 | 仅使用密码认证 |
+| RBAC 不够用（复杂资源级权限） | 角色粒度过粗 | 升级为 ABAC 或 ReBAC |
+
+**重定向**：
+- 密码哈希存储：使用 bcrypt 或 argon2 库，不要自行实现哈希算法。
+- API 限流：参考 rate-limiting 模式进行接口限流设计。
 
 ## 快速使用
 

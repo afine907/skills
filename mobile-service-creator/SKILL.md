@@ -11,28 +11,19 @@ description: |
 category: development
 ---
 
-# Mobile Service Creator
+# Mobile Service Creator — 移动端项目脚手架
 
+快速创建 React Native / Flutter 移动应用项目。
 
 ## Goal
 
-快速创建 React Native / Flutter 移动应用项目
+快速搭建高质量的移动应用项目脚手架，支持 React Native 和 Flutter 两大主流框架。提供完整的项目结构、导航配置、状态管理、API 集成和测试设置。
 
 ## Trigger
 
 - 用户要求"创建移动应用"、"React Native项目"、"Flutter项目"
   - 需要搭建移动端项目结构
-
-## 目标
-
-快速搭建高质量的移动应用项目脚手架，支持 React Native 和 Flutter 两大主流框架。提供完整的项目结构、导航配置、状态管理、API 集成和测试设置。
-
-## 触发条件
-
-当用户需要：
-- 创建新的移动应用项目
-- 搭建 React Native 或 Flutter 项目脚手架
-- 初始化移动端项目结构和配置
+  - 初始化移动端项目结构和配置
 
 ## 框架选择指南
 
@@ -524,6 +515,64 @@ void main() {
 6. **性能优化**：使用 `React.memo`/`const` Widget 减少不必要的重建
 7. **测试覆盖**：核心业务逻辑必须有单元测试
 
+## 输出模板
+
+Claude 创建移动应用时，按以下格式输出：
+
+```
+## 移动应用脚手架报告
+
+### 框架选择
+- 框架：{React Native / Flutter}
+- 理由：{选择原因}
+
+### 生成文件清单
+| 文件路径 | 说明 | 状态 |
+|---------|------|------|
+| src/app/App.tsx / lib/main.dart | 应用入口 | 新建 |
+| src/app/navigation/ / lib/app/routes/ | 导航配置 | 新建 |
+| src/store/ / lib/features/ | 状态管理 | 新建 |
+| src/services/api/ / lib/core/network/ | API 客户端 | 新建 |
+| src/theme/ / lib/app/themes/ | 主题配置 | 新建 |
+| ... | ... | ... |
+
+### 关键代码
+（展示导航配置、状态管理、API 客户端的完整代码）
+
+### 后续步骤
+1. cd {project-name} && npm install / flutter pub get
+2. 配置开发环境（Xcode / Android Studio）
+3. 运行 npm start / flutter run 启动
+```
+
+**端到端示例：**
+
+用户输入：`创建一个 Flutter 电商 App`
+
+Claude 输出以上模板，文件清单中包含 Flutter Clean Architecture 目录结构（core/features/shared）、GoRouter 导航、Riverpod 状态管理、Dio API 客户端等，并附上关键代码片段。
+
+## 快速使用
+
+```
+# 创建 React Native 项目
+创建一个 React Native 项目，用于社交聊天应用，使用 Expo
+
+# 创建 Flutter 项目
+创建一个 Flutter 电商 App，使用 Riverpod + GoRouter
+
+# 添加功能模块
+为项目添加用户登录模块，包含注册、登录、找回密码
+
+# 生成导航
+为项目添加底部 Tab 导航和 Stack 导航
+```
+
+## 不适用
+
+- Web 前端项目 → 使用 [react-service-creator](../react-service-creator/SKILL.md) 或 [vue-service-creator](../vue-service-creator/SKILL.md)
+- 后端 API 服务 → 使用 [typescript-service-creator](../typescript-service-creator/SKILL.md) 或 [python-service-creator](../python-service-creator/SKILL.md)
+- 桌面应用 → 使用 Electron / Tauri 方案
+
 ## 边界情况
 
 - **原生模块集成**：当需要使用原生功能时，生成对应的原生代码桥接
@@ -531,3 +580,8 @@ void main() {
 - **深链接处理**：配置 Deep Link 和 Universal Link
 - **推送通知**：集成 FCM/APNs 推送服务
 - **离线支持**：配置离线数据缓存策略
+
+## 参考资料
+
+- React Native 模式: [references/react-native-patterns.md](references/react-native-patterns.md)
+- Flutter 模式: [references/flutter-patterns.md](references/flutter-patterns.md)

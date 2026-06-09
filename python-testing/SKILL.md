@@ -32,11 +32,12 @@ Python 测试完整指南：pytest、mock/patch、参数化、fixtures、异步�
 
 ## 工作流程
 
-```
-确定测试类型 → 编写测试用例 → Mock 外部依赖 → 运行测试 → 检查覆盖率
-```
-
-详见下方各测试主题的详细指南。
+1. **分析代码结构** -- 确定被测代码类型：纯函数/类方法/数据库交互/API 端点/异步逻辑。根据测试金字塔选择测试类型（单元 > 集成 > E2E）。
+2. **确定依赖隔离策略** -- if 外部 HTTP/API 调用 -> 使用 `unittest.mock.patch` 模拟；if 数据库 -> 使用 testcontainers 或 SQLite 内存库；if 文件系统 -> 使用 `tmp_path` fixture。对于复杂依赖，优先 mock 而非搭建真实环境。
+3. **设计 Fixture 和测试数据** -- 选择 fixture scope（`function` 默认；`module` 共享；`session` 级数据库连接）。使用 factory 模式生成测试数据。确保 fixture 之间无隐式依赖。在 `conftest.py` 中组织共享 fixture。
+4. **编写测试用例** -- 每个测试只验证一个行为。使用 `@pytest.mark.parametrize` 覆盖边界值。遵循 Given-When-Then 模式。异步测试必须加 `@pytest.mark.asyncio`。
+5. **运行测试并检查覆盖率** -- 运行 `pytest --cov=myapp --cov-report=term-missing`。if 覆盖率 < 80% -> 识别未覆盖的分支并补充测试。if 测试不稳定 -> 检查 mock 配置和 fixture 作用域。
+6. **迭代优化** -- if 测试运行太慢 -> 按标记分层执行（`pytest -m "not slow"`）；if mock 过多 -> 考虑 testcontainers 做集成测试；if 测试间有顺序依赖 -> 重构为独立测试。
 
 ## 测试策略
 
@@ -675,6 +676,30 @@ show_missing = true
 @pytest.mark.skipif(sys.version_info < (3, 10))
 @pytest.mark.xfail(reason="known bug")  # 预期失败
 ```
+
+## Edge Cases / 常见陷阱
+
+| 场景 | 现象 | 诊断方法 | 解决方案 |
+|------|------|----------|----------|
+| Fixture scope 不匹配 | 测试间共享状态，后续测试失败 | 检查 fixture 的 `scope` 参数是否匹配使用场景 | 将 `scope="module"` 或 `scope="session"` 的 fixture 确保是无状态的，或在 yield 后重置状态 |
+| Mock 路径错误 | `@patch` 无效果，测试通过但实际未 mock | 在测试中打印 mock 对象的 `call_args`，确认是否被调用 | Mock 路径必须是**使用处**的模块路径，而非定义处。例如 `@patch('app.views.requests.get')` 而非 `@patch('requests.get')` |
+| 异步测试缺少标记 | 异步测试静默通过，实际未 await | 检查测试函数是否用了 `async def` 但缺少 `@pytest.mark.asyncio` | 为所有 async 测试添加 `@pytest.mark.asyncio`，在 `pytest.ini` 中配置 `asyncio_mode = auto` |
+| 参数化测试有副作用 | 前面的参数用例修改了共享状态，后面的用例失败 | 单独运行每个参数用例确认独立性 | 确保每个参数用例完全隔离，使用 `autouse=True` 的 fixture 做 setup/teardown，或在测试内重置状态 |
+| conftest.py 位置错误 | fixture 找不到，`fixture 'xxx' not found` | 确认 conftest.py 是否在 tests/ 目录或项目根目录 | conftest.py 的查找遵循 pytest 的路径规则，放在 tests/ 目录下确保被正确发现 |
+| fixture 中异常未清理 | 测试失败后数据库连接泄漏、临时文件残留 | 检查 yield fixture 是否有对应的 teardown 代码 | 使用 `try/finally` 或确保 yield 后的清理代码在任何情况下都执行 |
+| 测试间顺序依赖 | 单独运行某个测试通过，全量运行失败 | 用 `pytest --random-order` 打乱顺序运行 | 消除测试间的全局状态共享，每个测试自包含 |
+| 异步 Mock 配置错误 | 使用 `Mock()` 代替 `AsyncMock()` 导致类型错误 | 检查 mock 的 `return_value` 是否需要 await | 对异步方法使用 `AsyncMock`，断言时使用 `assert_awaited_once()` 而非 `assert_called_once()` |
+
+## 不适用场景
+
+| 场景 | 原因 | 建议使用 |
+|------|------|----------|
+| JavaScript/TypeScript 项目测试 | 本技能仅覆盖 Python 测试生态 | 使用对应语言的测试工具（Jest、Vitest、Mocha） |
+| Go 项目测试 | Go 内置测试框架与 pytest 完全不同 | 使用 Go 内置 `testing` 包和 `go test` |
+| 性能测试 / 负载测试 | 本技能关注功能正确性，非性能基准 | 使用 performance-profiling 技能 |
+| CI/CD 流水线配置 | 本技能关注测试编写，非流水线搭建 | 使用 ci-workflow 或 deployment 技能 |
+| 安全扫描 / SAST | 本技能不覆盖安全测试 | 使用 security-scanning 技能 |
+| 代码审查 / 静态分析 | 本技能不替代 linter 或 type checker | 使用 explain-code 或 code-review 技能 |
 
 ## 参考资料
 

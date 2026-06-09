@@ -150,3 +150,16 @@ Transform meeting transcripts or notes into structured meeting minutes. Generate
 - **方案对比**：列出讨论过的方案及优缺点
 - **技术决策**：选择的方案及理由
 - **遗留问题**：待进一步调研的问题
+
+## DO / DON'T
+
+**DO**:
+- ✅ 保留原始发言人的标识
+- ✅ 决策项标注决策人和理由
+- ✅ Action Items 标注负责人和截止日期
+- ✅ 技术术语保留原文不翻译
+
+**DON'T**:
+- ❌ 不要添加原文中没有的决策
+- ❌ 不要删除争议性讨论，保留不同意见
+- ❌ 不要将模糊承诺（"我看看"）转为具体 Action Item

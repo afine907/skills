@@ -27,6 +27,51 @@ category: source-control
   - 需要选择合适的分支策略
   - 团队需要统一 Git 工作流
 
+## 工作流程
+
+```
+诊断 intake ──▶ 分析项目 ──▶ 选择策略 ──▶ 制定规范 ──▶ 生成配置 ──▶ 验证适配
+   │              │            │            │            │            │
+   ▼              ▼            ▼            ▼            ▼            ▼
+ 问诊问卷      团队规模     策略决策树   命名规则     保护 YAML     回顾反馈
+ 发布频率      CI 成熟度     策略对比    保护规则     合并策略       迭代调整
+ CI 能力       项目类型      推荐策略    合并策略     CI 触发
+```
+
+1. **诊断 Intake** — 向用户确认关键信息：
+   - 团队规模（1-5人 / 5-20人 / 20+人）
+   - 发布节奏（持续部署 / 每周发布 / 每月发布 / 不定期发布）
+   - CI/CD 成熟度（无CI / 基础CI / 完整CI+CD）
+   - 项目类型（单体应用 / 微服务 / 库/SDK / Monorepo）
+   - 当前痛点（冲突多 / 分支混乱 / 发布困难 / 无问题）
+
+2. **分析项目特征** — 基于 intake 信息评估：
+   - 团队规模 → 决策树分支的输入
+   - 发布频率 → 决定分支生命周期
+   - CI/CD 成熟度 → 决定合并策略的自动化程度
+   - 输出：初步策略推荐（带置信度）
+
+3. **选择分支策略** — 使用决策树确定策略：
+   - 需要多版本并行？→ Git Flow
+   - 持续部署 + 小团队？→ Trunk-Based
+   - 快速迭代 + 基础CI？→ GitHub Flow
+   - IF 用户有特殊约束 THEN 调整推荐并说明 trade-off
+
+4. **制定分支规范** — 定义具体规则：
+   - 命名规范（type/ticket-id-description）
+   - 保护规则（review 人数、CI 检查、管理员权限）
+   - 合并策略（merge/rebase/squash 选择及适用场景）
+
+5. **生成配置** — 输出可直接使用的配置文件：
+   - 分支保护 YAML（GitHub/GitLab）
+   - CI 触发规则
+   - 合并策略配置
+
+6. **验证适配** — IF 用户反馈冲突 THEN:
+   - 重新评估 Step 2 的分析
+   - 调整策略推荐（如从 Git Flow 切换到 GitHub Flow）
+   - 更新配置并说明变更原因
+
 ## 分支策略选择
 
 ### Git Flow vs Trunk-Based
@@ -179,6 +224,102 @@ protection_rules:
     restrict_pushes: true         # 只能通过 PR 合入
     require_linear_history: true  # 要求线性历史
 ```
+
+## 输出模板
+
+### 完整分支方案模板
+
+以下是一个完整的分支管理方案交付物示例。
+
+**输入 — 用户请求：**
+> "我们团队 8 人，每周五发布，目前用的 Git Flow 但冲突很多"
+
+**输出 — 分支管理方案：**
+
+```markdown
+# 分支管理方案 — {项目名称}
+
+## 1. 诊断摘要
+| 维度 | 现状 |
+|------|------|
+| 团队规模 | 8 人 |
+| 发布节奏 | 每周一次（周五） |
+| 当前策略 | Git Flow |
+| 当前痛点 | 合并冲突频繁 |
+
+## 2. 策略推荐
+**推荐策略：GitHub Flow（从 Git Flow 简化）**
+
+原因：
+- 8人团队无需 release/hotfix 分支的复杂度
+- 每周发布频率适合 GitHub Flow 的 PR 驱动模式
+- 可大幅减少长期分支导致的冲突
+
+| 对比维度 | 当前 (Git Flow) | 推荐 (GitHub Flow) |
+|---------|----------------|-------------------|
+| 分支数量 | 5 种 | 2 种 (main + feature) |
+| 冲突概率 | 高（长期分支） | 低（短命分支） |
+| 发布流程 | release 分支合并 | main 直接发布 |
+
+## 3. 命名规范
+```
+feature/PROJ-{id}-{description}   # 功能开发
+fix/PROJ-{id}-{description}       # Bug 修复
+hotfix/PROJ-{id}-{description}    # 紧急修复（仅限 main 直接修复后 cherry-pick）
+```
+
+## 4. 分支保护规则
+- main 分支：至少 1 人 review + CI 通过
+- feature 分支：无保护（自由开发）
+- 禁止直接 push 到 main
+
+## 5. 合并策略
+- feature → main：Squash Merge（线性历史，减少冲突）
+- hotfix → main：Cherry-pick（快速修复）
+
+## 6. 分支生命周期
+- feature 分支：创建后 3 天内合入，超期需 review 进度
+- 合并后立即删除远程分支
+
+## 7. CI 触发规则
+- push to feature/* → 运行单元测试 + lint
+- PR to main → 运行完整测试套件 + 构建检查
+- push to main → 触发部署流程
+```
+
+### 工作流状态图
+
+```
+用户请求
+    │
+    ▼
+┌─────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
+│ 诊断 Intake │───▶│ 分析推荐  │───▶│ 制定规范  │───▶│ 生成配置  │
+└─────────┘    └──────────┘    └──────────┘    └──────────┘
+                     │                                │
+                     │   ┌──────────┐                │
+                     └──▶│ 用户确认  │◀───────────────┘
+                         └────┬─────┘
+                              │
+                    ┌─────────┴─────────┐
+                    │                   │
+                    ▼                   ▼
+               确认满意             需要调整
+               输出最终方案         回到分析步骤
+```
+
+## Edge Cases
+
+- **大团队协作（>20人）**：推荐 Trunk-Based + Feature Flags，减少长期分支
+- **保护分支**：main/develop 必须通过 PR 合入，至少 2 人 review
+- **合并冲突频繁**：缩短 feature 分支生命周期，频繁 rebase
+- **紧急修复**：直接从 main 创建 hotfix 分支，修复后同时合入 main 和 develop
+- **跨仓库依赖**：使用 monorepo 或协调发布计划
+
+## 不适用
+
+- 完整的 Git 工作流（branch/commit/push/PR 一条龙）→ 使用 [git-workflow](../git-workflow/SKILL.md)
+- CI/CD 配置 → 使用 [ci-workflow](../ci-workflow/SKILL.md)
 
 ## 快速使用
 

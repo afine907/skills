@@ -28,6 +28,15 @@ Linux 服务器运维实战指南，包含进程管理、系统监控、网络�
   - 服务器出问题需要排查
   - 需要监控系统状态
 
+## 工作流程
+
+1. **评估严重程度** -- 判断是服务完全宕机还是性能下降。if 服务无法访问 -> 跳到步骤 2a（服务宕机排查）；if 响应缓慢 -> 跳到步骤 2b（性能排查）。同时检查是否为批量影响（单个服务 / 多个服务 / 整个主机）。
+2a. **服务宕机排查** -- `systemctl status <service>` 确认服务状态。`journalctl -u <service> -n 100` 查看最近日志。`lsof -i :<port>` 检查端口占用。if 配置错误 -> 测试配置（如 `nginx -t`）并修复；if 资源耗尽 -> 转步骤 2b；if 依赖服务异常 -> 检查上游服务连通性。
+2b. **性能降级排查** -- `top` / `htop` 检查 CPU 占用。`free -h` 检查内存使用。`df -h` 检查磁盘空间。`iostat -x 1 5` 检查磁盘 IO。`ss -s` 检查网络连接状态。if CPU 高 -> 找到高占用进程并评估是否可重启/kill。if 内存不足 -> 检查是否有内存泄漏进程（`ps aux --sort=-%mem`）。if 磁盘满 -> 转步骤 3 清理。
+3. **根因定位与修复** -- 根据步骤 2 的发现选择修复策略。if 配置问题 -> 编辑配置文件 + `systemctl daemon-reload` + 重启服务。if 资源问题 -> kill 异常进程 / 清理磁盘 / 调整 ulimit。if 网络问题 -> 检查防火墙规则 / DNS 解析 / 路由配置。if 权限问题 -> 检查 SELinux/AppArmor 日志 + 调整权限。
+4. **验证修复** -- 重新运行诊断命令确认问题已解决。检查服务日志确认无新错误。确认受影响的用户/客户端已恢复正常。
+5. **后续加固** -- 配置监控告警防止再次发生。if 磁盘满 -> 配置 logrotate 定时清理。if 服务频繁崩溃 -> 配置 systemd 自动重启（`Restart=always`）。记录故障处理过程供后续参考。
+
 ## 进程管理
 
 ### 查看进程
@@ -508,6 +517,33 @@ yum clean all
 # 配置服务
 帮我配置一个 systemd 服务
 ```
+
+## Edge Cases / 常见陷阱
+
+| 场景 | 现象 | 诊断方法 | 解决方案 |
+|------|------|----------|----------|
+| 非 root 执行命令被拒绝 | `Permission denied` 或 `Operation not permitted` | 检查当前用户和文件权限 `ls -la` | 使用 `sudo` 执行需要特权的命令；检查文件属主 `chown`；检查 sudoers 配置 |
+| systemctl 命令不存在 | `systemctl: command not found` | 检查系统是否使用 systemd `cat /proc/1/comm` | 老系统使用 `service` 命令 + `/etc/init.d/` 脚本；最小化容器可能需要安装 systemd |
+| journalctl 无日志输出 | `--since` 过滤后无结果 | 检查日志存储配置 `journalctl --disk-usage` | 调整 journald 配置 `/etc/systemd/journald.conf` 中的 `SystemMaxUse`；使用文件日志路径代替 |
+| 磁盘 100% 满无法写日志 | 新日志无法写入，排查陷入死循环 | 使用只读命令 `df -h`、`du` 检查 | `journalctl --vacuum-size=50M` 释放日志空间；`find /tmp -type f -mtime +1 -delete` 清理临时文件 |
+| SSH 密钥认证失败 | 用户创建后 SSH 密钥认证不工作 | 检查 `~/.ssh` 目录权限（应为 700）和 `authorized_keys` 权限（应为 600） | `chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys`；检查 sshd_config 中的 `PubkeyAuthentication yes` |
+| SELinux/AppArmor 阻止操作 | 服务运行正常但无法绑定端口或访问文件 | `ausearch -m avc` (SELinux) 或 `aa-status` (AppArmor) | 使用 `setenforce 0` 临时禁用（调试用）；生成正确的 SELinux 策略 `audit2allow` |
+| systemd 服务启动后立即退出 | `systemctl status` 显示 `inactive (dead)` | `journalctl -u <service>` 查看退出原因 | 检查 ExecStart 路径是否正确；检查 User 权限；添加 `Type=simple` 或 `Type=forking` |
+| 文件描述符耗尽 | `Too many open files` 错误 | `cat /proc/sys/fs/file-nr` 检查当前使用量 | 调整 `/etc/security/limits.conf` 或 systemd 的 `LimitNOFILE=` |
+| SSH 连接超时 | 建立连接时卡住 | `ssh -vvv host` 查看连接过程 | 检查防火墙规则；检查 DNS 反向解析；调整 `/etc/ssh/sshd_config` 中的 `UseDNS no` |
+| cron 定时任务未执行 | 预期的任务没有运行 | 检查 `/var/log/syslog` 或 `journalctl -u cron` | 确认 crontab 格式正确；确认脚本有执行权限；确认脚本中的环境变量（cron 环境极简） |
+
+## 不适用场景
+
+| 场景 | 原因 | 建议使用 |
+|------|------|----------|
+| Docker 容器内部运维 | 本技能针对宿主机，非容器内操作 | 使用 docker-essentials 技能 |
+| Kubernetes 集群管理 | 本技能覆盖单机，非集群编排 | 使用 k8s-cluster 技能 |
+| macOS 系统运维 | macOS 使用 launchctl、brew services 等不同命令体系 | 使用 macOS 专用运维工具 |
+| Windows Server 运维 | Windows 使用 PowerShell、WMI 等不同体系 | 使用 PowerShell 技能 |
+| 云基础设施管理（AWS/GCP/Azure） | 本技能不覆盖云平台 CLI 和 API | 使用对应云平台的 CLI 工具（aws-cli、gcloud、az） |
+| 配置管理自动化（Ansible/Terraform） | 本技能面向手动操作，非自动化编排 | 使用 Ansible/Terraform 技能 |
+| 安全扫描 / 漏洞管理 | 本技能不覆盖系统安全审计 | 使用 security-scanning 技能 |
 
 ## 参考资料
 

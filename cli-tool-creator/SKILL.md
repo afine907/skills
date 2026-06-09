@@ -27,6 +27,51 @@ category: development
   - 需要将脚本封装为可分发的 CLI
   - 需要添加交互式命令行界面
 
+## 工作流程
+
+```
+技术选型 → 项目生成 → 命令实现 → 测试与分发
+```
+
+### Step 1: 技术选型
+- 选择语言和框架（Python Typer/Click 或 Node.js Commander/Ink）
+- 确定功能需求（子命令、交互式提示、输出格式）
+
+### Step 2: 项目生成
+- 创建项目目录结构
+- 生成配置文件（pyproject.toml / package.json）
+- 生成入口文件和命令注册
+
+### Step 3: 命令实现
+- 实现参数解析和验证
+- 实现子命令逻辑
+- 添加彩色输出和进度条
+- 添加自动补全脚本
+
+### Step 4: 测试与分发
+- 编写单元测试
+- 打包分发（pip publish / npm publish）
+
+## 语言选择决策流程
+
+```
+用户需求分析
+  │
+  ├─ 团队熟悉 Python？──是──→ 需要 TUI？
+  │                              ├─ 是 → InquirerPy + Rich
+  │                              └─ 否 → Typer（推荐，自动生成帮助）
+  │
+  ├─ 团队熟悉 Node.js？──是──→ 需要复杂终端 UI？
+  │                                ├─ 是 → Ink（React 风格）
+  │                                └─ 否 → Commander（推荐，轻量）
+  │
+  ├─ 团队熟悉 Go？──是──→ Cobra（高性能，静态二进制）
+  │
+  ├─ 需要分发为单文件？──是──→ Go + Cobra
+  │
+  └─ 不确定？→ Typer（开发效率最高）
+```
+
 ## 技术选型
 
 | 语言 | 框架 | 特点 |
@@ -370,6 +415,61 @@ my-cli = "my_cli.main:app"
 # 发布 CLI 工具
 将 CLI 工具发布到 PyPI/npm
 ```
+
+## 输出模板
+
+Claude 开发 CLI 工具时，按以下格式输出：
+
+```
+## CLI 脚手架报告
+
+### 技术选型
+- 语言：{Python / Node.js / Go}
+- 框架：{Typer / Commander / Cobra}
+- 理由：{选择原因}
+
+### 生成文件清单
+| 文件路径 | 说明 | 状态 |
+|---------|------|------|
+| src/my_cli/main.py | 主入口 | 新建 |
+| src/my_cli/commands/init.py | init 子命令 | 新建 |
+| src/my_cli/utils/output.py | 输出格式化 | 新建 |
+| pyproject.toml / package.json | 项目配置 | 新建 |
+| ... | ... | ... |
+
+### 命令结构
+my-cli
+├── init      初始化新项目
+├── build     构建项目
+└── deploy    部署项目
+
+### 关键代码
+（展示主入口和 1-2 个子命令的完整代码）
+
+### 后续步骤
+1. pip install -e . / npm link
+2. 运行 my-cli --help 验证命令注册
+3. 添加子命令实现逻辑
+```
+
+**端到端示例：**
+
+用户输入：`用 Typer 开发一个文件管理 CLI 工具`
+
+Claude 输出以上模板，文件清单中包含 Python 项目结构、Typer 入口、子命令文件、pyproject.toml 等，并附上 main.py 的完整代码。
+
+## Edge Cases
+
+- 已有 Python 脚本需要封装为 CLI：使用 Typer 装饰器包装现有函数
+- 需要交互式 UI（多选、确认）：Python 用 InquirerPy，Node.js 用 Ink
+- 需要自动更新：添加版本检查和更新提示逻辑
+- Windows 兼容性：避免使用 Unix-only 的 shell 特性
+- 大型 CLI（>20 子命令）：按功能分组，使用命令命名空间
+
+## 不适用
+
+- Web API 服务 → 使用 [python-service-creator](../python-service-creator/SKILL.md) 或 [typescript-service-creator](../typescript-service-creator/SKILL.md)
+- GUI 应用 → 使用对应平台的 GUI 框架
 
 ## 参考资料
 

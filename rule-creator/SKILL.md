@@ -150,6 +150,79 @@ Use descriptive names that explain what the function does:
 ❌ `getData()`
 ```
 
+## 输出模板
+
+Claude 生成规则文件时，按以下格式输出：
+
+```
+## 规则文件报告
+
+### 规则信息
+- 文件名：{topic}.md
+- 作用域：{paths glob patterns}
+- 覆盖主题：{testing / code-style / api-design / ...}
+
+### 生成文件内容
+（展示完整的 .md 文件，包含 YAML frontmatter 和规则内容）
+
+### 文件位置
+.claude/rules/{topic}.md
+
+### 后续步骤
+1. 验证规则是否正确触发（编辑匹配 paths 的文件）
+2. 如需调整作用域，修改 paths 字段
+3. 如需添加更多规则，重复此流程
+```
+
+**端到端示例：**
+
+用户输入：`为 TypeScript 项目添加测试规则`
+
+Claude 输出以上模板，生成的 .md 文件内容为：
+
+```markdown
+---
+paths: ["**/*.test.ts", "**/*.spec.ts", "tests/**/*.ts"]
+---
+
+# TypeScript 测试规范
+
+## 框架与工具
+- 使用 Vitest 作为测试运行器
+- 使用 @vue/test-utils 或 @testing-library/react 测试组件
+
+## 命名规范
+- 测试文件：{模块名}.test.ts 或 {模块名}.spec.ts
+- 测试函数：describe("模块名") > it("应该在...时...")
+
+## 覆盖率要求
+- 核心业务逻辑：80%+
+- 工具函数：90%+
+- UI 组件：关键交互路径
+```
+
+## 快速使用
+
+```
+# 创建测试规则
+为项目添加 TypeScript 测试规范
+
+# 创建代码风格规则
+为 React 项目添加 ESLint 规则
+
+# 创建 API 设计规则
+为 REST API 项目添加接口规范
+
+# 创建 Git 提交规则
+为项目添加 commit message 规范
+```
+
+## 不适用
+
+- 全局指令配置（CLAUDE.md）→ 直接编辑 CLAUDE.md 文件
+- IDE / 编辑器设置（settings.json）→ 使用 Claude Code settings 配置
+- 复杂多步骤工作流 → 使用 [task-loom](../task-loom/SKILL.md) 编排
+
 ## Edge Cases
 
 ### Multiple Path Patterns

@@ -27,6 +27,63 @@ category: quality
   - 需要满足无障碍法规要求
   - 提升产品的可访问性
 
+## 工作流程
+
+### Step 1: 确定审计范围 (Scope)
+
+- 识别需要审计的页面/组件（首页、表单页、关键交互组件）
+- 确定 WCAG 目标级别（A / AA / AAA）
+- 收集页面 URL 列表和关键用户路径
+
+### Step 2: 自动化扫描 (Automated Scan)
+
+运行 axe-core + Lighthouse 收集所有违规项：
+```bash
+# Lighthouse 审计
+npx lighthouse http://localhost:3000 --only-categories=accessibility --output=json
+
+# axe-core (Playwright 集成)
+npx playwright test --grep "a11y"
+```
+
+**成功标准**：获得完整的自动化扫描报告，列出所有 WCAG 违规项。
+
+### Step 3: 手动审查 (Manual Review)
+
+自动化工具无法检测的问题需要手动验证：
+1. **键盘导航**：Tab 遍历所有交互元素，确认焦点顺序合理，无键盘陷阱
+2. **屏幕阅读器**：使用 NVDA/VoiceOver 测试页面语义是否正确传达
+3. **缩放测试**：页面缩放至 200%，确认内容不重叠、不丢失
+4. **动态内容**：SPA 路由切换后重新检查，确认新内容可访问
+
+### Step 4: 分类归档 (Categorize)
+
+将发现映射到 POUR 原则，分配严重程度：
+
+| 严重程度 | 定义 | 示例 |
+|----------|------|------|
+| 严重 | 完全无法访问 | 缺少 alt 属性的图片、无键盘支持的按钮 |
+| 重大 | 严重影响使用 | 对比度不足、缺少 ARIA 标签 |
+| 中等 | 部分影响使用 | 缺少 label 的输入框 |
+| 轻微 | 轻微影响体验 | 冗余的 ARIA 属性 |
+
+### Step 5: 优先级排序 (Prioritize)
+
+使用 影响程度 x 发生频率 矩阵：
+
+|  | 高频率 | 低频率 |
+|--|--------|--------|
+| **高影响** | P0 立即修复 | P1 本迭代修复 |
+| **低影响** | P2 下迭代修复 | P3 记录备查 |
+
+### Step 6: 生成报告 (Report)
+
+使用下方输出模板生成结构化审计报告。
+
+### Step 7: 验证修复 (Verify Fixes)
+
+修复后重新运行 Step 2-3，确认所有问题已解决，无新增问题。
+
 ## WCAG 2.1 核心原则
 
 ### POUR 原则
@@ -227,6 +284,28 @@ npx lhci autorun --collect.settings.onlyCategories=accessibility
 2. {次紧急的修复}
 ...
 ```
+
+## Edge Cases
+
+1. **SPA 动态内容**：如果页面使用客户端渲染（React/Vue），axe-core 需要在 JS 执行完成后运行。在 Playwright 测试中使用 `page.waitForLoadState('networkidle')` 后再执行 axe 扫描，路由切换后重新扫描。
+2. **Shadow DOM 组件**：axe-core 可能无法穿透 Shadow DOM 边界。如果扫描结果缺少 Shadow DOM 内部元素，需手动使用浏览器 DevTools 的 Accessibility 面板逐一检查 Shadow Root 内的 ARIA 属性。
+3. **第三方小部件（reCAPTCHA、在线客服）**：这些组件不在你的控制范围内。审计时将它们标记为"第三方 - 无法修改"，并在报告中注明，同时检查页面其余部分的无障碍性是否受影响。
+4. **Canvas/WebGL 内容**：canvas 元素对屏幕阅读器不可见。如果页面包含 canvas 绘制的内容，需要在 canvas 上添加 `role="img"` 和 `aria-label`，或提供替代文本描述。
+5. **axe-core 结果与手动检查冲突**：如果 axe-core 标记某个元素"通过"但手动使用屏幕阅读器测试时发现无法访问，以手动检查结果为准。始终信任键盘和屏幕阅读器的实际体验。
+6. **PDF/非 HTML 内容**：PDF 文件的无障碍性需要专门的检查工具（如 PAC2024、Adobe Acrobat Checker），本技能不适用于 PDF 文档审计。
+
+## 不适用
+
+| 场景 | 原因 | 推荐工具 |
+|------|------|----------|
+| 原生移动应用 | 需要平台专属的无障碍 API | Android: Accessibility Scanner, iOS: Accessibility Inspector |
+| 桌面应用程序 | 需要 OS 级别的屏幕阅读器支持 | Windows: Narrator, macOS: VoiceOver |
+| PDF/Word 文档 | 需要文档格式专用检查 | PAC2024, Adobe Acrobat Accessibility Checker |
+| 纯后端 API | 无 UI 可审计 | 不适用 |
+
+**重定向**：
+- 移动应用无障碍审计：使用平台原生工具（Android Accessibility Scanner / iOS Accessibility Inspector）。
+- 文档无障碍检查：使用 PAC2024 或 Adobe Acrobat 内置的无障碍检查器。
 
 ## 快速使用
 

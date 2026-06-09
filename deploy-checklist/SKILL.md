@@ -165,3 +165,10 @@ git diff "$DIFF_RANGE" -- .env.example config/*.yml 2>/dev/null
 
 ### 无 git 仓库
 用户直接提供项目类型描述时，跳过 git 分析步骤，直接基于项目类型生成通用清单。
+
+## 参考资料
+
+- 检查清单模板: [references/deploy-checklist-template.md](references/deploy-checklist-template.md)
+- 应急响应: [incident-response](../incident-response/SKILL.md)
+- 数据迁移: [migration-helper](../migration-helper/SKILL.md)
+- CI/CD 配置: [ci-workflow](../ci-workflow/SKILL.md)

@@ -28,11 +28,14 @@ user-invocable: false
   - 系统响应慢需要定位原因
   - 需要建立性能监控
 
-## 分析流程
+## 工作流程
 
-```
-问题定义 → 指标采集 → 瓶颈定位 → 优化方案 → 效果验证 → 持续监控
-```
+1. **定义问题和症状** -- 明确性能问题表现：响应慢？CPU 高？内存泄漏？磁盘 IO 高？网络延迟大？确定影响范围（单个接口 / 全局 / 特定用户群）。收集用户报告的 P50/P95/P99 延迟数据作为基线。
+2. **症状分类与工具选择** -- if CPU 使用率 > 70% -> Python: `cProfile` / `py-spy`；Node.js: `--prof` / clinic.js。if 内存持续增长 -> Python: `memory_profiler` / `tracemalloc`；Node.js: `--heapt-snapshot`。if 响应慢但 CPU 正常 -> 检查数据库慢查询（EXPLAIN ANALYZE）、网络延迟（mtr）、IO（iostat）。if 需要生产环境分析 -> 优先使用低开销工具（py-spy、perf）避免影响服务。
+3. **采集基线指标** -- 运行诊断工具采集热点数据。对数据库使用 `EXPLAIN ANALYZE` 分析查询计划。生成火焰图（`py-spy record` / `perf`）进行可视化分析。记录当前的 P50/P95/P99、吞吐量、错误率作为优化前基线。
+4. **定位瓶颈** -- 分析火焰图最宽的"平顶山"函数，确认 Self Time 最高的函数。检查数据库索引使用率和全表扫描。排查 N+1 查询、重复计算、内存泄漏。将瓶颈按影响程度排序（高/中/低）。
+5. **实施优化** -- 优先处理影响最大的瓶颈。常见优化：添加缺失索引、缓存重复计算（`@lru_cache`）、使用生成器替代大列表、优化算法复杂度。每完成一个优化，重新运行测试确认效果。
+6. **验证和迭代** -- 重新测量优化后的指标，与基线对比。if 改善 < 10% -> 尝试其他优化方向或确认瓶颈判断是否正确。if 出现新问题（如内存上升、错误率增加）-> 回退并分析。将优化后的结果记录为新基线，持续监控防止退化。
 
 ## 性能指标体系
 
@@ -460,6 +463,32 @@ locust -f locustfile.py --host=http://localhost:3000 \
 # 制定优化方案
 系统响应时间 P99 超过 2 秒，帮我制定优化方案
 ```
+
+## Edge Cases / 常见陷阱
+
+| 场景 | 现象 | 诊断方法 | 解决方案 |
+|------|------|----------|----------|
+| Profiler 开销导致结果失真 | 优化后性能反而变差，或 profiling 期间服务变慢 | 对比 profiling 开启前后的响应时间；检查 profiler 的 CPU 开销 | 生产环境使用采样式 profiler（py-spy、perf）而非插入式（cProfile），避免在高峰期 profiling |
+| 容器化环境无法安装 Profiler | `apt-get install` 失败或容器内无 perf 权限 | 检查容器是否基于 scratch/alpine 等精简镜像 | 使用 sidecar 模式运行 profiler，或使用 py-spy（纯 Python，无需系统权限），或在宿主机上 profiling |
+| 火焰图结果模糊 | 无法确定瓶颈在哪，多个函数占用比例相近 | 检查 Self Time 是否分散在多个函数 | 聚焦应用代码（排除库代码），考虑是否有 I/O 等待未被捕获（需要结合 iostat/tcpdump 分析） |
+| 内存泄漏难以复现 | 内存缓慢增长，但短时间内无法观测 | 使用 `tracemalloc` 追踪内存分配，对比两次快照 | 增加采样间隔和监控时间；使用 `objgraph` 分析对象引用链 |
+| 优化收益递减 | 反复优化但 P99 无法进一步降低 | 确认是否已触及系统资源上限（CPU/网络/磁盘 IO） | 考虑架构层面优化（缓存、异步、水平扩展），而非继续代码级优化 |
+| 数据库慢查询但索引已存在 | EXPLAIN 显示使用了索引，但查询仍然慢 | 检查是否为隐式类型转换、函数包裹索引列、或数据量变化导致索引失效 | 重新分析执行计划，检查 WHERE 条件是否匹配索引列类型，考虑添加覆盖索引 |
+| 异步代码的阻塞点被忽略 | async 函数内部调用了同步阻塞代码 | 检查火焰图中事件循环阻塞的部分 | 将阻塞调用替换为 `asyncio.to_thread()` 或使用异步版本的库 |
+| 跨语言性能问题定位困难 | Node.js 调用 Python/C++ 扩展时性能差 | 分别对各语言层进行 profiling | 使用语言特定工具分析各自热点，注意跨语言调用的序列化开销 |
+
+## 不适用场景
+
+| 场景 | 原因 | 建议使用 |
+|------|------|----------|
+| 负载测试 / 压力测试 | 本技能关注代码级性能分析，非系统级压力测试 | 使用 k6、Locust、JMeter 等负载测试工具（参见 [references/load-test.md](references/load-test.md)） |
+| Java 应用性能分析 | 本技能不覆盖 JVM 生态 | 使用 JMH、async-profiler、VisualVM、JProfiler |
+| Go 应用性能分析 | 本技能不覆盖 Go 生态 | 使用 `go tool pprof`、`go test -bench` |
+| .NET 应用性能分析 | 本技能不覆盖 .NET 生态 | 使用 dotnet-trace、dotnet-counters、PerfView |
+| 前端性能优化（浏览器端） | 本技能聚焦后端/系统级分析 | 使用 Lighthouse、Chrome DevTools Performance、Web Vitals |
+| APM 全链路监控平台 | 本技能是单次分析工具，非持续监控平台 | 使用 Datadog、New Relic、SkyWalking、OpenTelemetry |
+| 代码审查 / 架构评估 | 本技能不替代代码质量和架构审查 | 使用 code-review 或 explain-code 技能 |
+| 安全审计 | 本技能不覆盖安全相关的性能问题（如 ReDoS） | 使用 security-scanning 技能 |
 
 ## 参考资料
 

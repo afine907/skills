@@ -135,6 +135,14 @@ du -ah /var/log | sort -rh | head -3
 **建议**: 文件量大时可加 `--max-depth=1` 只看一层
 ```
 
+## Edge Cases
+
+- 操作描述模糊：提供 2-3 个可能的命令，让用户选择
+- 需要 root 权限：标注 sudo 前缀，说明为什么需要
+- 跨平台差异：同时提供 Linux 和 macOS 版本（如有差异）
+- 命令可能耗时很长：添加 timeout 或进度提示
+- 涉及文件删除：使用 mv 到 trash 代替 rm，或添加 -i 确认
+
 ## 参考资料
 
 - 常见命令对照表: [references/common-patterns.md](references/common-patterns.md)

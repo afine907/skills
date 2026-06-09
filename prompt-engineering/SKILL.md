@@ -202,3 +202,7 @@ Output: <example code>
 - 输出语言与输入语言保持一致
 - 如果输入混用，用输出语言回答
 ```
+
+## 参考资料
+
+- Prompt 模式: [references/patterns.md](references/patterns.md)

@@ -25,6 +25,32 @@ category: development
 - 用户要求"创建Vue项目"、"Nuxt项目"
   - 需要搭建 Vue 3 前端项目
 
+## 工作流程
+
+```
+框架选择 → 项目生成 → 核心代码 → 验证构建
+```
+
+### Step 1: 框架选择
+- 根据项目需求选择 Vue 3 + Vite 或 Nuxt 3
+- 确定技术栈组合（Pinia/状态管理、样式方案、测试框架）
+
+### Step 2: 项目生成
+- 创建项目目录结构
+- 生成配置文件（vite.config.ts / nuxt.config.ts, tsconfig.json 等）
+- 生成 package.json（依赖版本锁定）
+
+### Step 3: 核心代码
+- 生成路由配置（Vue Router / 文件系统路由）
+- 生成 Pinia store 模板
+- 生成 API 层（ofetch 封装 / useFetch）
+- 生成基础组件（Button, Layout, Header）
+
+### Step 4: 验证构建
+- 安装依赖（npm install）
+- 运行构建（npm run build）
+- 运行测试（npm test）
+
 ## 1. Vue 3 vs Nuxt 3 选择指南
 
 | 场景 | 推荐框架 | 理由 |
@@ -748,6 +774,57 @@ export default defineConfig({
 # 生成 store
 写一个 useProductStore，包含商品的 CRUD 操作
 ```
+
+## 输出模板
+
+Claude 创建 Vue 项目时，按以下格式输出：
+
+```
+## 项目脚手架报告
+
+### 框架选择
+- 框架：{Vue 3 + Vite / Nuxt 3}
+- 理由：{选择原因}
+
+### 生成文件清单
+| 文件路径 | 说明 | 状态 |
+|---------|------|------|
+| src/pages/Home.vue | 首页 | 新建 |
+| src/stores/modules/auth.ts | 认证状态管理 | 新建 |
+| src/api/request.ts | HTTP 客户端 | 新建 |
+| src/components/ui/BaseButton.vue | 基础按钮组件 | 新建 |
+| vite.config.ts / nuxt.config.ts | 框架配置 | 新建 |
+| package.json | 依赖配置 | 新建 |
+| ... | ... | ... |
+
+### 关键代码
+（展示 1-3 个核心文件的完整代码）
+
+### 后续步骤
+1. cd {project-name} && npm install
+2. npm run dev 启动开发服务器
+3. 根据业务需求添加功能模块
+```
+
+**端到端示例：**
+
+用户输入：`创建一个 Nuxt 3 项目用于技术博客，支持 SSR`
+
+Claude 输出以上模板，文件清单中包含 Nuxt 3 目录结构（pages/server/composables/middleware）、nuxt.config.ts 配置、Pinia store、路由中间件等，并附上关键代码片段。
+
+## Edge Cases
+
+- 已有项目需要添加 Vue：不使用脚手架，手动添加 Vue 依赖和配置
+- 需要 SSR 但不确定：Nuxt 3 自动处理 SSR/SSG，推荐新手使用
+- 移动端需求：考虑使用 uni-app 或 Vant（移动端 Vue 组件库）
+- 微前端架构：使用 qiankun 或 micro-app，不适用单体脚手架
+- 旧版 Vue（<3）：不支持 Composition API，需使用 Options API 模式
+
+## 不适用
+
+- React 项目 → 使用 [react-service-creator](../react-service-creator/SKILL.md)
+- 后端 API 服务 → 使用 [python-service-creator](../python-service-creator/SKILL.md) 或 [go-service-creator](../go-service-creator/SKILL.md)
+- 移动端 App → 使用 [mobile-service-creator](../mobile-service-creator/SKILL.md)
 
 ## 参考资料
 

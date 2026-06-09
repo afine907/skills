@@ -162,3 +162,7 @@ git log <from_tag>...<to_tag> --format="%s%n%b---"
 commit 数量较多（>200），建议按 minor 版本分段生成。
 只生成最近一个版本的 changelog。
 ```
+
+## 参考资料
+
+- [Changelog Format Reference](references/changelog-format.md) - Keep a Changelog 规范与 Conventional Commits 格式参考

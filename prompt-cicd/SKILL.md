@@ -265,6 +265,52 @@ jobs:
 助手：使用 /prompt-cicd 建立 Prompt 版本管理、回归测试和部署流水线
 ```
 
+## 输出模板
+
+Claude 生成 Prompt 管理方案时，按以下格式输出：
+
+```
+## Prompt CI/CD 方案报告
+
+### Prompt 盘点
+| Prompt 名称 | 位置 | 关键性 | 当前版本 |
+|-------------|------|--------|---------|
+| system-prompt | 源代码内联 | Critical | 无版本管理 |
+| ... | ... | ... | ... |
+
+### 目录结构
+（展示 prompts/ 目录结构）
+
+### 测试套件
+- 黄金测试用例数：{N}
+- 格式测试用例数：{N}
+- 安全测试用例数：{N}
+
+### CI 流水线
+（展示 GitHub Actions YAML 配置）
+
+### 部署流程
+PR → 回归测试 → Staging → 灰度发布 → 全量发布
+
+### 后续步骤
+1. 从源代码中提取 Prompt 到 prompts/ 目录
+2. 为每个 Critical Prompt 编写黄金测试用例
+3. 配置 CI 流水线
+4. 设置灰度发布策略
+```
+
+**端到端示例：**
+
+用户输入：`我们的客服 Prompt 经常被修改，每次修改都担心会退化`
+
+Claude 输出以上模板，包含 Prompt 目录结构、metadata.json 格式、回归测试用例模板、GitHub Actions CI 配置、A/B 对比报告模板等。
+
+## 不适用
+
+- 单次 Prompt 调试 → 直接修改即可，不需要 CI/CD
+- 非 LLM 系统的配置管理 → 使用传统 CI/CD 工具（Jenkins / GitHub Actions 标准流水线）
+- Prompt 数量少于 5 个 → 简单版本管理（git commit + tag）即可
+
 ## 边界情况
 
 - **多模型 Prompt** — 同一 Prompt 需要在多个模型上测试（Claude、GPT、Gemini）

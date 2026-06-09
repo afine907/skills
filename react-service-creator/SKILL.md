@@ -27,6 +27,48 @@ category: development
   - 新建前端项目需要标准化模板
   - 需要统一团队 React 项目结构
 
+## 工作流程
+
+```
+框架选择 → 项目生成 → 核心代码 → 验证构建
+```
+
+### Step 1: 框架选择
+- 根据项目需求选择 Next.js / Vite + React / CRA
+- 确定技术栈组合（状态管理、样式方案、测试框架）
+
+### Step 2: 项目生成
+- 创建项目目录结构
+- 生成配置文件（tsconfig.json, vite.config.ts, .eslintrc 等）
+- 生成 package.json（依赖版本锁定）
+
+### Step 3: 核心代码
+- 生成路由配置
+- 生成状态管理模板（Zustand store）
+- 生成 API 层（fetch 封装）
+- 生成基础组件（Button, Layout, Header）
+
+### Step 4: 验证构建
+- 安装依赖（npm install）
+- 运行构建（npm run build）
+- 运行测试（npm test）
+
+## 框架选择决策流程
+
+```
+用户需求分析
+  │
+  ├─ 需要 SSR / SEO / 预渲染？──是──→ Next.js 14
+  │
+  ├─ 纯 SPA / 后台管理系统？──是──→ Vite + React
+  │
+  ├─ 遗留项目维护？──是──→ CRA (legacy)
+  │
+  ├─ 需要边缘部署？──是──→ Next.js (Edge Runtime)
+  │
+  └─ 不确定？→ 推荐 Vite + React（最灵活、构建最快）
+```
+
 ## 技术栈选择
 
 | 框架 | 构建工具 | 状态管理 | 样式方案 | 测试 |
@@ -323,6 +365,57 @@ export { Button, type ButtonProps };
 # 生成组件
 生成一个 DataTable 组件，支持排序、分页、筛选
 ```
+
+## 输出模板
+
+Claude 创建 React 项目时，按以下格式输出：
+
+```
+## 项目脚手架报告
+
+### 框架选择
+- 框架：{Next.js 14 / Vite + React / CRA}
+- 理由：{选择原因}
+
+### 生成文件清单
+| 文件路径 | 说明 | 状态 |
+|---------|------|------|
+| src/app/layout.tsx | 根布局 | 新建 |
+| src/components/ui/Button/Button.tsx | 基础按钮组件 | 新建 |
+| src/stores/useAuthStore.ts | 认证状态管理 | 新建 |
+| src/lib/api.ts | API 客户端 | 新建 |
+| tsconfig.json | TypeScript 配置 | 新建 |
+| package.json | 依赖配置 | 新建 |
+| ... | ... | ... |
+
+### 关键代码
+（展示 1-3 个核心文件的完整代码）
+
+### 后续步骤
+1. cd {project-name} && npm install
+2. npm run dev 启动开发服务器
+3. 根据业务需求添加功能模块
+```
+
+**端到端示例：**
+
+用户输入：`创建一个 Next.js 14 电商后台，使用 Zustand + Tailwind`
+
+Claude 输出以上模板，文件清单中包含 Next.js App Router 结构、Zustand auth store、API 客户端封装、基础 UI 组件等，并附上 package.json 和关键代码片段。
+
+## Edge Cases
+
+- 已有项目需要添加 React：不使用脚手架，手动添加 React 依赖和配置
+- 需要 SSR 但不确定框架：推荐 Next.js App Router，最成熟的 React SSR 方案
+- 移动端需求：考虑使用 React Native（参考 mobile-service-creator）
+- 微前端架构：使用 Module Federation 或 qiankun，不适用单体脚手架
+- 旧版 React（<18）：使用 CRA 模板，不启用并发特性
+
+## 不适用
+
+- 移动端 App 开发 → 使用 [mobile-service-creator](../mobile-service-creator/SKILL.md)
+- Vue 项目 → 使用 [vue-service-creator](../vue-service-creator/SKILL.md)
+- 后端 API 服务 → 使用 [python-service-creator](../python-service-creator/SKILL.md) 或 [go-service-creator](../go-service-creator/SKILL.md)
 
 ## 参考资料
 
