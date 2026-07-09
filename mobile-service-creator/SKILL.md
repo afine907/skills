@@ -10,6 +10,14 @@ category: development
 
 # Mobile Service Creator — 移动端脚手架
 
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
+
 创建 React Native / Flutter 移动应用项目。
 
 ## Workflow
@@ -121,5 +129,3 @@ export default function RootLayout() {
 
 ## 参考
 
-- Expo 文档: [references/expo.md](references/expo.md)
-- React Native 最佳实践: [references/react-native.md](references/react-native.md)

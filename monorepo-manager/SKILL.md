@@ -11,6 +11,14 @@ category: development
 
 # Monorepo Manager — Monorepo 管理
 
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
+
 设计和管理 Monorepo 项目，实现代码共享和高效构建。
 
 ## Workflow
@@ -34,6 +42,14 @@ category: development
 
 ```yaml
 # pnpm-workspace.yaml
+
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
 packages:
   - 'packages/*'
   - 'apps/*'

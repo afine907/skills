@@ -1,0 +1,159 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "task-loom-manifest-schema",
+  "title": "Task-Loom Manifest Schema",
+  "description": "JSON Schema for Task-Loom project manifest.json",
+  "type": "object",
+  "required": ["project_metadata", "workflow", "dag"],
+  "properties": {
+    "project_metadata": {
+      "type": "object",
+      "required": ["name", "version", "hash", "created_at"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "maxLength": 64,
+          "description": "Project name in kebab-case"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "default": "1.0.0"
+        },
+        "hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of all PRD files"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "prd_files": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "workflow": {
+      "type": "object",
+      "required": ["stage"],
+      "properties": {
+        "stage": {
+          "type": "string",
+          "enum": ["INIT", "AUDIT", "PLAN", "EXECUTE", "VERIFY", "HALTED"],
+          "default": "INIT"
+        },
+        "active_task_id": {
+          "type": ["string", "null"],
+          "pattern": "^T_\\d{3}$"
+        },
+        "concurrency_limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "default": 3
+        },
+        "retry_count": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "halt_reason": {
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "dag": {
+      "type": "object",
+      "required": ["nodes"],
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TaskNode"
+          }
+        }
+      }
+    },
+    "audit_results": {
+      "type": "object",
+      "properties": {
+        "scan_time": { "type": "string", "format": "date-time" },
+        "risks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Risk"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "TaskNode": {
+      "type": "object",
+      "required": ["id", "type", "status"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^T_\\d{3}$"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["MODULE_IMPL", "AUDIT", "TEST", "INTEGRATE", "REFACTOR"]
+        },
+        "title": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["PENDING", "IN_PROGRESS", "COMPLETED", "FAILED", "BLOCKED"]
+        },
+        "depends_on": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^T_\\d{3}$" }
+        },
+        "prd_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "artifacts": {
+          "type": "object",
+          "properties": {
+            "spec": { "type": ["string", "null"] },
+            "ledger": { "type": ["string", "null"] },
+            "tests": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "estimated_complexity": {
+          "type": "string",
+          "enum": ["LOW", "MEDIUM", "HIGH"]
+        },
+        "error_message": { "type": ["string", "null"] }
+      }
+    },
+    "Risk": {
+      "type": "object",
+      "required": ["id", "severity", "title", "location"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^RISK-\\d{3}$" },
+        "severity": {
+          "type": "string",
+          "enum": ["P0", "P1", "P2"]
+        },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "location": { "type": "string" },
+        "suggestion": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["PENDING", "ACCEPTED", "REJECTED", "SKIPPED"]
+        }
+      }
+    }
+  }
+}

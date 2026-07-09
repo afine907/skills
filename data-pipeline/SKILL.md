@@ -12,6 +12,14 @@ category: development
 
 # Data Pipeline — 数据管道
 
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
+
 ETL 管道设计与实现，支持批处理和流处理。
 
 ## Workflow
@@ -110,5 +118,3 @@ def validate_data(df):
 
 ## 参考
 
-- Airflow 最佳实践: [references/airflow.md](references/airflow.md)
-- dbt 模式: [references/dbt.md](references/dbt.md)

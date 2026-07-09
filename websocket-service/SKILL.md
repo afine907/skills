@@ -10,6 +10,14 @@ category: development
 
 # WebSocket Service — 实时通信服务
 
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
+
 设计和实现可靠的 WebSocket 实时通信系统。
 
 ## Workflow

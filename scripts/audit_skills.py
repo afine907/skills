@@ -12,7 +12,6 @@ Usage:
   python scripts/audit_skills.py --skill NAME # audit specific skill
 """
 
-from __future__ import annotations
 
 import argparse
 import re

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Shared utilities for skill scripts."""
 
-from __future__ import annotations
 
 import re
 from pathlib import Path

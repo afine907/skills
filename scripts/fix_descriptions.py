@@ -5,7 +5,6 @@ Fix skills with descriptions that are too long.
 Shortens descriptions to under 200 characters while preserving key information.
 """
 
-from __future__ import annotations
 
 import re
 import sys

@@ -12,6 +12,14 @@ category: development
 
 # Feature Flag — 功能开关
 
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
+
 设计和实现功能开关系统，支持灰度发布和 A/B 测试。
 
 ## Workflow

@@ -12,6 +12,14 @@ category: operations
 
 # Cost Optimization — 成本优化
 
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
+
 云成本分析 + AI Token 成本追踪 + 资源优化。
 
 ## Workflow
@@ -73,15 +81,39 @@ class CostTracker:
 
 ```bash
 # 查看 AWS 费用分布
+
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
 aws ce get-cost-and-usage --time-period Start=2026-01-01,End=2026-02-01 \
   --granularity MONTHLY --metrics "UnblendedCost" \
   --group-by Type=DIMENSION,Key=SERVICE
 
 # 查看闲置资源
+
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
 aws ec2 describe-instances --filters "Name=instance-state-name,Values=stopped" \
   --query 'Reservations[].Instances[].[InstanceId,LaunchTime]'
 
 # 设置预算告警
+
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
 aws budgets create-budget --account-id 123456789 --budget '{
   "BudgetName": "monthly-limit",
   "BudgetLimit": {"Amount": "1000", "Unit": "USD"},
@@ -105,5 +137,3 @@ aws budgets create-budget --account-id 123456789 --budget '{
 
 ## 参考
 
-- Token 定价: [references/pricing.md](references/pricing.md)
-- 云资源优化: [references/cloud-optimization.md](references/cloud-optimization.md)

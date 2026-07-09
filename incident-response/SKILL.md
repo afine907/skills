@@ -12,6 +12,14 @@ category: operations
 
 # Incident Response — 应急响应
 
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
+
 结构化事故处理流程，从发现到复盘全链路支持。
 
 ## Workflow
@@ -46,6 +54,14 @@ category: operations
 
 ```markdown
 # 事故复盘报告
+
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
 
 ## 基本信息
 - 事故时间: YYYY-MM-DD HH:MM ~ HH:MM

@@ -11,6 +11,14 @@ category: requirements
 
 # User Story — 用户故事
 
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
+
 将业务需求拆解为可执行的用户故事。
 
 ## Workflow

@@ -8,7 +8,6 @@ Removes:
 3. Generic trigger text ('当用户需要使用此技能时触发。')
 """
 
-from __future__ import annotations
 
 import re
 from pathlib import Path

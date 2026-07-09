@@ -21,8 +21,6 @@ Usage:
   python scripts/validate_skills.py --fix      # auto-fix simple issues
 """
 
-from __future__ import annotations
-
 import argparse
 import re
 import sys

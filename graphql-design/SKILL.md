@@ -12,6 +12,14 @@ category: development
 
 # GraphQL Design — GraphQL API 设计
 
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
+
 设计专业的 GraphQL Schema，包含最佳实践和性能优化。
 
 ## Workflow
@@ -26,6 +34,14 @@ category: development
 
 ```graphql
 # 用户类型
+
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
 type User {
   id: ID!
   email: String!
@@ -35,6 +51,14 @@ type User {
 }
 
 # 文章类型
+
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
 type Post {
   id: ID!
   title: String!
@@ -51,6 +75,14 @@ enum PostStatus {
 }
 
 # 查询
+
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
 type Query {
   user(id: ID!): User
   users(first: Int, after: String): UserConnection!  # 游标分页
@@ -59,6 +91,14 @@ type Query {
 }
 
 # 变更
+
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
 type Mutation {
   createUser(input: CreateUserInput!): User!
   updateUser(id: ID!, input: UpdateUserInput!): User!
@@ -67,6 +107,14 @@ type Mutation {
 }
 
 # 输入类型
+
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
 input CreateUserInput {
   email: String!
   name: String!
@@ -113,6 +161,14 @@ class UserLoader(DataLoader):
         return [user_map.get(uid) for uid in user_ids]
 
 # 在 Resolver 中使用
+
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
 async def resolve_posts(parent, info):
     loader = info.context["user_loader"]
     return await loader.load(parent.author_id)

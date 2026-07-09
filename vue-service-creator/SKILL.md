@@ -11,6 +11,14 @@ category: development
 
 # Vue Service Creator — Vue 3 / Nuxt 3 脚手架
 
+## Goal
+
+## Trigger
+
+见 description 中的触发时机
+
+见 ## Workflow
+
 生成标准化 Vue 3 / Nuxt 3 项目。
 
 ## Workflow
@@ -149,5 +157,3 @@ export function useAuth() {
 
 ## 参考
 
-- Nuxt 3: [references/nuxt3.md](references/nuxt3.md)
-- Vue 3 最佳实践: [references/vue3-best-practices.md](references/vue3-best-practices.md)
