@@ -282,7 +282,7 @@ def process_order(order_id: str, action: str) -> OrderResult:
     pass
 ```
 
-## 快速使用
+## Example
 
 ```
 # 生成 README

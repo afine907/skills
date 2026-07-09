@@ -27,6 +27,14 @@ category: development
   - 项目需要支持多种语言
   - 需要从代码中提取翻译文本
 
+## Workflow
+
+1. **分析需求** — 支持语言、翻译粒度、动态切换
+2. **选择方案** — react-i18next / vue-i18n / babel / gettext
+3. **设计翻译文件** — 命名规范、嵌套结构、复数处理
+4. **提取翻译文本** — 扫描代码、生成翻译 Key
+5. **集成实现** — 组件接入、语言切换、懒加载
+
 ## 技术选型
 
 | 框架 | 库 | 特点 |
@@ -291,7 +299,7 @@ with open('locales/en-US.json', 'w') as f:
     json.dump(translations, f, indent=2)
 ```
 
-## 快速使用
+## Example
 
 ```
 # 设计国际化方案

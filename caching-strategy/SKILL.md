@@ -27,6 +27,14 @@ category: development
   - 系统性能瓶颈在数据库查询
   - 需要实现分布式缓存
 
+## Workflow
+
+1. **分析访问模式** — 读写比例、热点数据、TTL 需求
+2. **选择缓存方案** — Redis / Memcached / 本地缓存
+3. **设计缓存策略** — Cache-Aside / Write-Through / Write-Behind
+4. **处理缓存问题** — 击穿、雪崩、一致性
+5. **监控优化** — 命中率、内存使用、延迟
+
 ## 缓存选型
 
 | 类型 | 适用场景 | 优势 | 劣势 |
@@ -232,7 +240,7 @@ async def warm_up_cache():
       命中延迟: < 5ms
 ```
 
-## 快速使用
+## Example
 
 ```
 # 设计缓存方案
