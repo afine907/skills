@@ -1,7 +1,8 @@
 ---
 name: pua
-description: "Use for PUA/try-harder productivity coaching when the user expresses frustration, repeated failure, quality complaint, passive behavior, says retry/change approach/don't give up, asks for evidence/completion check/test before done, or wants Ding-style workplace reminders. Triggers include: try harder, stop giving up, figure it out, again??, why still failing, change approach, no evidence, run tests, done without proof, 换个方法, 再试试, 别摆烂, 别偷懒, 为什么还不行, 又错了, 证据呢, 没跑测试别说完成, 验收, 闭环, 自嗨, 置身钉外, 无招, 老板体感. Do not use for calm first-attempt requests."
+description: "PUA/try-harder productivity coaching for when the user expresses frustration, repeated failure, or quality complaints."
 license: MIT
+category: development
 ---
 
 # PUA 我们不养闲 Agent，一个提高agent积极性的skill。

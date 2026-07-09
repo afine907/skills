@@ -6,7 +6,7 @@ import re
 from pathlib import Path
 
 # Directories to skip when discovering skills
-SKIP_DIRS = {"scripts", "tests", ".github", ".claude", "wiki", ".git", "__pycache__"}
+SKIP_DIRS = {"scripts", "tests", ".github", ".claude", "wiki", ".git", "__pycache__", ".agents", ".dwp", "node_modules"}
 
 
 def parse_frontmatter(text: str) -> tuple[dict[str, str], str, str]:
@@ -70,7 +70,8 @@ def discover_skill_dirs(repo_root: Path) -> list[Path]:
     """Discover all skill directories in the repo.
 
     Returns sorted list of directories containing SKILL.md files,
-    excluding infrastructure directories and workspace directories.
+    excluding infrastructure directories, workspace directories,
+    symlinks, and ClawHub-installed skills.
     """
     skill_dirs = []
     for d in sorted(repo_root.iterdir()):
@@ -79,6 +80,12 @@ def discover_skill_dirs(repo_root: Path) -> list[Path]:
         if d.name in SKIP_DIRS:
             continue
         if d.name.endswith("-workspace"):
+            continue
+        # Skip symlinks (external skills)
+        if d.is_symlink():
+            continue
+        # Skip ClawHub-installed skills
+        if (d / ".clawhub").exists() or (d / ".clawdhub").exists() or (d / "_meta.json").exists():
             continue
         if (d / "SKILL.md").exists():
             skill_dirs.append(d)
