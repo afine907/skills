@@ -27,6 +27,14 @@ category: development
   - 需要设计权限系统
   - 需要实现多因素认证
 
+## Workflow
+
+1. **选择认证方式** — JWT / Session / OAuth2 / API Key
+2. **设计权限模型** — RBAC / ABAC / 混合
+3. **实现认证逻辑** — 登录、Token 签发/验证
+4. **实现授权逻辑** — 权限校验、资源访问控制
+5. **安全加固** — HTTPS、CORS、Rate Limiting
+
 ## 认证方式对比
 
 | 方式 | 适用场景 | 优势 | 劣势 |
@@ -319,6 +327,19 @@ async def login(email: str, password: str, mfa_code: str = None):
 4. **CORS**: 限制允许的源
 5. **Rate Limiting**: 登录接口限流，防止暴力破解
 6. **日志审计**: 记录所有认证事件
+
+## Example
+
+```
+用户: 实现 JWT 认证 + RBAC 权限控制
+
+输出:
+1. 设计 Token 结构 (access + refresh)
+2. 实现登录接口 (签发 Token)
+3. 实现 Token 验证中间件
+4. 设计 RBAC 权限表 (user/role/permission)
+5. 实现权限校验装饰器
+```
 
 ## 快速使用
 

@@ -27,6 +27,14 @@ category: development
   - 后端接口未就绪，前端需要开发
   - 测试需要模拟各种响应场景
 
+## Workflow
+
+1. **选择方案** — 根据场景选择 Mock Server / 代码级 Mock / API 网关
+2. **定义数据** — 设计 Mock 数据结构和场景
+3. **实现 Mock** — 搭建 Mock Server 或编写代码级 Mock
+4. **注入场景** — 配置延迟、错误率、边界情况
+5. **验证集成** — 前端/测试集成验证
+
 ## Mock 方案对比
 
 | 方案 | 适用场景 | 优势 | 劣势 |
@@ -267,20 +275,17 @@ prism mock openapi.yaml
 prism mock openapi.yaml --dynamic
 ```
 
-## 快速使用
+## Example
 
 ```
-# 创建 Mock Server
-为以下 API 创建 Mock 服务：[粘贴 API 文档]
+用户: 为用户管理 API 创建 Mock 服务，支持错误注入
 
-# 生成测试数据
-生成 100 条用户测试数据
-
-# 模拟错误场景
-模拟网络超时和服务不可用
-
-# 前端 Mock 配置
-配置 React 项目的 API Mock
+输出:
+1. 创建 FastAPI Mock Server
+2. 配置 /api/v1/users 端点
+3. 添加 5% 随机错误率
+4. 添加 100ms 模拟延迟
+5. 生成 50 条测试数据
 ```
 
 ## 参考资料

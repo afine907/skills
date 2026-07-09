@@ -632,6 +632,20 @@ python check_data_consistency.py
   - 用户行为变化
 ```
 
+## Example
+
+```
+用户: 将 Python 2 项目迁移到 Python 3
+
+输出:
+1. 分析依赖兼容性
+2. 运行 2to3 工具
+3. 修复 print 语句 → print()
+4. 修复 unicode/str 处理
+5. 更新 requirements.txt
+6. 运行测试验证
+```
+
 ## 最佳实践
 
 1. **充分准备**：迁移前完成代码分析、依赖检查、测试覆盖

@@ -225,20 +225,19 @@ security:
 - [ ] 版本策略明确（URL path / Header）
 - [ ] 幂等性设计（PUT/DELETE 幂等，POST 非幂等）
 
-## 快速使用
+## Example
 
 ```
-# 从需求设计 API
-根据以下需求设计 API：[粘贴需求]
+用户: 设计一个博客系统的 API，包含文章、评论、用户
 
-# 从数据库 Schema 推导 API
-根据以下数据库表设计 RESTful API：[粘贴 DDL]
-
-# 审查现有 API
-审查以下 API 设计，指出问题：[粘贴 OpenAPI spec]
-
-# 生成 API 文档
-将以下接口说明转为 OpenAPI 规范：[粘贴接口文档]
+输出:
+1. 资源识别: User, Post, Comment
+2. 路由设计:
+   GET    /api/v1/posts          # 文章列表
+   POST   /api/v1/posts          # 创建文章
+   GET    /api/v1/posts/{id}     # 文章详情
+   GET    /api/v1/posts/{id}/comments  # 文章评论
+3. 输出 openapi.yaml
 ```
 
 ## 参考资料
