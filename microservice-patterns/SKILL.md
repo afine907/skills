@@ -27,6 +27,14 @@ category: development
   - 需要设计分布式系统
   - 需要实现服务治理
 
+## Workflow
+
+1. **分析业务域** — DDD 限界上下文划分
+2. **设计服务边界** — 单一职责、高内聚低耦合
+3. **选择通信方式** — 同步 REST/gRPC / 异步消息
+4. **设计数据策略** — 数据库 per 服务 / 共享数据库
+5. **实现治理** — 服务发现、熔断、限流
+
 ## 服务拆分原则
 
 ### 拆分策略
@@ -281,7 +289,7 @@ async def create_order(order_data):
             await payment_service.charge(order_data["amount"])
 ```
 
-## 快速使用
+## Example
 
 ```
 # 设计微服务架构

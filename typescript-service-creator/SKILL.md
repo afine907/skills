@@ -25,6 +25,14 @@ category: development
 - 用户要求"创建TypeScript服务"、"TS后端项目"
   - 需要搭建 Express/Hono/Fastify 项目
 
+## Workflow
+
+1. **选择框架** — Express / Fastify / Hono
+2. **配置 TypeScript** — tsconfig, 严格模式
+3. **设计结构** — 路由、中间件、服务层
+4. **集成工具** — ORM、验证、日志
+5. **配置 CI** — 构建、测试、部署
+
 ## 框架选择
 
 | 框架 | 适用场景 | 性能 | 学习曲线 | 生态 |
@@ -472,7 +480,7 @@ EXPOSE 3000
 CMD ["node", "dist/server.js"]
 ```
 
-## 快速使用
+## Example
 
 ```
 # 创建 Express 服务

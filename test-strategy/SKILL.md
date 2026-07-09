@@ -27,6 +27,14 @@ category: quality
   - 项目缺少测试需要规划
   - 需要建立测试体系
 
+## Workflow
+
+1. **分析项目** — 技术栈、团队规模、发布频率
+2. **设计测试金字塔** — 单元/集成/E2E 比例
+3. **选择工具** — pytest / Jest / Playwright
+4. **配置 CI** — 自动化测试流水线
+5. **设定目标** — 覆盖率、通过率、性能基线
+
 ## 测试金字塔
 
 ```
@@ -232,7 +240,7 @@ def authenticated_client(client, sample_user):
 - 类型定义
 ```
 
-## 快速使用
+## Example
 
 ```
 # 制定测试策略
